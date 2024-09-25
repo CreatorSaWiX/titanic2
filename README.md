@@ -1,4 +1,4 @@
-# Titanic2
+# Titan II
 Data (19/06/2023).
 En Pepet, ha vist per les notícies el titanic implosionat, se li ha surgit la idea brillant d'anar a visitar el Titanic, en Pepet és un Psicopata. Després, ell comenta als seus amics si li vol acompanyar, tots després d'assebentar-se de l'accident, es van negar. En Pepet una mica deprimidet, s'en va enfadat i decideix anar-hi sol. Per la nit, va cap a Ocean G. i roba el nou submarí que havíen fet. Aquest submarí és indestructible i conté infinits tancs d'aire comprimit. S'emporta el submarí amb una grua cap a casa (viu al carrer). El dia següent, en Pepet posa tots els aliments i begudes que tenía en el submarí i s'enfonza. Amb esforç i dedicació arriba a veure el Titanic i deixa el submarí aparcat a la vora del Titanic.
 /**
