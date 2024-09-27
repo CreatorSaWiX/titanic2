@@ -9,6 +9,12 @@ public class sala {
   this.descripco=descripco;
  }
 
+ public String getNomSala(){
+  return nomSala;
+ }
 
+ public int getIdHab(){
+  return idHab;
+ }
 
 }
