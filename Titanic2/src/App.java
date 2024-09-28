@@ -109,6 +109,7 @@ public class App {
     public sala[] crearTitanic(){
         sala[] habitacions=new sala[32];
 
+        //En cas de les escales i passadis afegir-li algun nom diferent (Al igual que a les habitacions amb noms repetits)
         String [] noms={"Sala","Menjador","Cuina","Neteja","W.C.","Habitació VIP","WC habitació VIP","Habitació capità","Habitació normal","Passadis","Sala de motors","Capella","Biblioteca", "Sala Capità","Teatre","Escales"};
         String[] descripcions={"","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","",""};
         int cont=0;
@@ -150,6 +151,7 @@ public class App {
             id++;
         }       
 
+        //Borrar al tenir lo de les portes creat!
         for (sala habitacio: habitacions) {
             System.out.println(habitacio.getIdHab() + "   "+ habitacio.getNomSala());
         }
@@ -160,6 +162,8 @@ public class App {
     public porta[] crearPortesTitanic(porta porta){
         porta[] portes= new porta[5];
         portes[0]=porta; //Conexio sala amb submari
+
+        //TODO (ns si hi ha alguna forma menys pesada xD)
         portes[1]= new porta(1, 1,2);   //Conexio sala amb menjador
         portes[2]= new porta(2, 2,3);   //Conexio menjador amb cuina
         portes[3]= new porta(3, 1,30);   //Conexio sala amb escales
