@@ -37,7 +37,7 @@ public class App {
     }
 
     public void iniciarJuagabilitat(sala submari, sala[] titanic, porta portaSubmari, porta[] portesTitanic){
-        
+
         jugador jugador= new jugador();
 
         Scanner e= new Scanner(System.in);
@@ -80,8 +80,8 @@ public class App {
                         portesInteractuables[contOpcions]=portesInteractuables[i];
                         for (int j = 0; j < titanic.length; j++) {
                             if(titanic[j].getIdHab()== portesTitanic[i].checkIdHab(idSalaActual) ){
-                                habitacionsDisp[contOpcions]=titanic[j];
-                            }else{
+                                habitacionsDisp[contOpcions]=titanic[j]; 
+                            }else if(portesTitanic[i].checkIdHab(idSalaActual)==0){
                                 habitacionsDisp[contOpcions]=submari;
                             }
                         }
@@ -92,6 +92,7 @@ public class App {
             }
 
             System.out.println("-----------------------------------------------------------");
+            
             System.out.println("Aquestes son les opcions que tens: ");
             for (int i = 0; i < habitacionsDisp.length; i++) {
                 if(habitacionsDisp[i]!=null){
@@ -136,23 +137,39 @@ public class App {
                 i--;
             }else if(i==10 && cont==3){
                 cont=0;
-            }else if(i==15 && cont!=2){
+            }else if(i==15 && cont!=3){
                 cont++;
-                i--;
             }
 
 
             habitacions[j]=new sala(noms[i],id,descripcions[j]);
+            if(i==15 && cont!=3){
+                i--;
+            }
 
             id++;
         }       
+
+        for (sala habitacio: habitacions) {
+            System.out.println(habitacio.getIdHab() + "   "+ habitacio.getNomSala());
+        }
 
         return habitacions;
     }
 
     public porta[] crearPortesTitanic(porta porta){
-        porta[] portes= new porta[1];
-        portes[0]=porta;
+        porta[] portes= new porta[5];
+        portes[0]=porta; //Conexio sala amb submari
+        portes[1]= new porta(1, 1,2);   //Conexio sala amb menjador
+        portes[2]= new porta(2, 2,3);   //Conexio menjador amb cuina
+        portes[3]= new porta(3, 1,30);   //Conexio sala amb escales
+        portes[4]= new porta(4, 1,25);   //Conexio sala amb sala de motors
+
+
+
+            
+        
+
 
         return portes;
     }

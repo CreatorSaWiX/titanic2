@@ -1,7 +1,7 @@
 public class sala {
- String nomSala;
- int idHab;
- String descripco;
+ private String nomSala;
+ private int idHab;
+ private String descripco;
 
  public sala(String nomSala,int idHab,String descripco){
   this.nomSala=nomSala;
