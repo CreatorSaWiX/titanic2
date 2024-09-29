@@ -1,28 +1,27 @@
 import java.util.Scanner;
-
 import ObjectesInmobils.porta;
 import Personatges.jugador;
 
 public class App {
     public static void main(String[] args) throws Exception {
-        App start= new App();
+        App start = new App();
         start.start();
     }
 
     public void start(){
         //Crear sala submari
-        sala submari= new sala("subamri",0,"");
-
+        sala submari = new sala("submari",0,"");
         System.out.println("Sala titan creada");
+
         //Crear les sales del titanic
-        sala[] titanic= crearTitanic();
+        sala[] titanic = crearTitanic();
         System.out.println("Sales titanic creades");
 
         //Crear la porta del submari
-        porta portaSubmari= new porta(0, 0, 1);
+        porta portaSubmari = new porta(0, 0, 1);
         System.out.println("Porta titan creada");
 
-        porta[] portesTitanic=crearPortesTitanic(portaSubmari);
+        porta[] portesTitanic = crearPortesTitanic(portaSubmari);
         System.out.println("Portes titanic creades");
 
 
@@ -38,7 +37,7 @@ public class App {
 
     public void iniciarJuagabilitat(sala submari, sala[] titanic, porta portaSubmari, porta[] portesTitanic){
 
-        jugador jugador= new jugador();
+        jugador jugador = new jugador();
 
         Scanner e= new Scanner(System.in);
         int resposta=0;
@@ -105,11 +104,12 @@ public class App {
  
         }
     }
-//Opcions:
-    public sala[] crearTitanic(){
-        sala[] habitacions=new sala[32];
 
-        //En cas de les escales i passadis afegir-li algun nom diferent (Al igual que a les habitacions amb noms repetits)
+    //Opcions:
+    public sala[] crearTitanic(){
+        sala[] habitacions = new sala[32];
+
+        //En cas de les escales i passadis afegir-los algun nom diferent (Al igual que a les habitacions amb noms repetits)
         String [] noms={"Sala","Menjador","Cuina","Neteja","W.C.","Habitació VIP","WC habitació VIP","Habitació capità","Habitació normal","Passadis","Sala de motors","Capella","Biblioteca", "Sala Capità","Teatre","Escales"};
         String[] descripcions={"","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","",""};
         int cont=0;
@@ -123,8 +123,7 @@ public class App {
             if(i>=4 && i<=7 && cont<1){
                 cont++;
                 i--;
-
-            //Reiniciar el contador per poder-lo utilitzar per crear les habitacions normals
+                //Reiniciar el contador per poder-lo utilitzar per crear les habitacions normals
             }else if(i>=4 && i<=8 && cont==1){
                 cont=0;
 
@@ -141,7 +140,6 @@ public class App {
             }else if(i==15 && cont!=3){
                 cont++;
             }
-
 
             habitacions[j]=new sala(noms[i],id,descripcions[j]);
             if(i==15 && cont!=3){
@@ -168,13 +166,6 @@ public class App {
         portes[2]= new porta(2, 2,3);   //Conexio menjador amb cuina
         portes[3]= new porta(3, 1,30);   //Conexio sala amb escales
         portes[4]= new porta(4, 1,25);   //Conexio sala amb sala de motors
-
-
-
-            
-        
-
-
         return portes;
     }
 }
