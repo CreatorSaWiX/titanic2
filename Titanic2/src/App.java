@@ -69,14 +69,14 @@ public class App {
             }else{
                 //El maxim de portes que té una habitacio (en aquest cas el passadis) és de 6
 
-                portesInteractuables= new porta[6];
-                habitacionsDisp=new sala[6];
+                portesInteractuables= new porta[9];
+                habitacionsDisp=new sala[9];
 
                 for (int i = 0; i < portesTitanic.length; i++) {
                     //Veure les portes que tenen relació amb l'habitació en la que estàs
                     //checkId Hab retorna el id de l'habitacio que esta al altra costat de la porta, i en cas de no tenir relació amb la porta retorna -1
                     if(portesTitanic[i].checkIdHab(idSalaActual)!=-1){
-                        portesInteractuables[contOpcions]=portesInteractuables[i];
+                        portesInteractuables[contOpcions]=portesTitanic[i];
                         for (int j = 0; j < titanic.length; j++) {
                             if(titanic[j].getIdHab()== portesTitanic[i].checkIdHab(idSalaActual) ){
                                 habitacionsDisp[contOpcions]=titanic[j]; 
@@ -95,23 +95,22 @@ public class App {
             System.out.println("Aquestes son les opcions que tens: ");
             for (int i = 0; i < habitacionsDisp.length; i++) {
                 if(habitacionsDisp[i]!=null){
-                    System.out.println((i+1) +": Anara a "+habitacionsDisp[i].getNomSala());
+                    System.out.println((i+1) +": Anar a "+habitacionsDisp[i].getNomSala());
                 }
             }
             resposta= e.nextInt();
             
             jugador.moure(habitacionsDisp[resposta-1].getIdHab());
- 
         }
     }
 
     //Opcions:
     public sala[] crearTitanic(){
-        sala[] habitacions = new sala[32];
+        sala[] habitacions = new sala[34];
 
         //En cas de les escales i passadis afegir-los algun nom diferent (Al igual que a les habitacions amb noms repetits)
-        String [] noms={"Sala","Menjador","Cuina","Neteja","W.C.","Habitació VIP","WC habitació VIP","Habitació capità","Habitació normal","Passadis","Sala de motors","Capella","Biblioteca", "Sala Capità","Teatre","Escales"};
-        String[] descripcions={"","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","",""};
+        String [] noms={"Sala","Menjador","Cuina","Neteja","W.C.","Habitació VIP","WC habitació VIP","Habitació capità","Habitació normal","Passadis","Sala de motors","Capella","Biblioteca", "Sala Capità","Teatre","Escales","Sala P2"};
+        String[] descripcions={"","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","",""};
         int cont=0;
         int id=1;
         int j=-1;
@@ -137,19 +136,19 @@ public class App {
                 i--;
             }else if(i==10 && cont==3){
                 cont=0;
-            }else if(i==15 && cont!=3){
+            }else if(i==15 && cont!=4){
                 cont++;
             }
 
             habitacions[j]=new sala(noms[i],id,descripcions[j]);
-            if(i==15 && cont!=3){
+            if(i==15 && cont!=4){
                 i--;
             }
 
             id++;
         }       
 
-        //Borrar al tenir lo de les portes creat!
+        //Imprimir totes les habitacions
         for (sala habitacio: habitacions) {
             System.out.println(habitacio.getIdHab() + "   "+ habitacio.getNomSala());
         }
@@ -158,14 +157,55 @@ public class App {
     }
 
     public porta[] crearPortesTitanic(porta porta){
-        porta[] portes= new porta[5];
+    
+
+        /*
+        1   Sala
+        2   Menjador
+        3   Cuina
+        4   Neteja (Passadis1)
+        5   Neteja (Passadis 2)
+        6   W.C. (Passadis 1)
+        7   W.C. (Passadis 2)
+        8   Habitació VIP (Passadis 1)
+        9   Habitació VIP (Passadis 2)
+        10   WC habitació VIP (VIP 1, passadis 1)
+        11   WC habitació VIP (VIP 2, passadis 2)
+        12   Habitació capità (Passadis 3)
+        13   Habitació normal (Passadis 1)
+        14   Habitació normal (Passadis 1)
+        15   Habitació normal (Passadis 1)
+        16   Habitació normal (Passadis 2)
+        17   Habitació normal (Passadis 2)
+        18   Habitació normal (Passadis 2)
+        19   Habitació normal (Passadis 3)
+        20   Habitació normal (Passadis 3)
+        21   Passadis (Passadis 1)
+        22   Passadis (Passadis 2)
+        23   Passadis (Passadis 3)
+        24   Passadis (Passadis 4)
+        25   Sala de motors
+        26   Capella
+        27   Biblioteca
+        28   Sala Capità
+        29   Teatre
+        30   Escales (passadis1 - sala)
+        31   Escales (passadis2 - sala)
+        32   Escales (passadis1 - p2)
+        33   Escales (passadis2 - p2)
+        34   Sala P2
+        */
+        
+        int[] idHab1={1 ,2 ,1 ,1 ,1 ,21,31,22,21,21,21,21,22,22,22,23,23,23,21,21,21,22,22,22,21,22,32,33};
+        int[] idHab2={2 ,3 ,25,30,31,30,22,23,23,13,14,15,16,17,18,19,20,12,4 ,6 ,8 ,5 ,7 ,9 ,32,33,34,34};
+
+        porta[] portes= new porta[idHab1.length];
         portes[0]=porta; //Conexio sala amb submari
 
-        //TODO (ns si hi ha alguna forma menys pesada xD)
-        portes[1]= new porta(1, 1,2);   //Conexio sala amb menjador
-        portes[2]= new porta(2, 2,3);   //Conexio menjador amb cuina
-        portes[3]= new porta(3, 1,30);   //Conexio sala amb escales
-        portes[4]= new porta(4, 1,25);   //Conexio sala amb sala de motors
+        for (int i = 1; i < portes.length; i++) {
+            portes[i]=new porta(i, idHab1[i-1], idHab2[i-1]);
+        }
+
         return portes;
     }
 }
