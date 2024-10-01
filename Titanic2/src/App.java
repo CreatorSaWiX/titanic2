@@ -47,6 +47,7 @@ public class App {
         porta[] portesInteractuables= null;
         sala[] habitacionsDisp=null;
         String opcional="";
+        String rString;
 
         while (!fi) {
             int idSalaActual=jugador.getSalaActual();
@@ -89,18 +90,23 @@ public class App {
                 }
                 contOpcions=0;
             }
-
-            System.out.println("-----------------------------------------------------------");
-            
-            System.out.println("Aquestes son les opcions que tens: ");
-            for (int i = 0; i < habitacionsDisp.length; i++) {
-                if(habitacionsDisp[i]!=null){
-                    System.out.println((i+1) +": Anar a "+habitacionsDisp[i].getNomSala());
+            try{
+                System.out.println("-----------------------------------------------------------");
+                
+                System.out.println("Aquestes son les opcions que tens: ");
+                for (int i = 0; i < habitacionsDisp.length; i++) {
+                    if(habitacionsDisp[i]!=null){
+                        System.out.println((i+1) +": Anar a "+habitacionsDisp[i].getNomSala());
+                    }
                 }
+                rString= e.nextLine();
+                resposta= Integer.parseInt(rString);
+                jugador.moure(habitacionsDisp[resposta-1].getIdHab());
+
+            }catch(Exception err){
+                System.out.println("Escriu una opció vàlida");
+                resposta=0;
             }
-            resposta= e.nextInt();
-            
-            jugador.moure(habitacionsDisp[resposta-1].getIdHab());
         }
     }
 
