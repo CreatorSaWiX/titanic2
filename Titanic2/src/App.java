@@ -131,26 +131,31 @@ public class App {
                 nom+= " est";
                 cont++;
                 i--;
-                //Reiniciar el contador per poder-lo utilitzar per crear les habitacions normals
+            //Reiniciar el contador per poder-lo utilitzar per crear les altres habitacions i creant la segona habotació del mateix nom
             }else if(i>=3 && i<=6 && cont==1){
                 nom+= " oest";
                 cont=0;
-            
+            //Creant 7 vegades l'habitació normal
             }else if(i==8 && cont!=7){
                 cont++;
                 i--;
+            //Reiniciar el contador per poder-lo utilitzar per crear les altres habitacions i creant la segona habotació del mateix nom
             }else if(i==8 && cont==7){
                 cont=0;
+            //Creant 3 passadissos
             }else if(i==9 && cont!=3){
                 cont++;
                 i--;
+            //Creant l'ultim passadis i reiniciant el contador
             }else if(i==9 && cont==3){
                 cont=0;
+            //Creant els 4 passadissos d'una tirada
             }else if(i==15 && cont!=4){
                 cont++;
             }
 
             habitacions[j]=new sala(nom,id,descripcions[j]);
+            //Restant 1 a i en cas de no ser l'últim passadis per tornar a crear un altra passadis
             if(i==15 && cont!=4){
                 i--;
             }
