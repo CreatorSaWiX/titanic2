@@ -1,8 +1,10 @@
+import ObjectesInmobils.mobles;
+
 public class sala {
     private String nomSala;
     private int idHab;
     private String descripco;
-    
+    private mobles[] mobles;
 
  public sala(String nomSala,int idHab,String descripco){
     this.nomSala=nomSala;

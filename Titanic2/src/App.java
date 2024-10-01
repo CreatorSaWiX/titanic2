@@ -115,43 +115,48 @@ public class App {
         sala[] habitacions = new sala[34];
 
         //En cas de les escales i passadis afegir-los algun nom diferent (Al igual que a les habitacions amb noms repetits)
-        String [] noms={"Sala","Menjador","Cuina","Neteja","W.C.","Habitació VIP","WC habitació VIP","Habitació capità","Habitació normal","Passadis","Sala de motors","Capella","Biblioteca", "Sala Capità","Teatre","Escales","Sala P2"};
-        String[] descripcions={"","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","",""};
+        String[] noms={"Sala P0","Menjador","Cuina","Neteja","W.C.","Habitació VIP","WC habitació VIP","Habitació capità","Habitació normal","Passadis","Sala de motors","Capella","Biblioteca", "Sala Capità","Teatre","Escales","Sala P2"};
+        String[] descripcions={"","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","",""};
         int cont=0;
         int id=1;
         int j=-1;
+        String nom="";
 
         //Creació de sales
         for (int i = 0; i < noms.length; i++) {
             j++;
-            //Per sales duplicades com la sala de neteja
-            if(i>=4 && i<=7 && cont<1){
+            nom=noms[i];
+            //Per sales duplicades com la sala de neteja, W.C, Habitacions VIP i WC Habitacions VIP
+            if(i>=3 && i<=6 && cont<1){
+                nom+= " est";
                 cont++;
                 i--;
                 //Reiniciar el contador per poder-lo utilitzar per crear les habitacions normals
-            }else if(i>=4 && i<=8 && cont==1){
+            }else if(i>=3 && i<=6 && cont==1){
+                nom+= " oest";
                 cont=0;
-
-            }else if(i==9 && cont!=7){
+            
+            }else if(i==8 && cont!=7){
                 cont++;
                 i--;
-            }else if(i==9 && cont==7){
+            }else if(i==8 && cont==7){
                 cont=0;
-            }else if(i==10 && cont!=3){
+            }else if(i==9 && cont!=3){
                 cont++;
                 i--;
-            }else if(i==10 && cont==3){
+            }else if(i==9 && cont==3){
                 cont=0;
             }else if(i==15 && cont!=4){
                 cont++;
             }
 
-            habitacions[j]=new sala(noms[i],id,descripcions[j]);
+            habitacions[j]=new sala(nom,id,descripcions[j]);
             if(i==15 && cont!=4){
                 i--;
             }
 
             id++;
+            
         }       
 
         //Imprimir totes les habitacions

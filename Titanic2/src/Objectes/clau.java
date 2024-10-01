@@ -1,5 +1,5 @@
 package Objectes;
 
-public class clau {
+public class clau extends objectesMobils {
  
 }
