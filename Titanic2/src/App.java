@@ -170,7 +170,7 @@ public class App {
             titanic.add(habitacioVip);
             id++;
 
-            wc wcVip = new wc("VIP " + (i + 1) + ", " + adicio, id);
+            wc wcVip = new wc("VIP" + adicio, id);
             titanic.add(wcVip);
             id++;
         }
@@ -268,23 +268,31 @@ public class App {
         crearPortaHabitacio("Passadis est", "Escala est - sala", zones);
         crearPortaHabitacio("Escala oest - sala", "Passadis oest", zones);
         crearPortaHabitacio("Passadis oest", "Passadis nord", zones);
+        crearPortaHabitacio("Passadis est", "Passadis nord", zones);
         crearPortaHabitacio("Passadis est", "Habitació normal est", zones);
         crearPortaHabitacio("Passadis est", "Habitació normal est", zones);
         crearPortaHabitacio("Passadis est", "Habitació normal est", zones);
-        crearPortaHabitacio("Passadis est", "Habitació normal oest", zones);
         crearPortaHabitacio("Passadis oest", "Habitació normal oest", zones);
         crearPortaHabitacio("Passadis oest", "Habitació normal oest", zones);
-        crearPortaHabitacio("Passadis oest", "Habitació normal nord", zones);
+        crearPortaHabitacio("Passadis oest", "Habitació normal oest", zones);
+        crearPortaHabitacio("Passadis nord", "Habitació normal nord", zones);
         crearPortaHabitacio("Passadis nord", "Habitació normal nord", zones);
         crearPortaHabitacio("Passadis nord", "Habitació Capità", zones);
         crearPortaHabitacio("Passadis est", "W.C.est", zones);
-        crearPortaHabitacio("Passadis est", "W.C.oest", zones);
+        crearPortaHabitacio("Passadis oest", "W.C.oest", zones);
         crearPortaHabitacio("Passadis est", "Habitació VIP est", zones);
         crearPortaHabitacio("Passadis oest", "Habitació VIP oest", zones);
-        crearPortaHabitacio("Passadis oest", "W.C.VIP 1,  est", zones);
-        crearPortaHabitacio("Passadis oest", "W.C.VIP 2,  oest", zones);
-        crearPortaHabitacio("Escala est - planta 2", "Escala oest - planta 2", zones);
+        crearPortaHabitacio("Habitació VIP est", "W.C.VIP est", zones);
+        crearPortaHabitacio("Habitació VIP oest", "W.C.VIP oest", zones);
+        crearPortaHabitacio("Escala est - planta 2", "Sala planta 2", zones);
         crearPortaHabitacio("Escala oest - planta 2", "Sala planta 2", zones);
+        crearPortaHabitacio("Passadis est", "Escala est - planta 2", zones);
+        crearPortaHabitacio("Passadis oest", "Escala oest - planta 2", zones);
+        crearPortaHabitacio("Sala planta 2", "Passadis planta 2", zones);
+        crearPortaHabitacio("Passadis planta 2", "Capella", zones);
+        crearPortaHabitacio("Passadis planta 2", "Biblioteca", zones);
+        crearPortaHabitacio("Passadis planta 2", "Teatre", zones);
+        crearPortaHabitacio("Passadis planta 2", "Sala del capità", zones);
     }
 
     
