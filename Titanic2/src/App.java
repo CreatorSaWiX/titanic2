@@ -21,29 +21,23 @@ public class App {
         crearTitanic(titanic);
         System.out.println("Sales titanic creades");
 
-        //Crear la porta del submari
+        //Crear les connexions entre zones del submari
         porta portaSubmari = new porta(0, 1);
         System.out.println("Porta titan creada");
 
+        //Crear les connexions entre zones del titanic
         crearPortesTitanic(portaSubmari, titanic);
         System.out.println("Portes titanic creades");
-
-
+        
         System.out.println("tot creat correctement");
-
-        
         iniciarJuagabilitat(submari,titanic);
-
-
-        
-
     }
 
     public void iniciarJuagabilitat(ubicacions submari, ArrayList<ubicacions> titanic){
 
         jugador jugador = new jugador();
 
-        Scanner e= new Scanner(System.in);
+        Scanner e = new Scanner(System.in);
         int resposta=0;
         boolean fi=false;        
         int contOpcions=0;
@@ -76,22 +70,24 @@ public class App {
 
                 portesInteractuables= new porta[9];
                 habitacionsDisp=new ubicacions[9];
+                ArrayList<porta> portesTitanic = Sales.ubicacions.portes;
 
-                // for (int i = 0; i < portesTitanic.length; i++) {
-                //     //Veure les portes que tenen relació amb l'habitació en la que estàs
-                //     //checkId Hab retorna el id de l'habitacio que esta al altra costat de la porta, i en cas de no tenir relació amb la porta retorna -1
-                //     if(portesTitanic[i].checkIdHab(idSalaActual)!=-1){
-                //         portesInteractuables[contOpcions]=portesTitanic[i];
-                //         for (int j = 0; j < titanic.size(); j++) {
-                //             if(titanic.get(j).getIdHab()== portesTitanic[i].checkIdHab(idSalaActual) ){
-                //                 habitacionsDisp[contOpcions]=titanic.get(j); 
-                //             }else if(portesTitanic[i].checkIdHab(idSalaActual)==0){
-                //                 habitacionsDisp[contOpcions]=submari;
-                //             }
-                //         }
-                //         contOpcions++;
-                //     }
-                // }
+                //Jofre, no entenc perquè l'estem complicant tant les coses T~T
+                for (int i = 0; i < portesTitanic.size(); i++) {
+                    //Veure les portes que tenen relació amb l'habitació en la que estàs
+                    //checkId Hab retorna el id de l'habitacio que esta al altra costat de la porta, i en cas de no tenir relació amb la porta retorna -1
+                    if(portesTitanic.get(i).checkIdHab(idSalaActual)!=-1){
+                        portesInteractuables[contOpcions]=portesTitanic.get(i);
+                        for (int j = 0; j < titanic.size(); j++) {
+                            if(titanic.get(j).getIdHab()== portesTitanic.get(i).checkIdHab(idSalaActual) ){
+                                habitacionsDisp[contOpcions]=titanic.get(j); 
+                            }else if(portesTitanic.get(i).checkIdHab(idSalaActual)==0){
+                                habitacionsDisp[contOpcions]=submari;
+                            }
+                        }
+                        contOpcions++;
+                    }
+                }
                 contOpcions=0;
             }
             try{
@@ -182,8 +178,19 @@ public class App {
 
         // Crear Passadissos
         for (int i = 1; i <= 4; i++) {
-            passadis passadis = new passadis("Passadis " + i, id,"");
-            titanic.add(passadis);
+            
+            switch (i) {
+                case 1: passadis passadis = new passadis(" est", id,"Aquest és la descripció del passadís est"); 
+                        titanic.add(passadis); break;
+                case 2: passadis passadis2 = new passadis(" oest", id, "Aquest és la descripció del passadís oest");
+                        titanic.add(passadis2); break;
+                case 3: passadis passadis3 = new passadis(" nord", id, "Aquest és la descripció del passadís nord");
+                        titanic.add(passadis3); break;
+                case 4: passadis passadis4 = new passadis(" planta 2", id, "Aquest és la descripció del passadís de la segona planta");
+                        titanic.add(passadis4); break;
+                default: break;
+            }
+            
             id++;
         }
 
@@ -210,9 +217,17 @@ public class App {
 
         // Crear escales
         for (int i = 0; i < 4; i++) {
-            adicio = (i < 2) ? "Passadis " + (i + 1) + " - sala" : "Passadis " + (i - 1) + " - p2";
-            escala escales = new escala(adicio,id);
-            titanic.add(escales);
+            switch (i) {
+                case 0: escala e1 = new escala(" est - sala", id); 
+                        titanic.add(e1); break;
+                case 1: escala e2 = new escala(" oest - sala", id);
+                        titanic.add(e2); break;
+                case 2: escala e3 = new escala(" est - planta 2", id);
+                        titanic.add(e3); break;
+                case 3: escala e4 = new escala(" oest - planta 2", id);
+                        titanic.add(e4); break;
+                default: break;
+            }
             id++;
         }
 
@@ -227,9 +242,31 @@ public class App {
 
 
     public void crearPortesTitanic(porta porta, ArrayList<ubicacions> zones){
-        crearPortaHabitacio("Sala planta 0","Menjador", zones);
-        crearPortaHabitacio("Cuina","Menjador", zones);
-        crearPortaHabitacio("","",zones);
+        crearPortaHabitacio("Sala planta 0", "Menjador", zones);
+        crearPortaHabitacio("Menjador", "Cuina", zones);
+        crearPortaHabitacio("Sala planta 0", "Sala de motors", zones);
+        crearPortaHabitacio("Sala planta 0", "Escala est - sala", zones);
+        crearPortaHabitacio("Sala planta 0", "Escala oest - sala", zones);
+        crearPortaHabitacio("Passadis est", "Escala est - sala", zones);
+        crearPortaHabitacio("Escala oest - sala", "Passadis oest", zones);
+        crearPortaHabitacio("Passadis oest", "Passadis nord", zones);
+        crearPortaHabitacio("Passadis est", "Habitació normal est", zones);
+        crearPortaHabitacio("Passadis est", "Habitació normal est", zones);
+        crearPortaHabitacio("Passadis est", "Habitació normal est", zones);
+        crearPortaHabitacio("Passadis est", "Habitació normal oest", zones);
+        crearPortaHabitacio("Passadis oest", "Habitació normal oest", zones);
+        crearPortaHabitacio("Passadis oest", "Habitació normal oest", zones);
+        crearPortaHabitacio("Passadis oest", "Habitació normal nord", zones);
+        crearPortaHabitacio("Passadis nord", "Habitació normal nord", zones);
+        crearPortaHabitacio("Passadis nord", "Habitació Capità", zones);
+        crearPortaHabitacio("Passadis est", "W.C.est", zones);
+        crearPortaHabitacio("Passadis est", "W.C.oest", zones);
+        crearPortaHabitacio("Passadis est", "Habitació VIP est", zones);
+        crearPortaHabitacio("Passadis oest", "Habitació VIP oest", zones);
+        crearPortaHabitacio("Passadis oest", "W.C.VIP 1, est", zones);
+        crearPortaHabitacio("Passadis oest", "W.C.VIP 2, oest", zones);
+        crearPortaHabitacio("Escala est - planta 2", "Escala oest - planta 2", zones);
+        crearPortaHabitacio("Escala oest - planta 2", "Sala planta 2", zones);
     }
 
     
