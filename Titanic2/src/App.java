@@ -1,6 +1,8 @@
 import java.util.Scanner;
 import ObjectesInmobils.porta;
 import Personatges.jugador;
+import Sales.ubicacions;
+
 
 public class App {
     public static void main(String[] args) throws Exception {
@@ -10,11 +12,11 @@ public class App {
 
     public void start(){
         //Crear sala submari
-        sala submari = new sala("submari",0,"");
-        System.out.println("Sala titan creada");
+        ubicacions submari = new ubicacions("submari",0,"");
+        System.out.println("ubicacions titan creada");
 
         //Crear les sales del titanic
-        sala[] titanic = crearTitanic();
+        ubicacions[] titanic = crearTitanic();
         System.out.println("Sales titanic creades");
 
         //Crear la porta del submari
@@ -35,7 +37,7 @@ public class App {
 
     }
 
-    public void iniciarJuagabilitat(sala submari, sala[] titanic, porta portaSubmari, porta[] portesTitanic){
+    public void iniciarJuagabilitat(ubicacions submari, ubicacions[] titanic, porta portaSubmari, porta[] portesTitanic){
 
         jugador jugador = new jugador();
 
@@ -43,9 +45,9 @@ public class App {
         int resposta=0;
         boolean fi=false;        
         int contOpcions=0;
-        sala actual=null;
+        ubicacions actual=null;
         porta[] portesInteractuables= null;
-        sala[] habitacionsDisp=null;
+        ubicacions[] habitacionsDisp=null;
         String opcional="";
         String rString;
 
@@ -59,7 +61,7 @@ public class App {
                 portesInteractuables[0]=portaSubmari;
 
                 //Agafant el nom de l'habtiació a la que esta enllaçada
-                habitacionsDisp = new sala[1];
+                habitacionsDisp = new ubicacions[1];
                 habitacionsDisp[0]=titanic[0];
 
                 //En cas d'estar a la sala o al submari se li afagira aquest text:
@@ -71,7 +73,7 @@ public class App {
                 //El maxim de portes que té una habitacio (en aquest cas el passadis) és de 6
 
                 portesInteractuables= new porta[9];
-                habitacionsDisp=new sala[9];
+                habitacionsDisp=new ubicacions[9];
 
                 for (int i = 0; i < portesTitanic.length; i++) {
                     //Veure les portes que tenen relació amb l'habitació en la que estàs
@@ -111,8 +113,8 @@ public class App {
     }
 
     //Opcions:
-    public sala[] crearTitanic(){
-        sala[] habitacions = new sala[34];
+    public ubicacions[] crearTitanic(){
+        ubicacions[] habitacions = new ubicacions[34];
 
         //En cas de les escales i passadis afegir-los algun nom diferent (Al igual que a les habitacions amb noms repetits)
         String[] noms={"Sala P0","Menjador","Cuina","Neteja","W.C.","Habitació VIP","WC habitació VIP","Habitació capità","Habitació normal","Passadis","Sala de motors","Capella","Biblioteca", "Sala Capità","Teatre","Escales","Sala P2"};
@@ -154,7 +156,7 @@ public class App {
                 cont++;
             }
 
-            habitacions[j]=new sala(nom,id,descripcions[j]);
+            habitacions[j]=new ubicacions(nom,id,descripcions[j]);
             //Restant 1 a i en cas de no ser l'últim passadis per tornar a crear un altra passadis
             if(i==15 && cont!=4){
                 i--;
@@ -165,7 +167,7 @@ public class App {
         }       
 
         //Imprimir totes les habitacions
-        for (sala habitacio: habitacions) {
+        for (ubicacions habitacio: habitacions) {
             System.out.println(habitacio.getIdHab() + "   "+ habitacio.getNomSala());
         }
 
