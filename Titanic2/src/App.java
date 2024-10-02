@@ -46,6 +46,8 @@ public class App {
         ubicacions[] habitacionsDisp=null;
         String opcional="";
         String rString;
+        int idSegonaSala;
+        int cont;
 
         while (!fi) {
             int idSalaActual=jugador.getSalaActual();
@@ -68,27 +70,43 @@ public class App {
             }else{
                 //El maxim de portes que té una habitacio (en aquest cas el passadis) és de 6
 
-                portesInteractuables= new porta[9];
-                habitacionsDisp=new ubicacions[9];
-                ArrayList<porta> portesTitanic = Sales.ubicacions.portes;
+                // portesInteractuables= new porta[9];
+                // habitacionsDisp=new ubicacions[9];
+                // ArrayList<porta> portesTitanic = Sales.ubicacions.portes;
 
-                //Jofre, no entenc perquè l'estem complicant tant les coses T~T
-                for (int i = 0; i < portesTitanic.size(); i++) {
-                    //Veure les portes que tenen relació amb l'habitació en la que estàs
-                    //checkId Hab retorna el id de l'habitacio que esta al altra costat de la porta, i en cas de no tenir relació amb la porta retorna -1
-                    if(portesTitanic.get(i).checkIdHab(idSalaActual)!=-1){
-                        portesInteractuables[contOpcions]=portesTitanic.get(i);
-                        for (int j = 0; j < titanic.size(); j++) {
-                            if(titanic.get(j).getIdHab()== portesTitanic.get(i).checkIdHab(idSalaActual) ){
-                                habitacionsDisp[contOpcions]=titanic.get(j); 
-                            }else if(portesTitanic.get(i).checkIdHab(idSalaActual)==0){
-                                habitacionsDisp[contOpcions]=submari;
-                            }
-                        }
-                        contOpcions++;
-                    }
+                // //Jofre, no entenc perquè l'estem complicant tant les coses T~T
+                // //Per practicar una mica que sino és molt fàcil XD
+                // for (int i = 0; i < portesTitanic.size(); i++) {
+                //     //Veure les portes que tenen relació amb l'habitació en la que estàs
+                //     //checkId Hab retorna el id de l'habitacio que esta al altra costat de la porta, i en cas de no tenir relació amb la porta retorna -1
+                //     if(portesTitanic.get(i).checkIdHab(idSalaActual)!=-1){
+                //         portesInteractuables[contOpcions]=portesTitanic.get(i);
+                //         for (int j = 0; j < titanic.size(); j++) {
+                //             if(titanic.get(j).getIdHab()== portesTitanic.get(i).checkIdHab(idSalaActual) ){
+                //                 habitacionsDisp[contOpcions]=titanic.get(j); 
+                //             }else if(portesTitanic.get(i).checkIdHab(idSalaActual)==0){
+                //                 habitacionsDisp[contOpcions]=submari;
+                //             }
+                //         }
+                //         contOpcions++;
+                //     }
+                // }
+                // contOpcions=0;
+                idSalaActual--;//El id de la sala actual equival al seu id del array -1, per no haber de fer la resta tot el rato es resta aqui
+                if(idSalaActual==0){    //En cas d'estar a la primera sala
+                    habitacionsDisp= new ubicacions[titanic.get(idSalaActual).getNumPortes()+1];    //Se li sumarà 1 al array pq el submari tmb ha d'apareixer
+                    habitacionsDisp[habitacionsDisp.length-1]=submari; //Al final de tot se li sumarà el submari
+                }else{
+                    habitacionsDisp= new ubicacions[titanic.get(idSalaActual).getNumPortes()];      //Simplement es crearà l'array amb el numero de portes existents en aquella habitació
                 }
-                contOpcions=0;
+
+                cont=0;//COntador per indicar la posició de la habitació en l'array
+                for (porta portaActual : titanic.get(idSalaActual).getPortes()) { //Obtenir les portes de l'habitació
+                    idSegonaSala=portaActual.checkIdHab(idSalaActual+1);    //Obtenir el id de l'altra habitació (se li suma 1 al id x tornar a tenir el id de l'habitació)
+                    habitacionsDisp[cont]=titanic.get(idSegonaSala-1);    //Obtenir la segona habitació (Se li resta 1 pq la posició de l'habitació en l'array equival al id -1)
+                    cont++;
+                }
+                
             }
             try{
                 System.out.println("-----------------------------------------------------------");
@@ -263,8 +281,8 @@ public class App {
         crearPortaHabitacio("Passadis est", "W.C.oest", zones);
         crearPortaHabitacio("Passadis est", "Habitació VIP est", zones);
         crearPortaHabitacio("Passadis oest", "Habitació VIP oest", zones);
-        crearPortaHabitacio("Passadis oest", "W.C.VIP 1, est", zones);
-        crearPortaHabitacio("Passadis oest", "W.C.VIP 2, oest", zones);
+        crearPortaHabitacio("Passadis oest", "W.C.VIP 1,  est", zones);
+        crearPortaHabitacio("Passadis oest", "W.C.VIP 2,  oest", zones);
         crearPortaHabitacio("Escala est - planta 2", "Escala oest - planta 2", zones);
         crearPortaHabitacio("Escala oest - planta 2", "Sala planta 2", zones);
     }
@@ -288,8 +306,14 @@ public class App {
         //Per crear una porta es nessesita el id de l'habitacío 
         
         porta newDoor = new porta(id1, id2);
-        zones.get(id1).afegirPorta(newDoor);
-        zones.get(id2).afegirPorta(newDoor);
+        
+        try {
+            zones.get(id1-1).afegirPorta(newDoor);
+            zones.get(id2-1).afegirPorta(newDoor);    
+        } catch (Exception e) {
+            System.out.println("Hi ha un nom d'habitació mal escrit");
+        }
+        
 
     }
 }
