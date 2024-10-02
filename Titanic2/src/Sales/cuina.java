@@ -1,7 +1,6 @@
 package Sales;
 public class cuina extends ubicacions{
-    public cuina(String nom,int idHab,String descripcio){
-        super(nom, idHab,"La cuina ");
-     //    super.descripcio = descripcio;
-     }
+    public cuina(int idHab){
+        super("Cuina", idHab,"Té fogons i varies éines de la cuina robellats.");
+    }
 }     

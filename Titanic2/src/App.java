@@ -1,7 +1,8 @@
 import java.util.Scanner;
+import java.util.ArrayList;
 import ObjectesInmobils.porta;
 import Personatges.jugador;
-import Sales.ubicacions;
+import Sales.*;
 
 
 public class App {
@@ -16,7 +17,8 @@ public class App {
         System.out.println("ubicacions titan creada");
 
         //Crear les sales del titanic
-        ubicacions[] titanic = crearTitanic();
+        ArrayList<ubicacions> titanic = new ArrayList<>();
+        crearTitanic(titanic);
         System.out.println("Sales titanic creades");
 
         //Crear la porta del submari
@@ -37,7 +39,7 @@ public class App {
 
     }
 
-    public void iniciarJuagabilitat(ubicacions submari, ubicacions[] titanic, porta portaSubmari, porta[] portesTitanic){
+    public void iniciarJuagabilitat(ubicacions submari, ArrayList<ubicacions> titanic, porta portaSubmari, porta[] portesTitanic){
 
         jugador jugador = new jugador();
 
@@ -62,7 +64,7 @@ public class App {
 
                 //Agafant el nom de l'habtiació a la que esta enllaçada
                 habitacionsDisp = new ubicacions[1];
-                habitacionsDisp[0]=titanic[0];
+                habitacionsDisp[0]=titanic.get(0);
 
                 //En cas d'estar a la sala o al submari se li afagira aquest text:
                 // opcional=" del Titainc";
@@ -80,9 +82,9 @@ public class App {
                     //checkId Hab retorna el id de l'habitacio que esta al altra costat de la porta, i en cas de no tenir relació amb la porta retorna -1
                     if(portesTitanic[i].checkIdHab(idSalaActual)!=-1){
                         portesInteractuables[contOpcions]=portesTitanic[i];
-                        for (int j = 0; j < titanic.length; j++) {
-                            if(titanic[j].getIdHab()== portesTitanic[i].checkIdHab(idSalaActual) ){
-                                habitacionsDisp[contOpcions]=titanic[j]; 
+                        for (int j = 0; j < titanic.size(); j++) {
+                            if(titanic.get(j).getIdHab()== portesTitanic[i].checkIdHab(idSalaActual) ){
+                                habitacionsDisp[contOpcions]=titanic.get(j); 
                             }else if(portesTitanic[i].checkIdHab(idSalaActual)==0){
                                 habitacionsDisp[contOpcions]=submari;
                             }
@@ -112,108 +114,116 @@ public class App {
         }
     }
 
-    //Opcions:
-    public ubicacions[] crearTitanic(){
-        ubicacions[] habitacions = new ubicacions[34];
+    public void crearTitanic(ArrayList<ubicacions> titanic){
+        String adicio;
+        int id = 1;
 
-        //En cas de les escales i passadis afegir-los algun nom diferent (Al igual que a les habitacions amb noms repetits)
-        String[] noms={"Sala P0","Menjador","Cuina","Neteja","W.C.","Habitació VIP","WC habitació VIP","Habitació capità","Habitació normal","Passadis","Sala de motors","Capella","Biblioteca", "Sala Capità","Teatre","Escales","Sala P2"};
-        String[] descripcions={"","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","",""};
-        int cont=0;
-        int id=1;
-        int j=-1;
-        String nom="";
+        // Crear Sala
+        salap0 sala = new salap0(id);
+        titanic.add(sala);
+        id++;
 
-        //Creació de sales
-        for (int i = 0; i < noms.length; i++) {
-            j++;
-            nom=noms[i];
-            //Per sales duplicades com la sala de neteja, W.C, Habitacions VIP i WC Habitacions VIP
-            if(i>=3 && i<=6 && cont<1){
-                nom+= " est";
-                cont++;
-                i--;
-            //Reiniciar el contador per poder-lo utilitzar per crear les altres habitacions i creant la segona habotació del mateix nom
-            }else if(i>=3 && i<=6 && cont==1){
-                nom+= " oest";
-                cont=0;
-            //Creant 7 vegades l'habitació normal
-            }else if(i==8 && cont!=7){
-                cont++;
-                i--;
-            //Reiniciar el contador per poder-lo utilitzar per crear les altres habitacions i creant la segona habotació del mateix nom
-            }else if(i==8 && cont==7){
-                cont=0;
-            //Creant 3 passadissos
-            }else if(i==9 && cont!=3){
-                cont++;
-                i--;
-            //Creant l'ultim passadis i reiniciant el contador
-            }else if(i==9 && cont==3){
-                cont=0;
-            //Creant els 4 passadissos d'una tirada
-            }else if(i==15 && cont!=4){
-                cont++;
-            }
+        // Crear Menjador
+        menjador menjador = new menjador(id);
+        titanic.add(menjador);
+        id++;
 
-            habitacions[j]=new ubicacions(nom,id,descripcions[j]);
-            //Restant 1 a i en cas de no ser l'últim passadis per tornar a crear un altra passadis
-            if(i==15 && cont!=4){
-                i--;
-            }
+        // Crear Cuina
+        cuina cuina = new cuina(id);
+        titanic.add(cuina);
+        id++;
 
+        // Crear Sales de Neteja
+        for (int i = 0; i < 2; i++) {
+            adicio = (i == 0) ? "est" : "oest";
+            neteja salaNeteja = new neteja(adicio, id);
+            titanic.add(salaNeteja);
             id++;
-            
-        }       
-
-        //Imprimir totes les habitacions
-        for (ubicacions habitacio: habitacions) {
-            System.out.println(habitacio.getIdHab() + "   "+ habitacio.getNomSala());
         }
 
-        return habitacions;
+        // Crear WC públics
+        for (int i = 0; i < 2; i++) {
+            adicio = (i == 0) ? "est" : "oest";
+            wc wcPublic = new wc(adicio, id);
+            titanic.add(wcPublic);
+            id++;
+        }
+
+        // Crear Habitacions VIP i WCs VIP
+        for (int i = 0; i < 2; i++) {
+            adicio = (i == 0) ? "est" : "oest";
+            habitacioV habitacioVip = new habitacioV(adicio, id);
+            titanic.add(habitacioVip);
+            id++;
+
+            wc wcVip = new wc("VIP " + (i + 1) + ", " + adicio, id);
+            titanic.add(wcVip);
+            id++;
+        }
+
+        // Crear Habitació del Capità
+        habitacioC habitacioCapita = new habitacioC(id);
+        titanic.add(habitacioCapita);
+        id++;
+
+        // Crear Habitacions Normals
+        for (int i = 0; i <= 6; i++) {
+            if (i < 3) {    // 3 habitacions a est
+                adicio = "est";
+            } else if (i < 6) {     // 3 habitacions a oest
+                adicio = "oest";
+            } else {    // 2 habitacions nord
+                adicio = "nord";
+            }
+            habitacioN habitacioNormal = new habitacioN(adicio, id);
+            titanic.add(habitacioNormal);
+            id++;
+        }
+
+        // Crear Passadissos
+        for (int i = 1; i <= 4; i++) {
+            passadis passadis = new passadis("Passadis " + i, id,"");
+            titanic.add(passadis);
+            id++;
+        }
+
+        // Crear altres ubicacions
+        salaDeMotors salaMotors = new salaDeMotors(id);
+        titanic.add(salaMotors);
+        id++;
+
+        capella capella = new capella(id);
+        titanic.add(capella);
+        id++;
+
+        biblio biblioteca = new biblio(id);
+        titanic.add(biblioteca);
+        id++;
+
+        salaC salaCapita = new salaC(id);
+        titanic.add(salaCapita);
+        id++;
+
+        teatre teatre = new teatre(id);
+        titanic.add(teatre);
+        id++;
+
+        // Crear escales
+        for (int i = 0; i < 4; i++) {
+            adicio = (i < 2) ? "Passadis " + (i + 1) + " - sala" : "Passadis " + (i - 1) + " - p2";
+            escala escales = new escala("",id);
+            titanic.add(escales);
+            id++;
+        }
+
+        // Crear Sala P2
+        salap2 salap2 = new salap2(id);
+        titanic.add(salap2);
     }
 
-    public porta[] crearPortesTitanic(porta porta){
-    
 
-        /*
-        1   Sala
-        2   Menjador
-        3   Cuina
-        4   Neteja (Passadis1)
-        5   Neteja (Passadis 2)
-        6   W.C. (Passadis 1)
-        7   W.C. (Passadis 2)
-        8   Habitació VIP (Passadis 1)
-        9   Habitació VIP (Passadis 2)
-        10   WC habitació VIP (VIP 1, passadis 1)
-        11   WC habitació VIP (VIP 2, passadis 2)
-        12   Habitació capità (Passadis 3)
-        13   Habitació normal (Passadis 1)
-        14   Habitació normal (Passadis 1)
-        15   Habitació normal (Passadis 1)
-        16   Habitació normal (Passadis 2)
-        17   Habitació normal (Passadis 2)
-        18   Habitació normal (Passadis 2)
-        19   Habitació normal (Passadis 3)
-        20   Habitació normal (Passadis 3)
-        21   Passadis (Passadis 1)
-        22   Passadis (Passadis 2)
-        23   Passadis (Passadis 3)
-        24   Passadis (Passadis 4)
-        25   Sala de motors
-        26   Capella
-        27   Biblioteca
-        28   Sala Capità
-        29   Teatre
-        30   Escales (passadis1 - sala)
-        31   Escales (passadis2 - sala)
-        32   Escales (passadis1 - p2)
-        33   Escales (passadis2 - p2)
-        34   Sala P2
-        */
-        
+    public porta[] crearPortesTitanic(porta porta){
+        //34 sales del titanic
         int[] idHab1={1 ,2 ,1 ,1 ,1 ,21,31,22,21,21,21,21,22,22,22,23,23,23,21,21,21,22,22,22,21,22,32,33};
         int[] idHab2={2 ,3 ,25,30,31,30,22,23,23,13,14,15,16,17,18,19,20,12,4 ,6 ,8 ,5 ,7 ,9 ,32,33,34,34};
 
@@ -226,4 +236,7 @@ public class App {
 
         return portes;
     }
+
+    // public 
+
 }
