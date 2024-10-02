@@ -22,24 +22,24 @@ public class App {
         System.out.println("Sales titanic creades");
 
         //Crear la porta del submari
-        porta portaSubmari = new porta(0, 0, 1);
+        porta portaSubmari = new porta(0, 1);
         System.out.println("Porta titan creada");
 
-        porta[] portesTitanic = crearPortesTitanic(portaSubmari);
+        crearPortesTitanic(portaSubmari, titanic);
         System.out.println("Portes titanic creades");
 
 
         System.out.println("tot creat correctement");
 
         
-        iniciarJuagabilitat(submari,titanic,portaSubmari,portesTitanic);
+        iniciarJuagabilitat(submari,titanic);
 
 
         
 
     }
 
-    public void iniciarJuagabilitat(ubicacions submari, ArrayList<ubicacions> titanic, porta portaSubmari, porta[] portesTitanic){
+    public void iniciarJuagabilitat(ubicacions submari, ArrayList<ubicacions> titanic){
 
         jugador jugador = new jugador();
 
@@ -60,7 +60,7 @@ public class App {
             if(idSalaActual==0){
                 //Al ser el submari només tindrà una porta
                 portesInteractuables= new porta[1];
-                portesInteractuables[0]=portaSubmari;
+                
 
                 //Agafant el nom de l'habtiació a la que esta enllaçada
                 habitacionsDisp = new ubicacions[1];
@@ -77,21 +77,21 @@ public class App {
                 portesInteractuables= new porta[9];
                 habitacionsDisp=new ubicacions[9];
 
-                for (int i = 0; i < portesTitanic.length; i++) {
-                    //Veure les portes que tenen relació amb l'habitació en la que estàs
-                    //checkId Hab retorna el id de l'habitacio que esta al altra costat de la porta, i en cas de no tenir relació amb la porta retorna -1
-                    if(portesTitanic[i].checkIdHab(idSalaActual)!=-1){
-                        portesInteractuables[contOpcions]=portesTitanic[i];
-                        for (int j = 0; j < titanic.size(); j++) {
-                            if(titanic.get(j).getIdHab()== portesTitanic[i].checkIdHab(idSalaActual) ){
-                                habitacionsDisp[contOpcions]=titanic.get(j); 
-                            }else if(portesTitanic[i].checkIdHab(idSalaActual)==0){
-                                habitacionsDisp[contOpcions]=submari;
-                            }
-                        }
-                        contOpcions++;
-                    }
-                }
+                // for (int i = 0; i < portesTitanic.length; i++) {
+                //     //Veure les portes que tenen relació amb l'habitació en la que estàs
+                //     //checkId Hab retorna el id de l'habitacio que esta al altra costat de la porta, i en cas de no tenir relació amb la porta retorna -1
+                //     if(portesTitanic[i].checkIdHab(idSalaActual)!=-1){
+                //         portesInteractuables[contOpcions]=portesTitanic[i];
+                //         for (int j = 0; j < titanic.size(); j++) {
+                //             if(titanic.get(j).getIdHab()== portesTitanic[i].checkIdHab(idSalaActual) ){
+                //                 habitacionsDisp[contOpcions]=titanic.get(j); 
+                //             }else if(portesTitanic[i].checkIdHab(idSalaActual)==0){
+                //                 habitacionsDisp[contOpcions]=submari;
+                //             }
+                //         }
+                //         contOpcions++;
+                //     }
+                // }
                 contOpcions=0;
             }
             try{
@@ -135,7 +135,7 @@ public class App {
 
         // Crear Sales de Neteja
         for (int i = 0; i < 2; i++) {
-            adicio = (i == 0) ? "est" : "oest";
+            adicio = (i == 0) ? " est" : " oest";
             neteja salaNeteja = new neteja(adicio, id);
             titanic.add(salaNeteja);
             id++;
@@ -151,7 +151,7 @@ public class App {
 
         // Crear Habitacions VIP i WCs VIP
         for (int i = 0; i < 2; i++) {
-            adicio = (i == 0) ? "est" : "oest";
+            adicio = (i == 0) ? " est" : " oest";
             habitacioV habitacioVip = new habitacioV(adicio, id);
             titanic.add(habitacioVip);
             id++;
@@ -167,13 +167,13 @@ public class App {
         id++;
 
         // Crear Habitacions Normals
-        for (int i = 0; i <= 6; i++) {
+        for (int i = 0; i <= 7; i++) {
             if (i < 3) {    // 3 habitacions a est
-                adicio = "est";
+                adicio = " est";
             } else if (i < 6) {     // 3 habitacions a oest
-                adicio = "oest";
+                adicio = " oest";
             } else {    // 2 habitacions nord
-                adicio = "nord";
+                adicio = " nord";
             }
             habitacioN habitacioNormal = new habitacioN(adicio, id);
             titanic.add(habitacioNormal);
@@ -211,7 +211,7 @@ public class App {
         // Crear escales
         for (int i = 0; i < 4; i++) {
             adicio = (i < 2) ? "Passadis " + (i + 1) + " - sala" : "Passadis " + (i - 1) + " - p2";
-            escala escales = new escala("",id);
+            escala escales = new escala(adicio,id);
             titanic.add(escales);
             id++;
         }
@@ -219,24 +219,77 @@ public class App {
         // Crear Sala P2
         salap2 salap2 = new salap2(id);
         titanic.add(salap2);
-    }
 
-
-    public porta[] crearPortesTitanic(porta porta){
-        //34 sales del titanic
-        int[] idHab1={1 ,2 ,1 ,1 ,1 ,21,31,22,21,21,21,21,22,22,22,23,23,23,21,21,21,22,22,22,21,22,32,33};
-        int[] idHab2={2 ,3 ,25,30,31,30,22,23,23,13,14,15,16,17,18,19,20,12,4 ,6 ,8 ,5 ,7 ,9 ,32,33,34,34};
-
-        porta[] portes= new porta[idHab1.length];
-        portes[0]=porta; //Conexio sala amb submari
-
-        for (int i = 1; i < portes.length; i++) {
-            portes[i]=new porta(i, idHab1[i-1], idHab2[i-1]);
+        for(int i = 0; i < titanic.size(); i++){
+            System.out.println(titanic.get(i).getIdHab()+" "+ titanic.get(i).getNomSala());
         }
-
-        return portes;
     }
 
-    // public 
 
+    public void crearPortesTitanic(porta porta, ArrayList<ubicacions> zones){
+        crearPortaHabitacio("Sala planta 0","Menjador", zones);
+        crearPortaHabitacio("Cuina","Menjador", zones);
+        crearPortaHabitacio("","",zones);
+    }
+
+    
+
+    public void crearPortaHabitacio(String n1, String n2, ArrayList<ubicacions>zones) {
+        int id1 = 0;
+        int id2 = 0;
+
+        //Si el nom de l'habitació (del index) coincideix amb el que es busca, es guardarà el seu ID
+        for (int index = 0; index < zones.size(); index++){
+            if(n1.equals(zones.get(index).getNomSala())){
+                id1=zones.get(index).getIdHab();
+            } else if(n2.equals(zones.get(index).getNomSala())){
+                id2=zones.get(index).getIdHab();
+            }   
+        }
+        
+        //Les habitacions tenen com a id la seva posició en el array, només cal obtenir els ids i crear la porta
+        //Per crear una porta es nessesita el id de l'habitacío 
+        
+        porta newDoor = new porta(id1, id2);
+        zones.get(id1).afegirPorta(newDoor);
+        zones.get(id2).afegirPorta(newDoor);
+
+    }
 }
+/* 
+Sala planta 0
+Menjador
+Cuina
+Netejaest
+Netejaoest
+W.C.est
+W.C.oest
+Habitació VIP est
+W.C.VIP 1,  est
+Habitació VIP oest
+W.C.VIP 2,  oest
+Habitació Capità
+Habitació normal est
+Habitació normal est
+Habitació normal est
+Habitació normal oest
+Habitació normal oest
+Habitació normal oest
+Habitació normal nord
+PassadisPassadis 1
+PassadisPassadis 2
+PassadisPassadis 3
+PassadisPassadis 4
+Sala de motors
+Capella
+Biblioteca
+Sala del capità
+Teatre
+EscalaPassadis 1 - sala
+EscalaPassadis 2 - sala
+EscalaPassadis 1 - p2
+EscalaPassadis 2 - p2
+Sala planta 2
+Sales titanic creades
+Porta titan creada
+*/

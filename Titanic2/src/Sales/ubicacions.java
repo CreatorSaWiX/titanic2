@@ -10,7 +10,7 @@ public class ubicacions {
    private int idHab;   //El id de l'habitació
    private String descripco;  //La descripció de l'habitació
    private mobles[] mobles;   //La llista de mobles interactuables que tindrà l'habitació
-   private ArrayList<porta> portes; //Les portes que tindrà l'habitació
+   private ArrayList<porta> portes= new ArrayList<>(); //Les portes que tindrà l'habitació
 
    public ubicacions(String nomSala,int idHab,String descripco){
       //Assignar les variables passades a les variables
@@ -36,6 +36,10 @@ public class ubicacions {
       }else{ //Si hi ha un objecte a terre es retorna la descripció i el nom del objecte del terre
          return descripco+"\nEs pot veure un objecte a terre: "+objecteTerre;
       }
+   }
+
+   public void afegirPorta(porta novaPorta){
+      portes.add(novaPorta);
    }
 
 }
