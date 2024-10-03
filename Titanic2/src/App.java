@@ -122,24 +122,35 @@ public class App {
                     }
                 }
                 
+                //Opció per sortir del joc
                 if(jugador.getSalaActual()==0){
                     System.out.println("2: Sortir del joc");
                 }
                 
-                
+                //Capturar el que escriu el jugador
                 rString= e.next();
                 if(rString.equalsIgnoreCase("d")){
+                    //Descripció de l'habitació en la que estàs
                     if(jugador.getSalaActual()!=0){
                         System.out.println(titanic.get(jugador.getSalaActual()-1).getDescripcio());
                     }else{
                         System.out.println(submari.getDescripcio());
                     }
-                }else{
+                }else if(rString.equalsIgnoreCase("i")){
+                    //Inventari
+                } else{
+                    //Moure entre zones
                     resposta= Integer.parseInt(rString);
-                    if(jugador.getSalaActual()==0 && resposta==2){
+                    if(jugador.getSalaActual()==0 && resposta==2){ //En cas de finalitzar el joc
                         fi=true;
                     }else{
                         jugador.moure(habitacionsDisp[resposta-1].getIdHab());
+                        if(jugador.getSalaActual()!=0){
+                            jugador.restarOxigen();
+                        }else{
+                            jugador.canviarOxigen();
+                        }
+                        
                     } 
                 }   
 

@@ -3,9 +3,11 @@ public class jugador {
     private int idHabActual;
     private int oxigen;
     private int gana;
+    private int maxOxigen=100;
     
     public jugador(){
         idHabActual = 0;
+        oxigen=maxOxigen;
     }
 
     public int getSalaActual(){
@@ -19,5 +21,14 @@ public class jugador {
     public void moure(int id){
         idHabActual=id;
     }
+
+    public void restarOxigen(){
+        oxigen-=10;
+    }
+
+    public void canviarOxigen(){
+        oxigen=maxOxigen;
+    }
+
 
 }
