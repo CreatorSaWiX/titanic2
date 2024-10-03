@@ -278,8 +278,10 @@ public class App {
         crearPortaHabitacio("Passadis nord", "Habitació normal nord", zones);
         crearPortaHabitacio("Passadis nord", "Habitació normal nord", zones);
         crearPortaHabitacio("Passadis nord", "Habitació Capità", zones);
+        crearPortaHabitacio("Passadis est", "Neteja est", zones);
         crearPortaHabitacio("Passadis est", "W.C.est", zones);
         crearPortaHabitacio("Passadis oest", "W.C.oest", zones);
+        crearPortaHabitacio("Passadis oest", "Neteja oest", zones); 
         crearPortaHabitacio("Passadis est", "Habitació VIP est", zones);
         crearPortaHabitacio("Passadis oest", "Habitació VIP oest", zones);
         crearPortaHabitacio("Habitació VIP est", "W.C.VIP est", zones);
