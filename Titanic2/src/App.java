@@ -6,6 +6,8 @@ import Sales.*;
 
 
 public class App {
+    Scanner e = new Scanner(System.in);
+
     public static void main(String[] args) throws Exception {
         App start = new App();
         start.start();
@@ -13,12 +15,29 @@ public class App {
 
     public void start(){
 
-        //Menú del joc
-        System.out.println("*****************************");
-        System.out.println("****   T I T A N   I I   ****");
-        System.out.println("*****************************");
+        int opcio=0;
+        do{
+            //Menú del joc
+            System.out.println("\n");
+            System.out.println("*****************************");
+            System.out.println("****   T I T A N   I I   ****");
+            System.out.println("*****************************");
+            System.out.println("\nOpcions:");
+            System.out.println("1) Jugar \n2) Informació \n3) Sortir");
+            opcio = e.nextInt();
 
+            switch (opcio) {
+                case 1: jugar(); break;
+                case 2: informacio(); break;
+                case 3: break;
+                default: break;
+            }
+        } while(opcio != 3);
+        
+        System.out.println("Gràcies per jugar el joc.");
+    }
 
+    public void jugar(){
         //Crear sala submari
         ubicacions submari = new ubicacions("submari",0,"");
         System.out.println("ubicacions titan creada");
@@ -41,14 +60,27 @@ public class App {
         iniciarJuagabilitat(submari,titanic);
     }
 
+    public void informacio(){
+        System.out.println("*********************************");
+        System.out.println("****   I N F O R M A C I O   ****");
+        System.out.println("*********************************");
+        System.out.println("Per mostrar descripció, caldrà introduir la lletra 'd'.");
+        System.out.println("PEGI 3");
+        System.out.println("COPYRIGHT © 2024 NexoDynamics S.L");
+        System.out.println("\n Escriu 'e' per sortir");
+        String text = e.nextLine();
+        while(!text.equals("e")){
+            text = e.nextLine();
+        }
+    }
+
     public void iniciarJuagabilitat(ubicacions submari, ArrayList<ubicacions> titanic){
 
         jugador jugador = new jugador();
-        Scanner e = new Scanner(System.in);
         int resposta=0;
         boolean fi=false;        
         ubicacions[] habitacionsDisp=null;
-        String rString;
+        String rString="";
         int idSegonaSala;
         int cont;
 
@@ -89,13 +121,30 @@ public class App {
                         System.out.println((i+1) +": Anar a "+habitacionsDisp[i].getNomSala());
                     }
                 }
-                System.out.println((habitacionsDisp.length+1)+": Descripció");
-                rString= e.nextLine();
-                resposta= Integer.parseInt(rString);
-                jugador.moure(habitacionsDisp[resposta-1].getIdHab());
+                
+                if(jugador.getSalaActual()==0){
+                    System.out.println("2: Sortir del joc");
+                }
+                
+                
+                rString= e.next();
+                if(rString.equalsIgnoreCase("d")){
+                    if(jugador.getSalaActual()!=0){
+                        System.out.println(titanic.get(jugador.getSalaActual()-1).getDescripcio());
+                    }else{
+                        System.out.println(submari.getDescripcio());
+                    }
+                }else{
+                    resposta= Integer.parseInt(rString);
+                    if(jugador.getSalaActual()==0 && resposta==2){
+                        fi=true;
+                    }else{
+                        jugador.moure(habitacionsDisp[resposta-1].getIdHab());
+                    } 
+                }   
 
             }catch(Exception err){
-                
+                System.err.println(err);
                 System.out.println("Escriu una opció vàlida");
                 resposta=0;
             }
@@ -293,7 +342,5 @@ public class App {
         } catch (Exception e) {
             System.out.println("Hi ha un nom d'habitació mal escrit");
         }
-        
-
     }
 }

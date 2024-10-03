@@ -31,7 +31,7 @@ public class ubicacions {
 
    //Funció per veure la descripció de l'habitació
    public String getDescripcio(){
-      if(objecteTerre.equals("")){ //En cas de que no hi hagi cap objecte al terre es retornarà la descripció normal
+      if(objecteTerre ==null){ //En cas de que no hi hagi cap objecte al terre es retornarà la descripció normal
          return descripco;
       }else{ //Si hi ha un objecte a terre es retorna la descripció i el nom del objecte del terre
          return descripco+"\nEs pot veure un objecte a terre: "+objecteTerre;
