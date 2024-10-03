@@ -36,15 +36,10 @@ public class App {
     public void iniciarJuagabilitat(ubicacions submari, ArrayList<ubicacions> titanic){
 
         jugador jugador = new jugador();
-
         Scanner e = new Scanner(System.in);
         int resposta=0;
         boolean fi=false;        
-        int contOpcions=0;
-        ubicacions actual=null;
-        porta[] portesInteractuables= null;
         ubicacions[] habitacionsDisp=null;
-        String opcional="";
         String rString;
         int idSegonaSala;
         int cont;
@@ -53,45 +48,14 @@ public class App {
             int idSalaActual=jugador.getSalaActual();
 
             //En cas d'estar en el submari
-            if(idSalaActual==0){
-                //Al ser el submari només tindrà una porta
-                portesInteractuables= new porta[1];
-                
-
+            if(idSalaActual==0){                
                 //Agafant el nom de l'habtiació a la que esta enllaçada
                 habitacionsDisp = new ubicacions[1];
                 habitacionsDisp[0]=titanic.get(0);
 
-                //En cas d'estar a la sala o al submari se li afagira aquest text:
-                // opcional=" del Titainc";
-                // habitacionsDisp[0]+=opcional;
-
             //EN cas de que no estigui en el submari    
             }else{
-                //El maxim de portes que té una habitacio (en aquest cas el passadis) és de 6
 
-                // portesInteractuables= new porta[9];
-                // habitacionsDisp=new ubicacions[9];
-                // ArrayList<porta> portesTitanic = Sales.ubicacions.portes;
-
-                // //Jofre, no entenc perquè l'estem complicant tant les coses T~T
-                // //Per practicar una mica que sino és molt fàcil XD
-                // for (int i = 0; i < portesTitanic.size(); i++) {
-                //     //Veure les portes que tenen relació amb l'habitació en la que estàs
-                //     //checkId Hab retorna el id de l'habitacio que esta al altra costat de la porta, i en cas de no tenir relació amb la porta retorna -1
-                //     if(portesTitanic.get(i).checkIdHab(idSalaActual)!=-1){
-                //         portesInteractuables[contOpcions]=portesTitanic.get(i);
-                //         for (int j = 0; j < titanic.size(); j++) {
-                //             if(titanic.get(j).getIdHab()== portesTitanic.get(i).checkIdHab(idSalaActual) ){
-                //                 habitacionsDisp[contOpcions]=titanic.get(j); 
-                //             }else if(portesTitanic.get(i).checkIdHab(idSalaActual)==0){
-                //                 habitacionsDisp[contOpcions]=submari;
-                //             }
-                //         }
-                //         contOpcions++;
-                //     }
-                // }
-                // contOpcions=0;
                 idSalaActual--;//El id de la sala actual equival al seu id del array -1, per no haber de fer la resta tot el rato es resta aqui
                 if(idSalaActual==0){    //En cas d'estar a la primera sala
                     habitacionsDisp= new ubicacions[titanic.get(idSalaActual).getNumPortes()+1];    //Se li sumarà 1 al array pq el submari tmb ha d'apareixer
