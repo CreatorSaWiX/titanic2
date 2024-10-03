@@ -65,6 +65,7 @@ public class App {
         System.out.println("****   I N F O R M A C I O   ****");
         System.out.println("*********************************");
         System.out.println("Per mostrar descripció, caldrà introduir la lletra 'd'.");
+        System.out.println("Per mostrar inventari, caldrà introduir la lletra 'i'.");
         System.out.println("PEGI 3");
         System.out.println("COPYRIGHT © 2024 NexoDynamics S.L");
         System.out.println("\n Escriu 'e' per sortir");

@@ -30,5 +30,10 @@ public class jugador {
         oxigen=maxOxigen;
     }
 
+    public void actualitzarMaxOxigen(){
+        maxOxigen+=50;
+    }
+
+
 
 }
