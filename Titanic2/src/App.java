@@ -12,6 +12,13 @@ public class App {
     }
 
     public void start(){
+
+        //Menú del joc
+        System.out.println("*****************************");
+        System.out.println("****   T I T A N   I I   ****");
+        System.out.println("*****************************");
+
+
         //Crear sala submari
         ubicacions submari = new ubicacions("submari",0,"");
         System.out.println("ubicacions titan creada");
@@ -30,6 +37,7 @@ public class App {
         System.out.println("Portes titanic creades");
         
         System.out.println("tot creat correctement");
+
         iniciarJuagabilitat(submari,titanic);
     }
 
@@ -81,11 +89,13 @@ public class App {
                         System.out.println((i+1) +": Anar a "+habitacionsDisp[i].getNomSala());
                     }
                 }
+                System.out.println((habitacionsDisp.length+1)+": Descripció");
                 rString= e.nextLine();
                 resposta= Integer.parseInt(rString);
                 jugador.moure(habitacionsDisp[resposta-1].getIdHab());
 
             }catch(Exception err){
+                
                 System.out.println("Escriu una opció vàlida");
                 resposta=0;
             }
@@ -216,10 +226,6 @@ public class App {
         // Crear Sala P2
         salap2 salap2 = new salap2(id);
         titanic.add(salap2);
-
-        for(int i = 0; i < titanic.size(); i++){
-            System.out.println(titanic.get(i).getIdHab()+" "+ titanic.get(i).getNomSala());
-        }
     }
 
 
