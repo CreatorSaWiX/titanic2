@@ -4,7 +4,6 @@ import ObjectesInmobils.porta;
 import Personatges.jugador;
 import Sales.*;
 
-
 public class App {
     Scanner e = new Scanner(System.in);
 
@@ -84,6 +83,9 @@ public class App {
         String rString="";
         int idSegonaSala;
         int cont;
+        ubicacions habitaciAntiga;
+        int idHabAntiga=0;
+        
 
         while (!fi) {
             int idSalaActual=jugador.getSalaActual();
@@ -145,8 +147,24 @@ public class App {
                     if(jugador.getSalaActual()==0 && resposta==2){ //En cas de finalitzar el joc
                         fi=true;
                     }else{
-                        jugador.moure(habitacionsDisp[resposta-1].getIdHab());
-                        if(jugador.getSalaActual()!=0){
+                        idHabAntiga=jugador.getSalaActual();
+                        jugador.moure(habitacionsDisp[resposta-1].getIdHab()); //Moviment
+                       
+                        if(jugador.getSalaActual()!=0){ //En cas de no estar en el submari
+                            // int idHab = jugador.getSalaActual()-1;
+
+                            //titanic.get(idHabAntiga-1).getPortes(); //Codi per obtenir portes
+                            for (porta portaActual :  titanic.get(idHabAntiga-1).getPortes()) { //Anar passant porta per porta de l'habiatció antiga
+                                if(portaActual.checkIdHab(idHabAntiga)==jugador.getSalaActual()){   //Obtenir la porta a la que acaba d'accedir
+                                    if(!portaActual.getObert()){ //En cas de que la porta no estigui oberta
+                                        System.out.println("Aquesta porta no està oberta");
+                                        System.out.println("Tens la clau?");
+                                    }else{
+                                        break;
+                                    }
+                                }
+                            }
+                            
                             jugador.restarOxigen();
                         }else{
                             jugador.canviarOxigen();
@@ -328,8 +346,6 @@ public class App {
         crearPortaHabitacio("Passadis planta 2", "Sala del capità", zones);
     }
 
-    
-
     public void crearPortaHabitacio(String n1, String n2, ArrayList<ubicacions>zones) {
         int id1 = 0;
         int id2 = 0;
@@ -340,7 +356,7 @@ public class App {
                 id1=zones.get(index).getIdHab();
             } else if(n2.equals(zones.get(index).getNomSala())){
                 id2=zones.get(index).getIdHab();
-            }   
+            }  
         }
         
         //Les habitacions tenen com a id la seva posició en el array, només cal obtenir els ids i crear la porta

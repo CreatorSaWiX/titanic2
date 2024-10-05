@@ -1,8 +1,7 @@
 package ObjectesInmobils;
 
 public class porta {
-
-    
+    private boolean obert;
     private int idHab1;     //ID de l'habitació 1
     private int idHab2;     //ID de l'habitació 2
 
@@ -21,8 +20,21 @@ public class porta {
             return -1;  //En cas que no existeix la porta
         }
     }
+
+    public void setObert(boolean obert){
+        this.obert = obert;
+    }
+
+    // Una funció que et retrni les 2 IDS
+    public int getIdHab1(){
+        return this.idHab1;
+    }
+
+    public int getIdHab2(){
+        return this.idHab2;
+    }
+
+    public boolean getObert(){
+        return this.obert;
+    }    
 }
-
-
-
-
