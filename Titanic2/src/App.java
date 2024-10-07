@@ -132,6 +132,8 @@ public class App {
                 
                 //Capturar el que escriu el jugador
                 rString= e.next();
+
+                //Possibles respostes
                 if(rString.equalsIgnoreCase("d")){
                     //Descripció de l'habitació en la que estàs
                     if(jugador.getSalaActual()!=0){
@@ -141,14 +143,17 @@ public class App {
                     }
                 }else if(rString.equalsIgnoreCase("i")){
                     //Inventari
+
                 } else{
                     //Moure entre zones
                     resposta= Integer.parseInt(rString);
-                    if(jugador.getSalaActual()==0 && resposta==2){ //En cas de finalitzar el joc
+                    if(jugador.getSalaActual()==0 && resposta==2){ //En cas d'estar en el submari i finalitzar el joc
                         fi=true;
-                    }else{
+
+                    }else{  //En cas de voler-te moure entre habitacions
+                        //Obtenir el id de la sala en la que estàs 
                         idHabAntiga=jugador.getSalaActual();
-                        jugador.moure(habitacionsDisp[resposta-1].getIdHab()); //Moviment
+                        jugador.moure(habitacionsDisp[resposta-1].getIdHab()); //Canviar d'habitació
                        
                         if(jugador.getSalaActual()!=0){ //En cas de no estar en el submari
                             // int idHab = jugador.getSalaActual()-1;
@@ -158,7 +163,20 @@ public class App {
                                 if(portaActual.checkIdHab(idHabAntiga)==jugador.getSalaActual()){   //Obtenir la porta a la que acaba d'accedir
                                     if(!portaActual.getObert()){ //En cas de que la porta no estigui oberta
                                         System.out.println("Aquesta porta no està oberta");
-                                        System.out.println("Tens la clau?");
+                                        System.out.println("Vols desbloquejar la porta? (s/n)");
+                                        rString=e.next().toLowerCase();
+                                        if(rString.charAt(0)=='s'){
+                                            //Aqui s'hauria de comprobar si el jugador té la clau de la prota
+
+                                            //Aixó es fa en cas de tenir la clau
+                                            System.out.println("Desbloqueges la porta i segueixes endavant");
+                                            portaActual.setObert(true);
+                                            break;
+                                        }else{
+                                            System.out.println("Et quedes en la mateixa habitació");
+                                            jugador.moure(idHabAntiga);
+                                            break;
+                                        }
                                     }else{
                                         break;
                                     }

@@ -1,9 +1,15 @@
 package Personatges;
+
+import java.util.ArrayList;
+
+import Objectes.clau;
+
 public class jugador {
     private int idHabActual;
     private int oxigen;
     private int gana;
     private int maxOxigen=100;
+    private ArrayList<clau> clauer=new ArrayList<>();
     
     public jugador(){
         idHabActual = 0;
@@ -34,6 +40,16 @@ public class jugador {
         maxOxigen+=50;
     }
 
+    public void afegirClau(clau novaClau){
+        clauer.add(novaClau);
+    }
 
+    public ArrayList<clau> getClauer(){
+        return clauer;
+    }
+
+    public void utilitzarClau(clau clauUtilitzada){
+        clauer.remove(clauUtilitzada);
+    }
 
 }
