@@ -3,6 +3,7 @@ package Personatges;
 import java.util.ArrayList;
 
 import Objectes.clau;
+import Objectes.objectesMobils;
 
 public class jugador {
     private int idHabActual;
@@ -10,6 +11,8 @@ public class jugador {
     private int gana;
     private int maxOxigen=100;
     private ArrayList<clau> clauer=new ArrayList<>();
+    private objectesMobils [] inventari = new objectesMobils[3] ;
+    
     
     public jugador(){
         idHabActual = 0;

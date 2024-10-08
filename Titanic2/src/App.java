@@ -155,7 +155,7 @@ public class App {
                         idHabAntiga=jugador.getSalaActual();
                         jugador.moure(habitacionsDisp[resposta-1].getIdHab()); //Canviar d'habitació
                        
-                        if(jugador.getSalaActual()!=0){ //En cas de no estar en el submari
+                        if(idHabAntiga!=0){ //En cas de no estar en el submari
                             // int idHab = jugador.getSalaActual()-1;
 
                             //titanic.get(idHabAntiga-1).getPortes(); //Codi per obtenir portes
@@ -167,7 +167,7 @@ public class App {
                                         rString=e.next().toLowerCase();
                                         if(rString.charAt(0)=='s'){
                                             //Aqui s'hauria de comprobar si el jugador té la clau de la prota
-
+                                            
                                             //Aixó es fa en cas de tenir la clau
                                             System.out.println("Desbloqueges la porta i segueixes endavant");
                                             portaActual.setObert(true);
@@ -389,4 +389,15 @@ public class App {
             System.out.println("Hi ha un nom d'habitació mal escrit");
         }
     }
+
+    //Afegir mobles a habitacions
+    public void crarMobles(ArrayList<ubicacions> zones){
+        
+    }
+
+    public void trobarIdAmbNom(ArrayList<ubicacions> zones){
+        
+    }
+
+    
 }

@@ -1,7 +1,6 @@
 package Objectes;
 
 import java.util.ArrayList;
-
 import Sales.ubicacions;
 import ObjectesInmobils.porta;
 
