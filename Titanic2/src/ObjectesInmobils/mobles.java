@@ -44,6 +44,8 @@ public class mobles {
    return null;
   }
  }
-
+ public String getNom(){
+  return nom;
+ }
  
 }

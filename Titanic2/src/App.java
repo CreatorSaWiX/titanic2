@@ -1,8 +1,12 @@
 import java.util.Scanner;
+
+import Objectes.objectesMobils;
+
 import java.util.ArrayList;
-import ObjectesInmobils.porta;
 import Personatges.jugador;
 import Sales.*;
+import ObjectesInmobils.*;
+
 
 public class App {
     Scanner e = new Scanner(System.in);
@@ -38,7 +42,7 @@ public class App {
 
     public void jugar(){
         //Crear sala submari
-        ubicacions submari = new ubicacions("submari",0,"");
+        ubicacions submari = new ubicacions("submari",0,"Estàs en el submarí OpenGate - TITAN II. No s'ha detectat cap perill.");
         System.out.println("ubicacions titan creada");
 
         //Crear les sales del titanic
@@ -54,6 +58,8 @@ public class App {
         crearPortesTitanic(portaSubmari, titanic);
         System.out.println("Portes titanic creades");
         
+        crearObjectessTitanic(titanic);
+        System.out.println("Objectes creades amb èxit");
         System.out.println("tot creat correctement");
 
         iniciarJuagabilitat(submari,titanic);
@@ -80,7 +86,7 @@ public class App {
         int resposta=0;
         boolean fi=false;        
         ubicacions[] habitacionsDisp=null;
-        String rString="";
+        String text, rString="";
         int idSegonaSala;
         int cont;
         ubicacions habitaciAntiga;
@@ -136,12 +142,21 @@ public class App {
                 //Possibles respostes
                 if(rString.equalsIgnoreCase("d")){
                     //Descripció de l'habitació en la que estàs
+                    text = "";
+                    objectesMobils objectes = submari.getObjecte();
                     if(jugador.getSalaActual()!=0){
                         System.out.println(titanic.get(jugador.getSalaActual()-1).getDescripcio());
                     }else{
                         System.out.println(submari.getDescripcio());
                     }
-                }else if(rString.equalsIgnoreCase("i")){
+                    
+                    System.out.println("\n Escriu 'e' per sortir");
+                    while(!text.equalsIgnoreCase("e")){
+                        text = e.next();
+                    }
+                    
+                    
+                } else if(rString.equalsIgnoreCase("i")){
                     //Inventari
 
                 } else{
@@ -392,12 +407,52 @@ public class App {
 
     //Afegir mobles a habitacions
     public void crarMobles(ArrayList<ubicacions> zones){
-        
+        String nomMobles[] = {"hola"};
+        afegirMobles(zones,"Teatre", nomMobles );
+
     }
 
-    public void trobarIdAmbNom(ArrayList<ubicacions> zones){
-        
+    public void afegirMobles(ArrayList<ubicacions>zones, String nom, String [] nomMobles){
+        //Aconseguir el ID de l'habitació a partir del nom
+        mobles moble = null;
+        int id=-1;
+        for (ubicacions sala : zones) {
+            if(nom.equals(sala.getNomSala())){
+                id=sala.getIdHab();
+            }
+        }
+        if(id!=-1){
+            zones.get(id-1).assignarNumMobles(nomMobles.length);
+            for(int i=0;i<nomMobles.length;i++){
+                switch (nomMobles[i]) {
+                    case "taula":
+                        moble= new taula();
+                        break;
+                    case "llit":
+                        moble= new llit();
+                        break;
+                    case "armari":
+                        moble= new armari();
+                        break;
+                    default:
+                        System.out.println("El moble "+nomMobles[i]+" no existeix");
+                        break;   
+                }
+                if(moble != null){
+                    zones.get(id-1).afegirMoble(moble,i);
+                } 
+            }
+        }else{
+            System.out.println("El nom d'aquesta habitació no existeix");
+        }
     }
 
-    
+    private void crearObjectessTitanic(ArrayList<ubicacions> titanic){
+        //Objectes que han d'estar guardats a l'habitació.
+        
+        objectesMobils obj = new objectesMobils(null);  //No acabat
+        for(int i = 0; i < titanic.size(); i++){
+            titanic.get(i).setObjecte(obj);
+        }
+    }
 }
