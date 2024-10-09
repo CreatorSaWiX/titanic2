@@ -8,8 +8,9 @@ import Objectes.objectesMobils;
 public class jugador {
     private int idHabActual;
     private int oxigen;
-    private int gana;
+    private int gana = 10;
     private int maxOxigen=100;
+
     private ArrayList<clau> clauer=new ArrayList<>();
     private objectesMobils [] inventari = new objectesMobils[3] ;
     
@@ -29,6 +30,10 @@ public class jugador {
 
     public void moure(int id){
         idHabActual=id;
+    }
+
+    public void setOxigen(int quantitat){
+        this.oxigen = quantitat;
     }
 
     public void restarOxigen(){
@@ -55,4 +60,13 @@ public class jugador {
         clauer.remove(clauUtilitzada);
     }
 
+    public void setGana(){
+        this.gana--;
+        if(this.gana == 0){
+            this.oxigen = oxigen/2;
+            if(oxigen%2==0){
+                oxigen-=5;
+            }
+        }
+    }
 }

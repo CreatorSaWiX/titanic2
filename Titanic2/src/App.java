@@ -412,57 +412,58 @@ public class App {
 
     //Afegir mobles a habitacions
     public void crarMobles(ArrayList<ubicacions> zones){
-        String[] SP0 = {"taula","sofa"};
-        String[] MJD = {"taula","sofa"};
-        String[] CNA = {"taula","sofa"};
-        String[] SDM = {"taula","sofa"};
-        String[] EES = {"taula","sofa"};
-        String[] EOS = {"taula","sofa"};
-        String[] PE = {"taula","sofa"};
-        String[] PO = {"taula","sofa"};
-        String[] PN = {"taula","sofa"};
-        String[] HNE = {"taula","sofa"};
-
-        String[] HNN1 = {"taula","sofa"};
-        
-        String[] HNN2 = {"taula","sofa"};
-        String[] HNO = {"taula","sofa"};
-
-        String[] HC = {"taula","sofa"};
-        String[] NO = {"taula","sofa"};
-        String[] NE = {"taula","sofa"};
-        String[] EE2 = {"taula","sofa"};
-        String[] EO2 = {"taula","sofa"};
-        String[] WCE = {"taula","sofa"};
-        String[] WCO = {"taula","sofa"};
-        String[] HVE = {"taula","sofa"};
-        String[] HVO = {"taula","sofa"};
-        String[] WCVO = {"taula","sofa"};
-        String[] WCVE = {"taula","sofa"};
-        String[] SP2 = {"taula","sofa"};
-        String[] SDC = {"taula","sofa"};
-        String[] PP2 = {"taula","sofa"};
-        String[] CAP = {"taula","sofa"};
-        String[] BIB = {"taula","sofa"};
-        String[] TEA = {"taula","sofa"};
+        String[] SP0 = {"taula","sofa"};    //Sala principi
+        String[] MJD = {"taula","taula","taula","taula","taula"};    //Sala menjador
+        String[] CNA = {"nevera","taula"};  //Cuina
+        // String[] SDM = {"taula","sofa"};    //Sala de maquines
+        // String[] EES = {"taula","sofa"};    //Escales Est
+        // String[] EOS = {"taula","sofa"};    //Escales oest
+        // String[] PE = {"taula","sofa"};     //Passadis Est
+        // String[] PO = {"taula","sofa"};     //Passadis Oest
+        // String[] PN = {"taula","sofa"};     //Passadis Nord
+        // String[] HNE = {"taula","llit","armari"};    //Habitacion Normal Est
+        // String[] HNN = {"taula","sofa"};    //Habitacio Normal Nord
+        String[] HN = {"llit","armari","escriptori"};    //Habitacio Normal 
+        String[] HC = {"llit","sofa","escriptori","armari","taula"};     //Habitacio capita
+        String[] NO = {"armari"};     //Neteja Oest
+        String[] NE = {"armari"};     //Neteja Est
+        // String[] EE2 = {"taula","sofa"};    //Escales est 2
+        // String[] EO2 = {"taula","sofa"};    //Escales Oest 2
+        String[] WCE = {"bater","dutxa","bater","dutxa"};    //WC Est
+        String[] WCO = {"bater","dutxa","bater","dutxa"};    //WC Oest
+        String[] HVE = {"taula","sofa","llit","armari","escriptori"};    //Habitació vip Est
+        String[] HVO = {"taula","sofa","llit","armari","escriptori"};    //Habitació Vip Oest
+        String[] WCVO = {"bater","baynera"};   //WC Habitacio Vip Oest
+        String[] WCVE = {"bater","banyera"};   //WC Habitacio Vip Est
+        String[] SP2 = {"taula","sofa"};    //Sala P2
+        String[] SDC = {"taula","sofa"};    //Sala del Capita
+        // String[] PP2 = {"taula","sofa"};    //Passadis P2
+        String[] CAP = {"taula","sofa"};    //Capella
+        String[] BIB = {"taula","sofa"};    //Biblioteca
+        String[] TEA = {"taula","sofa"};    //Teatre
 
         afegirMobles(zones,"Sala planta 0", SP0 );
         afegirMobles(zones,"Menjador", MJD );
         afegirMobles(zones,"Cuina", CNA );
-        afegirMobles(zones,"Sala de motor", SDM );
-        afegirMobles(zones,"Escala est - sala", EES );
-        afegirMobles(zones,"Escala oest - sala", EOS );
-        afegirMobles(zones,"Passadis est", PE );
-        afegirMobles(zones,"Passadis nord", PN );
-        afegirMobles(zones,"Passadis oest", PO );
-        afegirMobles(zones,"Habitació normal est", HNE );
-        afegirMobles(zones,"Habitació normal oest", HNO );
-        afegirMobles(zones,"Habitació normal nord", HNN1 );
+        // afegirMobles(zones,"Sala de motor", SDM );
+        // afegirMobles(zones,"Escala est - sala", EES );
+        // afegirMobles(zones,"Escala oest - sala", EOS );
+        // afegirMobles(zones,"Passadis est", PE );
+        // afegirMobles(zones,"Passadis nord", PN );
+        // afegirMobles(zones,"Passadis oest", PO );
+        afegirMobles(zones,"Habitació normal est (101)", HN );
+        afegirMobles(zones,"Habitació normal est (102)", HN );
+        afegirMobles(zones,"Habitació normal est (103)", HN );
+        afegirMobles(zones,"Habitació normal oest (104)", HN );
+        afegirMobles(zones,"Habitació normal oest (105)", HN );
+        afegirMobles(zones,"Habitació normal oest (106)", HN );
+        afegirMobles(zones,"Habitació normal nord (107)", HN );
+        afegirMobles(zones,"Habitació normal nord (108)", HN );
         afegirMobles(zones,"Habitació Capità", HC );
         afegirMobles(zones,"Neteja est", NE );
         afegirMobles(zones,"Neteja oest", NO );
-        afegirMobles(zones,"Escala oest - planta 2", EO2 );
-        afegirMobles(zones,"Escala est - planta 2", EE2 );
+        // afegirMobles(zones,"Escala oest - planta 2", EO2 );
+        // afegirMobles(zones,"Escala est - planta 2", EE2 );
         afegirMobles(zones,"W.C.est", WCE );
         afegirMobles(zones,"W.C.oest", WCO );
         afegirMobles(zones,"Habitació VIP est", HVE );
@@ -471,7 +472,7 @@ public class App {
         afegirMobles(zones,"W.C.VIP oest", WCVO );
         afegirMobles(zones,"Sala planta 2", SP2 );
         afegirMobles(zones,"Sala del capità", SDC );
-        afegirMobles(zones,"Passadis planta 2", PP2 );
+        // afegirMobles(zones,"Passadis planta 2", PP2 );
         afegirMobles(zones,"Capella", CAP );
         afegirMobles(zones,"Biblioteca", BIB );
         afegirMobles(zones,"Teatre", TEA );
@@ -492,42 +493,44 @@ public class App {
             for(int i=0;i<nomMobles.length;i++){
                 switch (nomMobles[i]) {
                     case "taula": moble= new taula(); break;
-                    case "llit":
-                        moble= new llit();
-                        break;
-                    case "armari":
-                        moble= new armari();
-                        break;
-                    case "sofa":
-                        moble= new sofa();
-                        break;
-                    default:
-                        System.out.println("El moble "+nomMobles[i]+" no existeix");
-                        break;   
+                    case "llit": moble= new llit(); break;
+                    case "armari": moble= new armari(); break;
+                    case "sofa": moble= new sofa(); break;
+                    case "nevera": moble= new nevera(); break;
+                    case "escriptori": moble= new escriptori(); break;
+                    case "bater": moble= new bater(); break;
+                    case "dutxa": moble= new dutxa(); break;
+                    case "banyera": moble= new banyera(); break;
+                    default: System.out.println("El moble " + nomMobles[i] + " no existeix"); break;   
                 }
                 if(moble != null){
                     zones.get(id-1).afegirMoble(moble,i);
                 } 
             }
         }else{
-            System.out.println("El nom d'aquesta habitació no existeix");
+            System.out.println("El nom de l'habitació"+ nom +" no existeix");
         }
     }
 
     private void crearObjectesTitanic(ArrayList<ubicacions> titanic){
         //Objectes que han d'estar guardats a l'habitació.
-        crearObjecte(titanic,"Sala planta 0", "pala" );
-        crearObjecte(titanic,"Menjador", "" );
-        crearObjecte(titanic,"Cuina", "clau" );
-        crearObjecte(titanic,"Sala de motor", "" );
+        crearObjecte(titanic,"Sala planta 0", "clau" );
+        crearObjecte(titanic,"Menjador", "menjarTauro" );
+        crearObjecte(titanic,"Cuina", "ganivet" );
+        crearObjecte(titanic,"Sala de motor", "tancaOxigen" );    //Tanca d'oxigen
         crearObjecte(titanic,"Escala est - sala", "" );
-        crearObjecte(titanic,"Escala oest - sala", "" );
-        crearObjecte(titanic,"Passadis est", "" );
+        crearObjecte(titanic,"Escala oest - sala", "clau" );
+        crearObjecte(titanic,"Passadis est", "clau" );
         crearObjecte(titanic,"Passadis nord", "" );
         crearObjecte(titanic,"Passadis oest", "" );
-        crearObjecte(titanic,"Habitació normal est", "" );
-        crearObjecte(titanic,"Habitació normal oest", "" );
-        crearObjecte(titanic,"Habitació normal nord", "" );
+        crearObjecte(titanic,"Habitació normal est (101)", "clau", "armari" );  //mirar
+        crearObjecte(titanic,"Habitació normal est (102)", "" );
+        crearObjecte(titanic,"Habitació normal est (103)", "" );
+        crearObjecte(titanic,"Habitació normal oest (104)", "" );
+        crearObjecte(titanic,"Habitació normal oest (105)", "" );
+        crearObjecte(titanic,"Habitació normal oest (106)", "" );
+        crearObjecte(titanic,"Habitació normal nord (107)", "" );
+        crearObjecte(titanic,"Habitació normal nord (108)", "" );
         crearObjecte(titanic,"Habitació Capità", "" );
         crearObjecte(titanic,"Neteja est", "" );
         crearObjecte(titanic,"Neteja oest", "" );
@@ -563,7 +566,6 @@ public class App {
                 break;
             }
         }
-
     }
 
     private void crearObjecte(ArrayList<ubicacions>zones, String nomHabitacio, String nomObjecte, String nomMoble){
