@@ -1,5 +1,9 @@
 import java.util.Scanner;
 
+import Objectes.clau;
+import Objectes.llanterna;
+import Objectes.menjarTauro;
+import Objectes.motxilla;
 import Objectes.objectesMobils;
 
 import java.util.ArrayList;
@@ -58,7 +62,8 @@ public class App {
         crearPortesTitanic(portaSubmari, titanic);
         System.out.println("Portes titanic creades");
         
-        crearObjectessTitanic(titanic);
+        //Crear objectes en les habitacions
+        crearObjectesTitanic(titanic);
         System.out.println("Objectes creades amb èxit");
         System.out.println("tot creat correctement");
 
@@ -116,7 +121,7 @@ public class App {
                 cont=0;//COntador per indicar la posició de la habitació en l'array
                 for (porta portaActual : titanic.get(idSalaActual).getPortes()) { //Obtenir les portes de l'habitació
                     idSegonaSala=portaActual.checkIdHab(idSalaActual+1);    //Obtenir el id de l'altra habitació (se li suma 1 al id x tornar a tenir el id de l'habitació)
-                    habitacionsDisp[cont]=titanic.get(idSegonaSala-1);    //Obtenir la segona habitació (Se li resta 1 pq la posició de l'habitació en l'array equival al id -1)
+                    habitacionsDisp[cont]=titanic.get(idSegonaSala);    //Obtenir la segona habitació (Se li resta 1 pq la posició de l'habitació en l'array equival al id -1)
                     cont++;
                 }
                 
@@ -269,11 +274,11 @@ public class App {
         // Crear Habitacions Normals
         for (int i = 0; i <= 7; i++) {
             if (i < 3) {    // 3 habitacions a est
-                adicio = " est";
+                adicio = " est (10" + (i+1) + ")";
             } else if (i < 6) {     // 3 habitacions a oest
-                adicio = " oest";
+                adicio = " oest (10" + (i+1) + ")";
             } else {    // 2 habitacions nord
-                adicio = " nord";
+                adicio = " nord (10" + (i+1) + ")";
             }
             habitacioN habitacioNormal = new habitacioN(adicio, id);
             titanic.add(habitacioNormal);
@@ -351,14 +356,14 @@ public class App {
         crearPortaHabitacio("Escala oest - sala", "Passadis oest", zones);
         crearPortaHabitacio("Passadis oest", "Passadis nord", zones);
         crearPortaHabitacio("Passadis est", "Passadis nord", zones);
-        crearPortaHabitacio("Passadis est", "Habitació normal est", zones);
-        crearPortaHabitacio("Passadis est", "Habitació normal est", zones);
-        crearPortaHabitacio("Passadis est", "Habitació normal est", zones);
-        crearPortaHabitacio("Passadis oest", "Habitació normal oest", zones);
-        crearPortaHabitacio("Passadis oest", "Habitació normal oest", zones);
-        crearPortaHabitacio("Passadis oest", "Habitació normal oest", zones);
-        crearPortaHabitacio("Passadis nord", "Habitació normal nord", zones);
-        crearPortaHabitacio("Passadis nord", "Habitació normal nord", zones);
+        crearPortaHabitacio("Passadis est", "Habitació normal est (101)", zones);
+        crearPortaHabitacio("Passadis est", "Habitació normal est (102)", zones);
+        crearPortaHabitacio("Passadis est", "Habitació normal est (103)", zones);
+        crearPortaHabitacio("Passadis oest", "Habitació normal oest (104)", zones);
+        crearPortaHabitacio("Passadis oest", "Habitació normal oest (105)", zones);
+        crearPortaHabitacio("Passadis oest", "Habitació normal oest (106)", zones);
+        crearPortaHabitacio("Passadis nord", "Habitació normal nord (107)", zones);
+        crearPortaHabitacio("Passadis nord", "Habitació normal nord (108)", zones);
         crearPortaHabitacio("Passadis nord", "Habitació Capità", zones);
         crearPortaHabitacio("Passadis est", "Neteja est", zones);
         crearPortaHabitacio("Passadis est", "W.C.est", zones);
@@ -407,15 +412,76 @@ public class App {
 
     //Afegir mobles a habitacions
     public void crarMobles(ArrayList<ubicacions> zones){
-        String nomMobles[] = {"hola"};
-        afegirMobles(zones,"Teatre", nomMobles );
+        String[] SP0 = {"taula","sofa"};
+        String[] MJD = {"taula","sofa"};
+        String[] CNA = {"taula","sofa"};
+        String[] SDM = {"taula","sofa"};
+        String[] EES = {"taula","sofa"};
+        String[] EOS = {"taula","sofa"};
+        String[] PE = {"taula","sofa"};
+        String[] PO = {"taula","sofa"};
+        String[] PN = {"taula","sofa"};
+        String[] HNE = {"taula","sofa"};
 
+        String[] HNN1 = {"taula","sofa"};
+        
+        String[] HNN2 = {"taula","sofa"};
+        String[] HNO = {"taula","sofa"};
+
+        String[] HC = {"taula","sofa"};
+        String[] NO = {"taula","sofa"};
+        String[] NE = {"taula","sofa"};
+        String[] EE2 = {"taula","sofa"};
+        String[] EO2 = {"taula","sofa"};
+        String[] WCE = {"taula","sofa"};
+        String[] WCO = {"taula","sofa"};
+        String[] HVE = {"taula","sofa"};
+        String[] HVO = {"taula","sofa"};
+        String[] WCVO = {"taula","sofa"};
+        String[] WCVE = {"taula","sofa"};
+        String[] SP2 = {"taula","sofa"};
+        String[] SDC = {"taula","sofa"};
+        String[] PP2 = {"taula","sofa"};
+        String[] CAP = {"taula","sofa"};
+        String[] BIB = {"taula","sofa"};
+        String[] TEA = {"taula","sofa"};
+
+        afegirMobles(zones,"Sala planta 0", SP0 );
+        afegirMobles(zones,"Menjador", MJD );
+        afegirMobles(zones,"Cuina", CNA );
+        afegirMobles(zones,"Sala de motor", SDM );
+        afegirMobles(zones,"Escala est - sala", EES );
+        afegirMobles(zones,"Escala oest - sala", EOS );
+        afegirMobles(zones,"Passadis est", PE );
+        afegirMobles(zones,"Passadis nord", PN );
+        afegirMobles(zones,"Passadis oest", PO );
+        afegirMobles(zones,"Habitació normal est", HNE );
+        afegirMobles(zones,"Habitació normal oest", HNO );
+        afegirMobles(zones,"Habitació normal nord", HNN1 );
+        afegirMobles(zones,"Habitació Capità", HC );
+        afegirMobles(zones,"Neteja est", NE );
+        afegirMobles(zones,"Neteja oest", NO );
+        afegirMobles(zones,"Escala oest - planta 2", EO2 );
+        afegirMobles(zones,"Escala est - planta 2", EE2 );
+        afegirMobles(zones,"W.C.est", WCE );
+        afegirMobles(zones,"W.C.oest", WCO );
+        afegirMobles(zones,"Habitació VIP est", HVE );
+        afegirMobles(zones,"Habitació VIP oest", HVO );
+        afegirMobles(zones,"W.C.VIP est", WCVE );
+        afegirMobles(zones,"W.C.VIP oest", WCVO );
+        afegirMobles(zones,"Sala planta 2", SP2 );
+        afegirMobles(zones,"Sala del capità", SDC );
+        afegirMobles(zones,"Passadis planta 2", PP2 );
+        afegirMobles(zones,"Capella", CAP );
+        afegirMobles(zones,"Biblioteca", BIB );
+        afegirMobles(zones,"Teatre", TEA );
     }
 
     public void afegirMobles(ArrayList<ubicacions>zones, String nom, String [] nomMobles){
         //Aconseguir el ID de l'habitació a partir del nom
         mobles moble = null;
         int id=-1;
+
         for (ubicacions sala : zones) {
             if(nom.equals(sala.getNomSala())){
                 id=sala.getIdHab();
@@ -425,14 +491,15 @@ public class App {
             zones.get(id-1).assignarNumMobles(nomMobles.length);
             for(int i=0;i<nomMobles.length;i++){
                 switch (nomMobles[i]) {
-                    case "taula":
-                        moble= new taula();
-                        break;
+                    case "taula": moble= new taula(); break;
                     case "llit":
                         moble= new llit();
                         break;
                     case "armari":
                         moble= new armari();
+                        break;
+                    case "sofa":
+                        moble= new sofa();
                         break;
                     default:
                         System.out.println("El moble "+nomMobles[i]+" no existeix");
@@ -447,12 +514,65 @@ public class App {
         }
     }
 
-    private void crearObjectessTitanic(ArrayList<ubicacions> titanic){
+    private void crearObjectesTitanic(ArrayList<ubicacions> titanic){
         //Objectes que han d'estar guardats a l'habitació.
-        
-        objectesMobils obj = new objectesMobils(null);  //No acabat
-        for(int i = 0; i < titanic.size(); i++){
-            titanic.get(i).setObjecte(obj);
+        crearObjecte(titanic,"Sala planta 0", "pala" );
+        crearObjecte(titanic,"Menjador", "" );
+        crearObjecte(titanic,"Cuina", "clau" );
+        crearObjecte(titanic,"Sala de motor", "" );
+        crearObjecte(titanic,"Escala est - sala", "" );
+        crearObjecte(titanic,"Escala oest - sala", "" );
+        crearObjecte(titanic,"Passadis est", "" );
+        crearObjecte(titanic,"Passadis nord", "" );
+        crearObjecte(titanic,"Passadis oest", "" );
+        crearObjecte(titanic,"Habitació normal est", "" );
+        crearObjecte(titanic,"Habitació normal oest", "" );
+        crearObjecte(titanic,"Habitació normal nord", "" );
+        crearObjecte(titanic,"Habitació Capità", "" );
+        crearObjecte(titanic,"Neteja est", "" );
+        crearObjecte(titanic,"Neteja oest", "" );
+        crearObjecte(titanic,"Escala oest - planta 2", "" );
+        crearObjecte(titanic,"Escala est - planta 2", "" );
+        crearObjecte(titanic,"W.C.est", "" );
+        crearObjecte(titanic,"W.C.oest", "" );
+        crearObjecte(titanic,"Habitació VIP est", "" );
+        crearObjecte(titanic,"Habitació VIP oest", "" );
+        crearObjecte(titanic,"W.C.VIP est", "" );
+        crearObjecte(titanic,"W.C.VIP oest", "" );
+        crearObjecte(titanic,"Sala planta 2", "" );
+        crearObjecte(titanic,"Sala del capità", "" );
+        crearObjecte(titanic,"Passadis planta 2", "" );
+        crearObjecte(titanic,"Capella", "" );
+        crearObjecte(titanic,"Biblioteca", "" );
+        crearObjecte(titanic,"Teatre", "" );
+
+    }
+
+    private void crearObjecte(ArrayList<ubicacions>zones, String nomHabitacio, String nomObjecte){
+        objectesMobils objecte = null;
+        for (ubicacions sala : zones) {
+            if(nomHabitacio.equals(sala.getNomSala())){
+                switch (nomObjecte) {
+                    case "clau": objecte = new clau(); break;
+                    case "llanterna": objecte = new llanterna(); break;
+                    case "menjarTauro": objecte = new menjarTauro(); break;
+                    case "motxilla": objecte = new motxilla(); break;
+                    default:System.out.println("Hi hagut un error intern (Procediment crearObjecte)");break;
+                }
+                sala.setObjecte(objecte);
+                break;
+            }
         }
+
+    }
+
+    private void crearObjecte(ArrayList<ubicacions>zones, String nomHabitacio, String nomObjecte, String nomMoble){
+        objectesMobils objecte = null;
+        for (ubicacions sala : zones) {
+            if(nomHabitacio.equals(sala.getNomSala())){
+                //En cas que hi hagi algun objecte dins del moble.
+            }
+        }
+
     }
 }

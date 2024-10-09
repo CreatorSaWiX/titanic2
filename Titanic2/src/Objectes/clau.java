@@ -7,7 +7,8 @@ import ObjectesInmobils.porta;
 public class clau extends objectesMobils {
     int idHab1;
     int idHab2;
-    public clau(String nom){
+    
+    public clau(){
         super("Clau");
     }
 
