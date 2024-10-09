@@ -561,7 +561,8 @@ public class App {
         crearObjecte(titanic,"Passadis est", "clau",null,"Habitació normal est (101)" );
         crearObjecte(titanic,"Passadis nord", "",null,null );
         crearObjecte(titanic,"Passadis oest", "",null,null );
-        crearObjecte(titanic,"Habitació normal est (101)", "clau", "armari",null );  //mirar
+        crearObjecte(titanic,"Habitació normal est (101)", "clau", "armari","Habitació normal nord (107)" );  //mirar
+        //TODO Falten posar objectes, i que puguin interectuar amb jugador i inventari.
         crearObjecte(titanic,"Habitació normal est (102)", "",null,null );
         crearObjecte(titanic,"Habitació normal est (103)", "",null,null );
         crearObjecte(titanic,"Habitació normal oest (104)", "",null,null );
