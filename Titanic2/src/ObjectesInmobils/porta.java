@@ -1,13 +1,19 @@
 package ObjectesInmobils;
 
 public class porta {
-    private boolean obert;
+    private boolean obert=true;
     private int idHab1;     //ID de l'habitació 1
     private int idHab2;     //ID de l'habitació 2
 
     public porta( int idHab1, int idHab2){
         this.idHab1=idHab1;
         this.idHab2=idHab2;
+    }
+
+    public porta( int idHab1, int idHab2, boolean obert){
+        this.idHab1=idHab1;
+        this.idHab2=idHab2;
+        this.obert=obert;
     }
  
     public int checkIdHab(int id){

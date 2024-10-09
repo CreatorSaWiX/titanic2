@@ -30,16 +30,17 @@ public class App {
             System.out.println("****   T I T A N   I I   ****");
             System.out.println("*****************************");
             System.out.println("\nOpcions:");
-            System.out.println("1) Jugar \n2) Informació \n3) Sortir");
+            System.out.println("1) Jugar \n2) Informació \n3) Termes i condicions \n4) Sortir");
             opcio = e.nextInt();
 
             switch (opcio) {
                 case 1: jugar(); break;
-                case 2: informacio(); break;
-                case 3: break;
+                case 2: tecles(); break;
+                case 3: termesCondicions(); break;
+                case 4: break;
                 default: break;
             }
-        } while(opcio != 3);
+        } while(opcio != 4);
         
         System.out.println("Gràcies per jugar el joc.");
     }
@@ -70,13 +71,13 @@ public class App {
         iniciarJuagabilitat(submari,titanic);
     }
 
-    public void informacio(){
+    public void tecles(){
         System.out.println("*********************************");
         System.out.println("****   I N F O R M A C I O   ****");
         System.out.println("*********************************");
         System.out.println("Per mostrar descripció, caldrà introduir la lletra 'd'.");
         System.out.println("Per mostrar inventari, caldrà introduir la lletra 'i'.");
-        System.out.println("PEGI 3");
+        System.out.println("PEGI 3                  (hi ha una tanca d'oxigen al titan i el pots agafar escribint 't')");
         System.out.println("COPYRIGHT © 2024 NexoDynamics S.L");
         System.out.println("\n Escriu 'e' per sortir");
         String text = e.nextLine();
@@ -97,6 +98,9 @@ public class App {
         ubicacions habitaciAntiga;
         int idHabAntiga=0;
         
+        /* * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+         * COMENÇA EL JOC
+         * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
         while (!fi) {
             int idSalaActual=jugador.getSalaActual();
@@ -345,10 +349,9 @@ public class App {
         titanic.add(salap2);
     }
 
-
     public void crearPortesTitanic(porta porta, ArrayList<ubicacions> zones){
         crearPortaHabitacio("Sala planta 0", "Menjador", zones);
-        crearPortaHabitacio("Menjador", "Cuina", zones);
+        crearPortaHabitacio("Menjador", "Cuina", zones,true);
         crearPortaHabitacio("Sala planta 0", "Sala de motors", zones);
         crearPortaHabitacio("Sala planta 0", "Escala est - sala", zones);
         crearPortaHabitacio("Sala planta 0", "Escala oest - sala", zones);
@@ -435,12 +438,12 @@ public class App {
         String[] HVO = {"taula","sofa","llit","armari","escriptori"};    //Habitació Vip Oest
         String[] WCVO = {"bater","baynera"};   //WC Habitacio Vip Oest
         String[] WCVE = {"bater","banyera"};   //WC Habitacio Vip Est
-        String[] SP2 = {"taula","sofa"};    //Sala P2
-        String[] SDC = {"taula","sofa"};    //Sala del Capita
+        String[] SP2 = {"taula","taula","taula","cafeteria"};    //Sala P2 
+        String[] SDC = {"taula","sofa"};    //Sala del Capita   TODO
         // String[] PP2 = {"taula","sofa"};    //Passadis P2
-        String[] CAP = {"taula","sofa"};    //Capella
-        String[] BIB = {"taula","sofa"};    //Biblioteca
-        String[] TEA = {"taula","sofa"};    //Teatre
+        String[] CAP = {"taula","sofa"};    //Capella           TODO
+        String[] BIB = {"escriptori","escriptori","sofa"};    //Biblioteca
+        String[] TEA = {"taula","sofa"};    //Teatre            TODO
 
         afegirMobles(zones,"Sala planta 0", SP0 );
         afegirMobles(zones,"Menjador", MJD );
@@ -517,7 +520,7 @@ public class App {
         crearObjecte(titanic,"Sala planta 0", "clau" );
         crearObjecte(titanic,"Menjador", "menjarTauro" );
         crearObjecte(titanic,"Cuina", "ganivet" );
-        crearObjecte(titanic,"Sala de motor", "tancaOxigen" );    //Tanca d'oxigen
+        crearObjecte(titanic,"Sala de motor", "" );    //Tanca d'oxigen
         crearObjecte(titanic,"Escala est - sala", "" );
         crearObjecte(titanic,"Escala oest - sala", "clau" );
         crearObjecte(titanic,"Passadis est", "clau" );
@@ -576,5 +579,44 @@ public class App {
             }
         }
 
+    }
+
+    public void termesCondicions(){
+        System.out.println("********************************************");
+        System.out.println("**       Termes i Condicions de TITAN II  **");
+        System.out.println("********************************************");
+        System.out.println("Copyright © 2024 NexoDynamics S.L. Tots els drets reservats.");
+        System.out.println("\n1. ★ Edat Recomanada ★");
+        System.out.println("   TITAN II és un joc classificat per a majors de 3 anys segons el sistema PEGI 3.");
+        System.out.println("   El contingut del joc és apte per a tots els públics.");
+        System.out.println("\n2. ★ Propietat Intel·lectual ★");
+        System.out.println("   Totes les imatges, noms, personatges i altres elements dins del joc són propietat exclusiva de NexoDynamics S.L.");
+        System.out.println("   Estan protegits per les lleis de drets d'autor.");
+        System.out.println("\n3. ★ Limitació de Responsabilitat ★");
+        System.out.println("   NexoDynamics S.L. no es fa responsable de danys directes o indirectes derivats de l'ús del joc,");
+        System.out.println("   incloent-hi qualsevol pèrdua de progrés, errors tècnics o fallades del sistema.");
+        System.out.println("\n4. ★ Ús del Joc ★");
+        System.out.println("   Aquest joc està destinat a l'ús personal i no comercial.");
+        System.out.println("   Queda prohibit modificar, copiar, distribuir o vendre qualsevol part del joc sense permís explícit de NexoDynamics S.L.");
+        System.out.println("   !!Hi ha una tanca d'oxigen dins del titan II. En aquella zona, entra una lletra 't' per obtenir aquella millora de tanca d'oxigen!!");
+        System.out.println("\n5. ★ Contingut del Joc ★");
+        System.out.println("   TITAN II narra la història d'en Pepet en la seva aventura submarina per explorar el Titanic.");
+        System.out.println("   El jugador haurà de resoldre enigmes, trobar objectes i evitar perills marins.");
+        System.out.println("   El joc inclou armes limitades i esdeveniments desafiants.");
+        System.out.println("\n6. ★ Modificacions i Actualitzacions ★");
+        System.out.println("   NexoDynamics S.L. es reserva el dret a actualitzar o modificar el joc en qualsevol moment,");
+        System.out.println("   així com aquests termes i condicions.");
+        System.out.println("\n7. ★ Jurisdicció ★");
+        System.out.println("   Aquestes condicions es regeixen per la legislació espanyola, i qualsevol disputa serà resolta als tribunals competents d'Espanya.");
+        System.out.println();
+        System.out.println("********************************************");
+        System.out.println("   En accedir i jugar a TITAN II, accepteu   ");
+        System.out.println("   aquests termes i condicions.");
+        System.out.println("********************************************");
+        System.out.println("\n Escriu 'e' per sortir");
+        String text = e.nextLine();
+        while(!text.equals("e")){
+            text = e.nextLine();
+        }
     }
 }
