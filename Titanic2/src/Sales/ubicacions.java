@@ -11,7 +11,7 @@ public class ubicacions {
    private String descripco;  //La descripció de l'habitació
    private mobles[] mobles;   //La llista de mobles interactuables que tindrà l'habitació
    private ArrayList<porta> portes= new ArrayList<>(); //Les portes que tindrà l'habitació
-   private boolean fosc;
+   private boolean fosc=false;
 
    public ubicacions(String nomSala,int idHab,String descripco){
       //Assignar les variables passades a les variables
@@ -65,5 +65,17 @@ public class ubicacions {
 
    public void assignarNumMobles(int numMobles){
       mobles= new mobles[numMobles];
+   }
+
+   public mobles[] getMobles(){
+      return mobles;
+   }
+
+   public Boolean getFosc(){
+      return fosc;
+   }
+
+   public void setFosc(boolean fosc){
+      this.fosc=fosc;
    }
 }

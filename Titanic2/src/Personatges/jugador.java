@@ -69,4 +69,12 @@ public class jugador {
             }
         }
     }
+
+    public objectesMobils [] getInventari(){
+        return inventari;
+    }
+
+    public int getOxigen(){
+        return oxigen;
+    }
 }

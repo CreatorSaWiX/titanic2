@@ -17,10 +17,12 @@ public class mobles {
   boolean objecteAfegit=false;
   while (cont<objectes.length && objecteAfegit==false) {
    //En cas de que no s'hagi afegit el objecte i que hi hagi espai en el moble, podràs insertar l'objecte
+
    if(objectes[cont]==null && objecteAfegit==false){
     objectes[cont]=nouObjecte;
     objecteAfegit=true;
    }
+   cont++;
   }
   //En cas de no haber afegit l'objecte
   if(objecteAfegit==false){

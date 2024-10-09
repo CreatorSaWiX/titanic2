@@ -97,12 +97,15 @@ public class App {
         int cont;
         ubicacions habitaciAntiga;
         int idHabAntiga=0;
+        boolean coincideixClau=false;
         
         /* * * * * * * * * * * * * * * * * * * * * * * * * * * * *
          * COMENÇA EL JOC
          * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-        while (!fi) {
+        
+        // && jugador.getOxigen()>0         
+        while (!fi ) {
+            coincideixClau=false;
             int idSalaActual=jugador.getSalaActual();
 
             //En cas d'estar en el submari
@@ -183,6 +186,9 @@ public class App {
                             // int idHab = jugador.getSalaActual()-1;
 
                             //titanic.get(idHabAntiga-1).getPortes(); //Codi per obtenir portes
+
+
+                            //Per portes bloquejades
                             for (porta portaActual :  titanic.get(idHabAntiga-1).getPortes()) { //Anar passant porta per porta de l'habiatció antiga
                                 if(portaActual.checkIdHab(idHabAntiga)==jugador.getSalaActual()){   //Obtenir la porta a la que acaba d'accedir
                                     if(!portaActual.getObert()){ //En cas de que la porta no estigui oberta
@@ -191,11 +197,21 @@ public class App {
                                         rString=e.next().toLowerCase();
                                         if(rString.charAt(0)=='s'){
                                             //Aqui s'hauria de comprobar si el jugador té la clau de la prota
+                                            for (clau clauActual : jugador.getClauer()) {
+                                                if(clauActual.getIdClau()==jugador.getSalaActual()){
+                                                    coincideixClau=true;
+                                                }
+                                            }
+                                            if(coincideixClau){
+                                                //Aixó es fa en cas de tenir la clau
+                                                System.out.println("Desbloqueges la porta i segueixes endavant");
+                                                portaActual.setObert(true);
+                                                break;
+                                            }else{
+                                                System.out.println("No tenies aquesta clau, perds oxigen per intentar obrir-la");
+                                                break;
+                                            }
                                             
-                                            //Aixó es fa en cas de tenir la clau
-                                            System.out.println("Desbloqueges la porta i segueixes endavant");
-                                            portaActual.setObert(true);
-                                            break;
                                         }else{
                                             System.out.println("Et quedes en la mateixa habitació");
                                             jugador.moure(idHabAntiga);
@@ -205,6 +221,19 @@ public class App {
                                         break;
                                     }
                                 }
+                            }
+
+                            //En cas que la sala sigui fosca TODO
+                            if(titanic.get(jugador.getSalaActual()-1).getFosc()){
+                                // if(jugador.){
+
+                                // }else{
+
+                                // }
+                                //En cas de portar la llenterna amb bateria
+                                System.out.println("Vols encendre la llenterna?");
+
+                                System.out.println("No pots entrar en una sala fosca");
                             }
                             
                             jugador.restarOxigen();
@@ -220,6 +249,10 @@ public class App {
                 System.out.println("Escriu una opció vàlida");
                 resposta=0;
             }
+        }
+
+        if(jugador.getOxigen()<=0){
+            System.out.println("GAME OVER :( ");
         }
     }
 
@@ -350,44 +383,46 @@ public class App {
     }
 
     public void crearPortesTitanic(porta porta, ArrayList<ubicacions> zones){
-        crearPortaHabitacio("Sala planta 0", "Menjador", zones);
-        crearPortaHabitacio("Menjador", "Cuina", zones,true);
-        crearPortaHabitacio("Sala planta 0", "Sala de motors", zones);
-        crearPortaHabitacio("Sala planta 0", "Escala est - sala", zones);
-        crearPortaHabitacio("Sala planta 0", "Escala oest - sala", zones);
-        crearPortaHabitacio("Passadis est", "Escala est - sala", zones);
-        crearPortaHabitacio("Escala oest - sala", "Passadis oest", zones);
-        crearPortaHabitacio("Passadis oest", "Passadis nord", zones);
-        crearPortaHabitacio("Passadis est", "Passadis nord", zones);
-        crearPortaHabitacio("Passadis est", "Habitació normal est (101)", zones);
-        crearPortaHabitacio("Passadis est", "Habitació normal est (102)", zones);
-        crearPortaHabitacio("Passadis est", "Habitació normal est (103)", zones);
-        crearPortaHabitacio("Passadis oest", "Habitació normal oest (104)", zones);
-        crearPortaHabitacio("Passadis oest", "Habitació normal oest (105)", zones);
-        crearPortaHabitacio("Passadis oest", "Habitació normal oest (106)", zones);
-        crearPortaHabitacio("Passadis nord", "Habitació normal nord (107)", zones);
-        crearPortaHabitacio("Passadis nord", "Habitació normal nord (108)", zones);
-        crearPortaHabitacio("Passadis nord", "Habitació Capità", zones);
-        crearPortaHabitacio("Passadis est", "Neteja est", zones);
-        crearPortaHabitacio("Passadis est", "W.C.est", zones);
-        crearPortaHabitacio("Passadis oest", "W.C.oest", zones);
-        crearPortaHabitacio("Passadis oest", "Neteja oest", zones); 
-        crearPortaHabitacio("Passadis est", "Habitació VIP est", zones);
-        crearPortaHabitacio("Passadis oest", "Habitació VIP oest", zones);
-        crearPortaHabitacio("Habitació VIP est", "W.C.VIP est", zones);
-        crearPortaHabitacio("Habitació VIP oest", "W.C.VIP oest", zones);
-        crearPortaHabitacio("Escala est - planta 2", "Sala planta 2", zones);
-        crearPortaHabitacio("Escala oest - planta 2", "Sala planta 2", zones);
-        crearPortaHabitacio("Passadis est", "Escala est - planta 2", zones);
-        crearPortaHabitacio("Passadis oest", "Escala oest - planta 2", zones);
-        crearPortaHabitacio("Sala planta 2", "Passadis planta 2", zones);
-        crearPortaHabitacio("Passadis planta 2", "Capella", zones);
-        crearPortaHabitacio("Passadis planta 2", "Biblioteca", zones);
-        crearPortaHabitacio("Passadis planta 2", "Teatre", zones);
-        crearPortaHabitacio("Passadis planta 2", "Sala del capità", zones);
+
+        //Les boleanes indican si la porta esta desbloqeuejada o no
+        crearPortaHabitacio("Sala planta 0", "Menjador", zones,true);
+        crearPortaHabitacio("Menjador", "Cuina", zones,false);
+        crearPortaHabitacio("Sala planta 0", "Sala de motors", zones,true);
+        crearPortaHabitacio("Sala planta 0", "Escala est - sala", zones,true);
+        crearPortaHabitacio("Sala planta 0", "Escala oest - sala", zones,true);
+        crearPortaHabitacio("Passadis est", "Escala est - sala", zones,true);
+        crearPortaHabitacio("Escala oest - sala", "Passadis oest", zones,true);
+        crearPortaHabitacio("Passadis oest", "Passadis nord", zones,true);
+        crearPortaHabitacio("Passadis est", "Passadis nord", zones,true);
+        crearPortaHabitacio("Passadis est", "Habitació normal est (101)", zones,false);
+        crearPortaHabitacio("Passadis est", "Habitació normal est (102)", zones,true);
+        crearPortaHabitacio("Passadis est", "Habitació normal est (103)", zones,true);
+        crearPortaHabitacio("Passadis oest", "Habitació normal oest (104)", zones,true);
+        crearPortaHabitacio("Passadis oest", "Habitació normal oest (105)", zones,true);
+        crearPortaHabitacio("Passadis oest", "Habitació normal oest (106)", zones,true);
+        crearPortaHabitacio("Passadis nord", "Habitació normal nord (107)", zones,true);
+        crearPortaHabitacio("Passadis nord", "Habitació normal nord (108)", zones,true);
+        crearPortaHabitacio("Passadis nord", "Habitació Capità", zones,true);
+        crearPortaHabitacio("Passadis est", "Neteja est", zones,false);
+        crearPortaHabitacio("Passadis est", "W.C.est", zones,true);
+        crearPortaHabitacio("Passadis oest", "W.C.oest", zones,true);
+        crearPortaHabitacio("Passadis oest", "Neteja oest", zones,true); 
+        crearPortaHabitacio("Passadis est", "Habitació VIP est", zones,true);
+        crearPortaHabitacio("Passadis oest", "Habitació VIP oest", zones,true);
+        crearPortaHabitacio("Habitació VIP est", "W.C.VIP est", zones,true);
+        crearPortaHabitacio("Habitació VIP oest", "W.C.VIP oest", zones,true);
+        crearPortaHabitacio("Escala est - planta 2", "Sala planta 2", zones,true);
+        crearPortaHabitacio("Escala oest - planta 2", "Sala planta 2", zones,true);
+        crearPortaHabitacio("Passadis est", "Escala est - planta 2", zones,true);
+        crearPortaHabitacio("Passadis oest", "Escala oest - planta 2", zones,true);
+        crearPortaHabitacio("Sala planta 2", "Passadis planta 2", zones,true);
+        crearPortaHabitacio("Passadis planta 2", "Capella", zones,true);
+        crearPortaHabitacio("Passadis planta 2", "Biblioteca", zones,true);
+        crearPortaHabitacio("Passadis planta 2", "Teatre", zones,true);
+        crearPortaHabitacio("Passadis planta 2", "Sala del capità", zones,true);
     }
 
-    public void crearPortaHabitacio(String n1, String n2, ArrayList<ubicacions>zones) {
+    public void crearPortaHabitacio(String n1, String n2, ArrayList<ubicacions>zones, Boolean obert) {
         int id1 = 0;
         int id2 = 0;
 
@@ -403,7 +438,7 @@ public class App {
         //Les habitacions tenen com a id la seva posició en el array, només cal obtenir els ids i crear la porta
         //Per crear una porta es nessesita el id de l'habitacío 
         
-        porta newDoor = new porta(id1, id2);
+        porta newDoor = new porta(id1, id2,obert);
         
         try {
             zones.get(id1-1).afegirPorta(newDoor);
@@ -484,13 +519,7 @@ public class App {
     public void afegirMobles(ArrayList<ubicacions>zones, String nom, String [] nomMobles){
         //Aconseguir el ID de l'habitació a partir del nom
         mobles moble = null;
-        int id=-1;
-
-        for (ubicacions sala : zones) {
-            if(nom.equals(sala.getNomSala())){
-                id=sala.getIdHab();
-            }
-        }
+        int id= obtenirIdHabitacio(zones,nom);
         if(id!=-1){
             zones.get(id-1).assignarNumMobles(nomMobles.length);
             for(int i=0;i<nomMobles.length;i++){
@@ -517,68 +546,92 @@ public class App {
 
     private void crearObjectesTitanic(ArrayList<ubicacions> titanic){
         //Objectes que han d'estar guardats a l'habitació.
-        crearObjecte(titanic,"Sala planta 0", "clau" );
-        crearObjecte(titanic,"Menjador", "menjarTauro" );
-        crearObjecte(titanic,"Cuina", "ganivet" );
-        crearObjecte(titanic,"Sala de motor", "" );    //Tanca d'oxigen
-        crearObjecte(titanic,"Escala est - sala", "" );
-        crearObjecte(titanic,"Escala oest - sala", "clau" );
-        crearObjecte(titanic,"Passadis est", "clau" );
-        crearObjecte(titanic,"Passadis nord", "" );
-        crearObjecte(titanic,"Passadis oest", "" );
-        crearObjecte(titanic,"Habitació normal est (101)", "clau", "armari" );  //mirar
-        crearObjecte(titanic,"Habitació normal est (102)", "" );
-        crearObjecte(titanic,"Habitació normal est (103)", "" );
-        crearObjecte(titanic,"Habitació normal oest (104)", "" );
-        crearObjecte(titanic,"Habitació normal oest (105)", "" );
-        crearObjecte(titanic,"Habitació normal oest (106)", "" );
-        crearObjecte(titanic,"Habitació normal nord (107)", "" );
-        crearObjecte(titanic,"Habitació normal nord (108)", "" );
-        crearObjecte(titanic,"Habitació Capità", "" );
-        crearObjecte(titanic,"Neteja est", "" );
-        crearObjecte(titanic,"Neteja oest", "" );
-        crearObjecte(titanic,"Escala oest - planta 2", "" );
-        crearObjecte(titanic,"Escala est - planta 2", "" );
-        crearObjecte(titanic,"W.C.est", "" );
-        crearObjecte(titanic,"W.C.oest", "" );
-        crearObjecte(titanic,"Habitació VIP est", "" );
-        crearObjecte(titanic,"Habitació VIP oest", "" );
-        crearObjecte(titanic,"W.C.VIP est", "" );
-        crearObjecte(titanic,"W.C.VIP oest", "" );
-        crearObjecte(titanic,"Sala planta 2", "" );
-        crearObjecte(titanic,"Sala del capità", "" );
-        crearObjecte(titanic,"Passadis planta 2", "" );
-        crearObjecte(titanic,"Capella", "" );
-        crearObjecte(titanic,"Biblioteca", "" );
-        crearObjecte(titanic,"Teatre", "" );
 
+        //Tot fet en 1 mateixa funció, si prefereixes fer-ho com ho tenies encara hi es pero comentat.
+
+        // !!!!!IMPORTANT!!!! El últim paràmetre serà obligatori en cas de crear una clau!!! (és el nom de l'habitació que desbloqueja)
+        // TODO fer que l'usuari pugui agafar objectes per veure si funciona el codi
+
+        crearObjecte(titanic,"Sala planta 0", "clau",null,"Cuina" );    //Canviar la sala que obra
+        crearObjecte(titanic,"Menjador", "menjarTauro","taula",null );
+        crearObjecte(titanic,"Cuina", "ganivet","taula",null );
+        crearObjecte(titanic,"Sala de motor", "",null,null );    //Tanca d'oxigen
+        crearObjecte(titanic,"Escala est - sala", "",null,null );
+        crearObjecte(titanic,"Escala oest - sala", "clau",null,"Neteja est" );   
+        crearObjecte(titanic,"Passadis est", "clau",null,"Habitació normal est (101)" );
+        crearObjecte(titanic,"Passadis nord", "",null,null );
+        crearObjecte(titanic,"Passadis oest", "",null,null );
+        crearObjecte(titanic,"Habitació normal est (101)", "clau", "armari",null );  //mirar
+        crearObjecte(titanic,"Habitació normal est (102)", "",null,null );
+        crearObjecte(titanic,"Habitació normal est (103)", "",null,null );
+        crearObjecte(titanic,"Habitació normal oest (104)", "",null,null );
+        crearObjecte(titanic,"Habitació normal oest (105)", "",null,null );
+        crearObjecte(titanic,"Habitació normal oest (106)", "",null,null );
+        crearObjecte(titanic,"Habitació normal nord (107)", "",null,null );
+        crearObjecte(titanic,"Habitació normal nord (108)", "",null,null );
+        crearObjecte(titanic,"Habitació Capità", "",null,null );
+        crearObjecte(titanic,"Neteja est", "",null,null );
+        crearObjecte(titanic,"Neteja oest", "",null,null );
+        crearObjecte(titanic,"Escala oest - planta 2", "",null,null );
+        crearObjecte(titanic,"Escala est - planta 2", "",null,null );
+        crearObjecte(titanic,"W.C.est", "",null,null );   
+        crearObjecte(titanic,"W.C.oest", "",null,null );
+        crearObjecte(titanic,"Habitació VIP est", "",null,null );
+        crearObjecte(titanic,"Habitació VIP oest", "",null,null );
+        crearObjecte(titanic,"W.C.VIP est", "",null,null );
+        crearObjecte(titanic,"W.C.VIP oest", "",null,null );
+        crearObjecte(titanic,"Sala planta 2", "",null,null );
+        crearObjecte(titanic,"Sala del capità", "",null,null );
+        crearObjecte(titanic,"Passadis planta 2", "",null,null );
+        crearObjecte(titanic,"Capella", "",null,null );
+        crearObjecte(titanic,"Biblioteca", "",null,null );
+        crearObjecte(titanic,"Teatre", "" ,null,null);
+        
     }
 
-    private void crearObjecte(ArrayList<ubicacions>zones, String nomHabitacio, String nomObjecte){
+    public void crearObjecte(ArrayList<ubicacions>zones, String nomHabitacio, String nomObjecte, String nomMoble, String nomHabitacioClau){
         objectesMobils objecte = null;
+        int id=0;
         for (ubicacions sala : zones) {
             if(nomHabitacio.equals(sala.getNomSala())){
                 switch (nomObjecte) {
-                    case "clau": objecte = new clau(); break;
+                    case "clau":
+                         id= obtenirIdHabitacio(zones,nomHabitacio);
+                         if(id!=-1){
+                            objecte = new clau(id,nomHabitacio);
+                         }else{
+                            System.out.println("Al intentar crear la clau per "+nomHabitacio+" hi ha hagut un error");
+                         }
+                         break;
                     case "llanterna": objecte = new llanterna(); break;
                     case "menjarTauro": objecte = new menjarTauro(); break;
                     case "motxilla": objecte = new motxilla(); break;
                     default:System.out.println("Hi hagut un error intern (Procediment crearObjecte)");break;
                 }
-                sala.setObjecte(objecte);
+                if(objecte!=null){
+                    if(nomMoble==null){
+                        sala.setObjecte(objecte);
+                    }else{
+                        for (mobles moble : sala.getMobles()) {
+                            if(moble.getNom().equals(nomMoble)){
+                                moble.afegirObecte(objecte);
+                            }
+                        }
+                    }
+                }
                 break;
             }
         }
     }
 
-    private void crearObjecte(ArrayList<ubicacions>zones, String nomHabitacio, String nomObjecte, String nomMoble){
-        objectesMobils objecte = null;
-        for (ubicacions sala : zones) {
-            if(nomHabitacio.equals(sala.getNomSala())){
-                //En cas que hi hagi algun objecte dins del moble.
+    public int obtenirIdHabitacio(ArrayList<ubicacions>zones,String nom){
+        int id=-1;
+        for (ubicacions ubicacio : zones) {
+            if(nom.equals(ubicacio.getNomSala())){
+                id=ubicacio.getIdHab();
             }
         }
-
+        return id;
     }
 
     public void termesCondicions(){

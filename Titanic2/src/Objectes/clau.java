@@ -5,11 +5,16 @@ import Sales.ubicacions;
 import ObjectesInmobils.porta;
 
 public class clau extends objectesMobils {
-    int idHab1;
-    int idHab2;
+    int idHabTancada;
+    String descripcio;
     
-    public clau(){
+    public clau(int id1,String nomHabitacio){
         super("Clau");
+        descripcio="Aquesta clau obre "+nomHabitacio;
+    }
+
+    public int getIdClau(){
+        return idHabTancada;
     }
 
     // public void obrirPorta(int idHab, ArrayList<ubicacions>zones){
