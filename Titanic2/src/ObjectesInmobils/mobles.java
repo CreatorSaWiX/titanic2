@@ -6,10 +6,13 @@ public class mobles {
  String nom;
  objectesMobils [] objectes = null;
  
- 
  public mobles(String nom, int maxObjectes){
   this.nom=nom;
   objectes=new objectesMobils[maxObjectes];
+ }
+
+ public mobles(String nom){
+  this.nom=nom;
  }
 
  public void afegirObecte(objectesMobils nouObjecte){
@@ -49,5 +52,7 @@ public class mobles {
  public String getNom(){
   return nom;
  }
+
+
  
 }

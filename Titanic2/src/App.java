@@ -1,9 +1,7 @@
 import java.util.Scanner;
 
 import Objectes.clau;
-import Objectes.llanterna;
-import Objectes.menjarTauro;
-import Objectes.motxilla;
+import Objectes.*;
 import Objectes.objectesMobils;
 
 import java.util.ArrayList;
@@ -63,6 +61,10 @@ public class App {
         crearPortesTitanic(portaSubmari, titanic);
         System.out.println("Portes titanic creades");
         
+        //Crear mobles en les habitacions
+        crearMobles(titanic,submari);
+        System.out.println("Mobles titanic creats");
+
         //Crear objectes en les habitacions
         crearObjectesTitanic(titanic);
         System.out.println("Objectes creades amb èxit");
@@ -102,9 +104,8 @@ public class App {
         /* * * * * * * * * * * * * * * * * * * * * * * * * * * * *
          * COMENÇA EL JOC
          * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-        
-        // && jugador.getOxigen()>0         
-        while (!fi ) {
+              
+        while (!fi && jugador.getOxigen()>0) {
             coincideixClau=false;
             int idSalaActual=jugador.getSalaActual();
 
@@ -238,6 +239,7 @@ public class App {
                             
                             jugador.restarOxigen();
                         }else{
+                            System.out.println("Canvies la tanca d'oxigen gastada per una de nova.");
                             jugador.canviarOxigen();
                         }
                         
@@ -449,7 +451,13 @@ public class App {
     }
 
     //Afegir mobles a habitacions
-    public void crarMobles(ArrayList<ubicacions> zones){
+    public void crearMobles(ArrayList<ubicacions> zones,ubicacions submari){
+        //Crear mobles submari
+        String[] SUB = {"taula","sofa"};    //TODO Submari
+        afegirMoblesSubmari(submari, SUB);
+
+
+        //Crear obles titanic
         String[] SP0 = {"taula","sofa"};    //Sala principi
         String[] MJD = {"taula","taula","taula","taula","taula"};    //Sala menjador
         String[] CNA = {"nevera","taula"};  //Cuina
@@ -471,7 +479,7 @@ public class App {
         String[] WCO = {"bater","dutxa","bater","dutxa"};    //WC Oest
         String[] HVE = {"taula","sofa","llit","armari","escriptori"};    //Habitació vip Est
         String[] HVO = {"taula","sofa","llit","armari","escriptori"};    //Habitació Vip Oest
-        String[] WCVO = {"bater","baynera"};   //WC Habitacio Vip Oest
+        String[] WCVO = {"bater","banyera"};   //WC Habitacio Vip Oest
         String[] WCVE = {"bater","banyera"};   //WC Habitacio Vip Est
         String[] SP2 = {"taula","taula","taula","cafeteria"};    //Sala P2 
         String[] SDC = {"taula","sofa"};    //Sala del Capita   TODO
@@ -516,6 +524,30 @@ public class App {
         afegirMobles(zones,"Teatre", TEA );
     }
 
+    public void afegirMoblesSubmari(ubicacions submari, String [] nomMobles){
+        submari.assignarNumMobles(nomMobles.length);
+        mobles moble=null;
+        for (int i = 0; i < nomMobles.length; i++) {
+            switch (nomMobles[i]) {
+                case "taula": moble= new taula(); break;
+                case "llit": moble= new llit(); break;
+                case "armari": moble= new armari(); break;
+                case "sofa": moble= new sofa(); break;
+                case "nevera": moble= new nevera(); break;
+                case "escriptori": moble= new escriptori(); break;
+                case "bater": moble= new bater(); break;
+                case "dutxa": moble= new dutxa(); break;
+                case "banyera": moble= new banyera(); break;
+                case "cafeteria": moble= new cafeteria(); break;
+                case "mapa": moble= new mapa(); break;
+                default: System.out.println("El moble " + nomMobles[i] + " no existeix"); break;   
+            }
+            if(moble != null){
+                submari.afegirMoble(moble,i);
+            }
+        }
+    }
+
     public void afegirMobles(ArrayList<ubicacions>zones, String nom, String [] nomMobles){
         //Aconseguir el ID de l'habitació a partir del nom
         mobles moble = null;
@@ -533,6 +565,7 @@ public class App {
                     case "bater": moble= new bater(); break;
                     case "dutxa": moble= new dutxa(); break;
                     case "banyera": moble= new banyera(); break;
+                    case "cafeteria": moble= new cafeteria(); break;
                     default: System.out.println("El moble " + nomMobles[i] + " no existeix"); break;   
                 }
                 if(moble != null){
@@ -613,11 +646,15 @@ public class App {
                     if(nomMoble==null){
                         sala.setObjecte(objecte);
                     }else{
-                        for (mobles moble : sala.getMobles()) {
-                            if(moble.getNom().equals(nomMoble)){
-                                moble.afegirObecte(objecte);
+                        try{
+                            for (mobles moble : sala.getMobles()) {
+                                if(moble.getNom().equals(nomMoble)){
+                                    moble.afegirObecte(objecte);
+                                }
                             }
-                        }
+                        }catch(Exception err){
+                            System.out.println("L'habitació "+ nomHabitacio +" no té mobles");
+                        }    
                     }
                 }
                 break;
