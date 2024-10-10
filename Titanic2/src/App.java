@@ -171,6 +171,14 @@ public class App {
                     
                 } else if(rString.equalsIgnoreCase("i")){
                     //Inventari
+                    text="";
+                    jugador.mostrarInventari();
+                    System.out.println("Escriu el nom del Objecte que vols deixar a terre o 'e' per sortir");
+                    while(!text.equalsIgnoreCase("e")){
+                        text = e.next();
+                        jugador.deixarObjecte(text,submari,titanic);
+                    }
+                    
 
                 } else{
                     //Moure entre zones

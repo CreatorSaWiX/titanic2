@@ -10,4 +10,9 @@ public class objectesMobils {
     public String getNom(){
         return nom;
     }
+
+    public objectesMobils[] getEspai(){
+        System.out.println("No pots guardar objectes en "+nom);
+        return null;
+    }
 }

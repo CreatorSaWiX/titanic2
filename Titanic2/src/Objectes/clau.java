@@ -6,16 +6,17 @@ import ObjectesInmobils.porta;
 
 public class clau extends objectesMobils {
     int idHabTancada;
-    String descripcio;
     
     public clau(int id1,String nomHabitacio){
-        super("Clau");
-        descripcio="Aquesta clau obre "+nomHabitacio;
-    }
+        super("Clau " +nomHabitacio);
+        idHabTancada=id1;
+    }   
 
     public int getIdClau(){
         return idHabTancada;
     }
+
+    
 
     // public void obrirPorta(int idHab, ArrayList<ubicacions>zones){
     //     ubicacions actual = zones.get(idHab-1);

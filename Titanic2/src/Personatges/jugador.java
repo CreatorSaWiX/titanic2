@@ -4,13 +4,14 @@ import java.util.ArrayList;
 
 import Objectes.clau;
 import Objectes.objectesMobils;
+import ObjectesInmobils.mobles;
+import Sales.ubicacions;
 
 public class jugador {
     private int idHabActual;
     private int oxigen;
     private int gana = 10;
     private int maxOxigen=100;
-
     private ArrayList<clau> clauer=new ArrayList<>();
     private objectesMobils [] inventari = new objectesMobils[3] ;
     
@@ -74,7 +75,66 @@ public class jugador {
         return inventari;
     }
 
+    public void deixarObjecte(String nom,ubicacions submari, ArrayList<ubicacions>titanic){
+        for (int i = 0; i < inventari.length; i++) {
+            if(inventari[i]!=null){
+                if(inventari[i].getNom()=="motxilla"){    
+                    for (int j = 0; j < inventari[i].getEspai().length; j++) {
+                        if(inventari[i].getEspai()[j]!=null){
+                            if(inventari[i].getEspai()[j].getNom().equals(nom)){
+                                if(idHabActual==0){
+                                    submari.deixarObjecte(inventari[i].getEspai()[j]);
+                                }else{
+                                    titanic.get(idHabActual-1).deixarObjecte(inventari[i].getEspai()[j]);
+                                }
+                                inventari[i].getEspai()[j]=null;
+                                i=inventari.length;
+                                j=inventari[i].getEspai().length;
+                            }
+                        }
+                    }
+                }else{
+                    if(inventari[i].getNom().equals(nom)){
+                        if(idHabActual==0){
+                            submari.deixarObjecte(inventari[i]);
+                        }else{
+                            titanic.get(idHabActual-1).deixarObjecte(inventari[i]);
+                        }
+                        inventari[i]=null;
+                        i=inventari.length;
+                    }
+                }
+            }
+        }
+    }
+
     public int getOxigen(){
         return oxigen;
+    }
+
+    public void mostrarInventari(){
+        String frase="Oxigen: "+oxigen+"      Quantita màxima d'oxigen:"+maxOxigen+"        Gana: "+gana;
+        if(clauer.size()>0){        
+            frase+="\nClaus: ";
+            for (clau clau : clauer) {
+                frase+="\n "+clau.getNom();
+            }
+        }
+        if(inventari.length>0){
+            frase+="\nObjectes en el inventari:";
+        }    
+        for (int i = 0; i < inventari.length; i++) {
+            if(inventari[i]!=null){
+                frase+="\n "+inventari[i].getNom();
+                if(inventari[i].getNom()=="motxilla"){    
+                    for (int j = 0; j < inventari[i].getEspai().length; j++) {
+                        if(inventari[i].getEspai()[j]!=null){
+                            frase+="\n  "+inventari[i].getEspai()[j].getNom();
+                        }
+                    }
+                }
+            }
+        }
+        System.out.println(frase);
     }
 }
