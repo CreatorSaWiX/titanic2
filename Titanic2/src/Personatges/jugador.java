@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import Objectes.clau;
 import Objectes.objectesMobils;
-import ObjectesInmobils.mobles;
 import Sales.ubicacions;
 
 public class jugador {
@@ -136,5 +135,34 @@ public class jugador {
             }
         }
         System.out.println(frase);
+    }
+
+    public void agafarObjecte(objectesMobils objecte){
+        boolean afegit=false;
+        for (int i = 0; i < inventari.length; i++) {
+            if(inventari[i]==null){
+                inventari[i]=objecte;
+                i=inventari.length;
+                afegit=true;
+            }else{
+                if(inventari[i].getNom()=="motxilla"){    
+                    for (int j = 0; j < inventari[i].getEspai().length; j++) {
+                        if(inventari[i].getEspai()[j]==null){
+                            inventari[i].getEspai()[j]=objecte;
+                            j=inventari[i].getEspai().length;
+                            i=inventari.length;
+                            afegit=true;
+                        }
+                    }
+                }
+            }
+        }
+        if(afegit==false){
+            System.out.println("No tens espai en el inventari!");
+        }
+    }
+
+    public objectesMobils agafarObjectePerID(int id){
+        return inventari[id-1];
     }
 }

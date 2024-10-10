@@ -32,6 +32,7 @@ public class ubicacions {
 
    //Funció per veure la descripció de l'habitació
    public String getDescripcio(){
+      descripco="";
       if(objecteTerre == null){ //En cas de que no hi hagi cap objecte a terra es retornarà la descripció normal
          if(mobles!=null && mobles.length>=1){
             descripco+="Mobles interectuables:";
@@ -97,5 +98,9 @@ public class ubicacions {
 
    public void setFosc(boolean fosc){
       this.fosc=fosc;
+   }
+
+   public mobles interactuarMoble(int id){
+      return mobles[id-1];
    }
 }
