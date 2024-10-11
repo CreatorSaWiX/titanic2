@@ -184,12 +184,26 @@ public class App {
                             System.out.println("Ja has agafat la tanca d'oxigen punyetero!");
                         }
                         try {
-                            if(titanic.get(jugador.getSalaActual()-1).getMobles()!=null){
-                                if(Integer.parseInt(text)<=titanic.get(jugador.getSalaActual()-1).getMobles().length){
-                                    jugador.agafarObjecte(titanic.get(jugador.getSalaActual()-1).getMobles()[Integer.parseInt(text)-1].interactuarAmbMoble(jugador));
-                                }
+                            if(jugador.getSalaActual()==0){
+                                if(submari.getMobles()!=null){
+                                    if(text.equals("1")){
+                                        //En cas de mostrar eñ mapa
+                                    }
+                                    else if(Integer.parseInt(text)<=submari.getMobles().length){
+                                        jugador.agafarObjecte(submari.getMobles()[Integer.parseInt(text)-1].interactuarAmbMoble(jugador));
+                                        text="e";
+                                    }
+                                } 
+                            }else{
+                                if(titanic.get(jugador.getSalaActual()-1).getMobles()!=null){
+                                    if(Integer.parseInt(text)<=titanic.get(jugador.getSalaActual()-1).getMobles().length){
+                                        jugador.agafarObjecte(titanic.get(jugador.getSalaActual()-1).getMobles()[Integer.parseInt(text)-1].interactuarAmbMoble(jugador));
+                                        text="e";
+                                    }
+                                }    
                             }
-                        } catch (Exception e) {
+                            
+                        } catch (Exception err) {
                             
                         }
                     }
@@ -489,7 +503,7 @@ public class App {
     //Afegir mobles a habitacions
     public void crearMobles(ArrayList<ubicacions> zones,ubicacions submari){
         //Crear mobles submari
-        String[] SUB = {"taula","sofa"};    //TODO Submari
+        String[] SUB = {"mapa","armari"};    //TODO Submari
         afegirMoblesSubmari(submari, SUB);
 
 

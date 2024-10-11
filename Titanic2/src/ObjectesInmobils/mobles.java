@@ -8,6 +8,7 @@ import Personatges.jugador;
 public class mobles {
  String nom;
  objectesMobils [] objectes = null;
+ String descripcio="";
  
  public mobles(String nom, int maxObjectes){
   this.nom=nom;
@@ -64,6 +65,7 @@ public class mobles {
   int rInt=0;
   objectesMobils objecteAgafat=null;
   boolean accedit=false;
+  boolean objectesDisponibles=false;
 
   System.out.println("Què vols fer?\n1: Agafar objecte del moble\n2: Deixar objecte en el moble\nEscriu 'e' per tornar enrere");
   r=e.nextLine();
@@ -71,68 +73,85 @@ public class mobles {
    case "1":
    for (objectesMobils objectesMobils : objectes) {
     if(objectesMobils!=null){
-     cont++;
-     str+="\n "+cont+": "+objectesMobils.getNom();
+        objectesDisponibles=true;
     }
    }
-   System.out.println("Quin d'aquests objectes vols treure?\n"+str+"\n Escriu 'e' si vols tornar enrere");
-   while (r.equals("e")==false && objecteAgafat==null) {
-    try {
-     r=e.next();
-     if(r.equals("e")==false && Integer.parseInt(r)!=0){
-      for (objectesMobils objectesMobils : objectes) {
-       if(objectesMobils!=null){
-        con2++;
-        if(con2==Integer.parseInt(r)){
-         objecteAgafat=objectesMobils;
-         System.out.println("Has agafat el objecte");
-         objectesMobils=null;
-         return objecteAgafat;  
+   if(objectesDisponibles){
+    for (objectesMobils objectesMobils : objectes) {
+        if(objectesMobils!=null){
+            cont++;
+            str+="\n "+cont+": "+objectesMobils.getNom();
         }
-       }
-      }
-     }
-    } catch (Exception err) {
-     System.out.println("Escriu un número vàlid o 'e' per sortir");
     }
-   }
-    break;
-   case "2":
-    System.out.println("Quin d'aquests objectes vols deixar?");
-    jugador.mostrarInventari();
-    System.out.println("Escriu 'e' per sortir");
-    while (r.equals("e")==false) {
-       r = e.nextLine();
-       try {
-            if(r.equals("e")==false){
-                rInt=Integer.parseInt(r);
-                for (objectesMobils objectesMobil : objectes) {
-                if(objectesMobil==null && accedit==false)
-                    objectesMobil=jugador.getInventari()[rInt];
-                    for (int i = 0; i < jugador.getInventari().length; i++) {
-                        if(jugador.getInventari()!=null){
-                            con2++;
-                            if(con2==rInt){
-                            afegirObecte(jugador.getInventari()[i]);
-                            jugador.getInventari()[i]=null;
-                            System.out.println("El objecte indicat s'ha deixat en el moble.");
-                            r="e";
-                            accedit=true;
-                            i=jugador.getInventari().length;
-                            }
+    System.out.println("Quin d'aquests objectes vols treure?\n"+str+"\n Escriu 'e' si vols tornar enrere");
+    while (r.equals("e")==false && objecteAgafat==null) {
+        try {
+            r=e.next();
+            if(r.equals("e")==false && Integer.parseInt(r)!=0){
+                for (objectesMobils objectesMobils : objectes) {
+                    if(objectesMobils!=null){
+                        con2++;
+                        if(con2==Integer.parseInt(r)){
+                            objecteAgafat=objectesMobils;
+                            System.out.println("Has agafat el objecte");
+                            objectesMobils=null;
+                            return objecteAgafat;  
                         }
                     }
                 }
             }
-            if(accedit==false){
-                System.out.println("No pots deixar més objectes en aquest moble!");
-                r="e";
-            }
-       } catch (Exception err) {
-              System.out.println("Escriu una resposta vàlida.");
-       }  
+        } catch (Exception err) {
+            System.out.println("Escriu un número vàlid o 'e' per sortir");
+        }
     }
-    
+    }else{
+            System.out.println("No hi han objectes que puguis agafar en aquest moble!");
+        }
+    break;
+   case "2":
+    for (objectesMobils objecte : jugador.getInventari()) {
+        if(objecte!=null){
+            objectesDisponibles=true;
+        }
+    }
+    if(objectesDisponibles){    
+        System.out.println("Quin d'aquests objectes vols deixar?");
+        jugador.mostrarInventari();
+        System.out.println("Escriu 'e' per sortir");
+        while (r.equals("e")==false) {
+            r = e.nextLine();
+            try {
+                if(r.equals("e")==false){
+                    rInt=Integer.parseInt(r);
+                    for (objectesMobils objectesMobil : objectes) {
+                    if(objectesMobil==null && accedit==false)
+                        objectesMobil=jugador.getInventari()[rInt];
+                        for (int i = 0; i < jugador.getInventari().length; i++) {
+                            if(jugador.getInventari()!=null){
+                                con2++;
+                                if(con2==rInt){
+                                    afegirObecte(jugador.getInventari()[i]);
+                                    jugador.getInventari()[i]=null;
+                                    System.out.println("El objecte indicat s'ha deixat en el moble.");
+                                    r="e";
+                                    accedit=true;
+                                    i=jugador.getInventari().length;
+                                }
+                            }
+                        }
+                    }
+                }
+                if(accedit==false){
+                    System.out.println("No pots deixar més objectes en aquest moble!");
+                    r="e";
+                }
+            } catch (Exception err) {
+                System.out.println("Escriu una resposta vàlida.");
+            }  
+        }
+    }else{
+        System.out.println("No tens objectes en el inventari que puguis deixar.");
+    }
     break;
    case "e":
     break;
@@ -140,10 +159,11 @@ public class mobles {
     System.out.println("Escriu un valor vàlid.");
     break;
   }
-
-  
   return objecteAgafat;
  }
 
+ public void veureMapa(){
+    System.out.println(descripcio);
+ }
  
 }
