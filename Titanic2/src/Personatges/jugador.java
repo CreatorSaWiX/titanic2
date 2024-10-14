@@ -11,7 +11,7 @@ public class jugador {
     private int oxigen;
     private int gana = 10;
     private int maxOxigen=100;
-    private ArrayList<clau> clauer=new ArrayList<>();
+    private ArrayList<objectesMobils> clauer=new ArrayList<>();
     private objectesMobils [] inventari = new objectesMobils[3] ;
     
     
@@ -48,11 +48,11 @@ public class jugador {
         maxOxigen+=50;
     }
 
-    public void afegirClau(clau novaClau){
+    public void afegirClau(objectesMobils novaClau){
         clauer.add(novaClau);
     }
 
-    public ArrayList<clau> getClauer(){
+    public ArrayList<objectesMobils> getClauer(){
         return clauer;
     }
 
@@ -75,6 +75,7 @@ public class jugador {
     }
 
     public void deixarObjecte(String nom,ubicacions submari, ArrayList<ubicacions>titanic){
+        boolean accioComplerta=false;
         for (int i = 0; i < inventari.length; i++) {
             if(inventari[i]!=null){
                 if(inventari[i].getNom()=="motxilla"){    
@@ -84,9 +85,11 @@ public class jugador {
                                 if(idHabActual==0){
                                     submari.deixarObjecte(inventari[i].getEspai()[j]);
                                 }else{
-                                    titanic.get(idHabActual-1).deixarObjecte(inventari[i].getEspai()[j]);
+                                    accioComplerta=titanic.get(idHabActual-1).deixarObjecte(inventari[i].getEspai()[j]);
                                 }
-                                inventari[i].getEspai()[j]=null;
+                                if(accioComplerta){
+                                    inventari[i].getEspai()[j]=null;
+                                }
                                 i=inventari.length;
                                 j=inventari[i].getEspai().length;
                             }
@@ -95,15 +98,20 @@ public class jugador {
                 }else{
                     if(inventari[i].getNom().equals(nom)){
                         if(idHabActual==0){
-                            submari.deixarObjecte(inventari[i]);
+                            accioComplerta=submari.deixarObjecte(inventari[i]);
                         }else{
-                            titanic.get(idHabActual-1).deixarObjecte(inventari[i]);
+                            accioComplerta=titanic.get(idHabActual-1).deixarObjecte(inventari[i]);
                         }
-                        inventari[i]=null;
+                        if(accioComplerta){
+                            inventari[i]=null;
+                        }
                         i=inventari.length;
                     }
                 }
             }
+        }
+        if(!accioComplerta){
+            System.out.println("No pots deixar aquest objecte");
         }
     }
 
@@ -115,7 +123,7 @@ public class jugador {
         String frase="Oxigen: "+oxigen+"      Quantita màxima d'oxigen:"+maxOxigen+"        Gana: "+gana;
         if(clauer.size()>0){        
             frase+="\nClaus: ";
-            for (clau clau : clauer) {
+            for (objectesMobils clau : clauer) {
                 frase+="\n "+clau.getNom();
             }
         }
@@ -137,7 +145,7 @@ public class jugador {
         System.out.println(frase);
     }
 
-    public void agafarObjecte(objectesMobils objecte){
+    public boolean agafarObjecte(objectesMobils objecte){
         boolean afegit=false;
         for (int i = 0; i < inventari.length; i++) {
             if(inventari[i]==null){
@@ -160,6 +168,7 @@ public class jugador {
         if(afegit==false){
             System.out.println("No tens espai en el inventari!");
         }
+        return afegit;
     }
 
     public objectesMobils agafarObjectePerID(int id){

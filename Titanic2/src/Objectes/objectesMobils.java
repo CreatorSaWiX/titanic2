@@ -15,4 +15,8 @@ public class objectesMobils {
         System.out.println("No pots guardar objectes en "+nom);
         return null;
     }
+
+    public int getIdClau(){
+        return -1;
+    }
 }

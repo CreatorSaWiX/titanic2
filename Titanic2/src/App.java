@@ -1,8 +1,6 @@
 import java.util.Scanner;
 
-import Objectes.clau;
 import Objectes.*;
-import Objectes.objectesMobils;
 
 import java.util.ArrayList;
 import Personatges.jugador;
@@ -103,6 +101,7 @@ public class App {
         int cont;
         int idHabAntiga=0;
         boolean coincideixClau=false;
+        boolean espai=true;
         
         /* * * * * * * * * * * * * * * * * * * * * * * * * * * * *
          * COMENÇA EL JOC
@@ -160,13 +159,31 @@ public class App {
                     //Descripció de l'habitació en la que estàs
                     text = "";
                     if(jugador.getSalaActual()!=0){
-                        String salaActual = titanic.get(jugador.getSalaActual()-1).getNomSala();
-                        if(salaActual.equalsIgnoreCase("Sala de motors") && !agafarTancaSM){
-                            agafarTancaSM = tancaOxigen(salaActual, jugador);
-                        } else if(salaActual.equalsIgnoreCase("Capella") && !agafarTancaC){
-                            agafarTancaC = tancaOxigen(salaActual, jugador);
-                        } else{
+                        if(titanic.get(jugador.getSalaActual()-1).getObjecte()==null){
+                            String salaActual = titanic.get(jugador.getSalaActual()-1).getNomSala();
+                            if(salaActual.equalsIgnoreCase("Sala de motors") && !agafarTancaSM){
+                                agafarTancaSM = tancaOxigen(salaActual, jugador);
+                            } else if(salaActual.equalsIgnoreCase("Capella") && !agafarTancaC){
+                                agafarTancaC = tancaOxigen(salaActual, jugador);
+                            }else{
+                                System.out.println(titanic.get(jugador.getSalaActual()-1).getDescripcio());
+                            }
+                        }else{
                             System.out.println(titanic.get(jugador.getSalaActual()-1).getDescripcio());
+                            rString=e.next();
+                            if(rString.equals("g")){
+                                if(titanic.get(jugador.getSalaActual()-1).getObjecte() instanceof clau == false){
+                                    espai=jugador.agafarObjecte(titanic.get(jugador.getSalaActual()-1).getObjecte());
+                                }else{
+                                    jugador.afegirClau(titanic.get(jugador.getSalaActual()-1).getObjecte());
+                                    espai=true;
+                                }
+                                if(espai){
+                                    titanic.get(jugador.getSalaActual()-1).agafarObjecte();
+                                }else{
+                                    System.out.println("No tens prou espai per guardar l'objecte");
+                                }
+                            }    
                         }
                     }else{
                         System.out.println(submari.getDescripcio());
@@ -176,18 +193,38 @@ public class App {
                     
                     while(!text.equalsIgnoreCase("e")){
                         text = e.next();
-                        if(jugador.getSalaActual() == 0 && text.equalsIgnoreCase("g") && !agafarTancaT){
-                            System.out.println("Has obtingut una tanca d'oxigen! (+50 Max oxigen)");
-                            jugador.actualitzarMaxOxigen();
-                            agafarTancaT = true;
-                        } else if(jugador.getSalaActual() == 0 && text.equalsIgnoreCase("g")){
-                            System.out.println("Ja has agafat la tanca d'oxigen punyetero!");
-                        }
+                        if(jugador.getSalaActual()==0){
+                            if(submari.getObjecte()==null){
+                                if(text.equalsIgnoreCase("g") && !agafarTancaT){
+                                    System.out.println("Has obtingut una tanca d'oxigen! (+50 Max oxigen)");
+                                    jugador.actualitzarMaxOxigen();
+                                    agafarTancaT = true;
+                                } else if(text.equalsIgnoreCase("g")){
+                                    System.out.println("Ja has agafat la tanca d'oxigen punyetero!");
+                                }
+                            }else{
+                                if(text.equalsIgnoreCase("g")){
+                                    if(submari.getObjecte()!=null){
+                                        if(submari.getObjecte() instanceof objectesMobils){
+                                            espai=jugador.agafarObjecte(submari.getObjecte());
+                                        }else{
+                                            jugador.afegirClau(submari.getObjecte());
+                                            espai=true;
+                                        }
+                                        if(espai){
+                                            submari.agafarObjecte();
+                                        }
+                                    }else{
+                                        System.out.println("No hi han objectes en el terre");
+                                    }
+                                }
+                            }
+                        }    
                         try {
                             if(jugador.getSalaActual()==0){
                                 if(submari.getMobles()!=null){
                                     if(text.equals("1")){
-                                        //En cas de mostrar eñ mapa
+                                        //En cas de mostrar eñ mapa TODO
                                     }
                                     else if(Integer.parseInt(text)<=submari.getMobles().length){
                                         jugador.agafarObjecte(submari.getMobles()[Integer.parseInt(text)-1].interactuarAmbMoble(jugador));
@@ -218,8 +255,6 @@ public class App {
                         text = e.next();
                         jugador.deixarObjecte(text,submari,titanic);
                     }
-                    
-
                 } else{
                     //Moure entre zones
                     resposta= Integer.parseInt(rString);
@@ -246,8 +281,9 @@ public class App {
                                         rString=e.next().toLowerCase();
                                         if(rString.charAt(0)=='s'){
                                             //Aqui s'hauria de comprobar si el jugador té la clau de la prota
-                                            for (clau clauActual : jugador.getClauer()) {
+                                            for (objectesMobils clauActual : jugador.getClauer()) {
                                                 if(clauActual.getIdClau()==jugador.getSalaActual()){
+                                                    jugador.utilitzarClau(null);
                                                     coincideixClau=true;
                                                 }
                                             }
@@ -257,6 +293,7 @@ public class App {
                                                 portaActual.setObert(true);
                                                 break;
                                             }else{
+                                                jugador.moure(idHabAntiga);
                                                 System.out.println("No tenies aquesta clau, perds oxigen per intentar obrir-la");
                                                 break;
                                             }
@@ -267,22 +304,27 @@ public class App {
                                             break;
                                         }
                                     }else{
+                                        if(jugador.getSalaActual()==0){
+                                            jugador.canviarOxigen();
+                                        }
                                         break;
                                     }
                                 }
                             }
 
                             //En cas que la sala sigui fosca TODO
-                            if(titanic.get(jugador.getSalaActual()-1).getFosc()){
-                                // if(jugador.){
+                            if(jugador.getSalaActual()!=0){
+                                if(titanic.get(jugador.getSalaActual()-1).getFosc()){
+                                    // if(jugador.){
 
-                                // }else{
+                                    // }else{
 
-                                // }
-                                //En cas de portar la llenterna amb bateria
-                                System.out.println("Vols encendre la llenterna?");
+                                    // }
+                                    //En cas de portar la llenterna amb bateria
+                                    System.out.println("Vols encendre la llenterna?");
 
-                                System.out.println("No pots entrar en una sala fosca");
+                                    System.out.println("No pots entrar en una sala fosca");
+                                }
                             }
                             
                             jugador.restarOxigen();
@@ -447,7 +489,7 @@ public class App {
         crearPortaHabitacio("Passadis oest", "Passadis nord", zones,true);
         crearPortaHabitacio("Passadis est", "Passadis nord", zones,true);
         crearPortaHabitacio("Passadis est", "Habitació normal est (101)", zones,false);
-        crearPortaHabitacio("Passadis est", "Habitació normal est (102)", zones,true);
+        crearPortaHabitacio("Passadis est", "Habitació normal est (102)", zones,false);
         crearPortaHabitacio("Passadis est", "Habitació normal est (103)", zones,true);
         crearPortaHabitacio("Passadis oest", "Habitació normal oest (104)", zones,true);
         crearPortaHabitacio("Passadis oest", "Habitació normal oest (105)", zones,true);
@@ -632,43 +674,40 @@ public class App {
         //Objectes que han d'estar guardats a l'habitació.
 
         //Ganivet, menjarTauro, llanterna.
-        crearObjecte(titanic,"Sala planta 0", "clau", null, "Cuina" );
-        crearObjecte(titanic,"Menjador", "menjarTauro","taula",null );
-        crearObjecte(titanic,"Cuina", "ganivet","taula",null );
-        crearObjecte(titanic,"Sala de motor", "",null,null );    //Tanca d'oxigen
-        crearObjecte(titanic,"Escala est - sala", "",null,null );
-        crearObjecte(titanic,"Escala oest - sala", "clau",null,"Neteja est" );   
-        crearObjecte(titanic,"Passadis est", "clau",null,"Habitació normal est (101)" );
-        crearObjecte(titanic,"Passadis nord", "",null,null );
-        crearObjecte(titanic,"Passadis oest", "",null,null );
+        crearObjecte(titanic,"Sala planta 0", "clau", "", "Cuina" );
+        crearObjecte(titanic,"Menjador", "menjarTauro","taula","" );
+        crearObjecte(titanic,"Cuina", "ganivet","taula","" );
+        //Escala est - sala no hi ha res
+        crearObjecte(titanic,"Escala oest - sala", "clau","","Neteja est" );   
+        crearObjecte(titanic,"Passadis est", "clau","","Habitació normal est (102)" );
+        crearObjecte(titanic,"Passadis nord", "clau","","Habitació normal est (101)" );
+        //Passadís oest està tapada (usar pala), no hi ha res.
         crearObjecte(titanic,"Habitació normal est (101)", "clau", "escriptori","Neteja est" ); 
-        crearObjecte(titanic,"Habitació normal est (101)", "motxilla", "armari","" ); 
-        //TODO ARRIBAT FINS AQUÍ
-        crearObjecte(titanic,"Habitació normal est (102)", "",null,null );
-        crearObjecte(titanic,"Habitació normal est (103)", "",null,null );
-        crearObjecte(titanic,"Habitació normal oest (104)", "",null,null );
-        crearObjecte(titanic,"Habitació normal oest (105)", "",null,null );
-        crearObjecte(titanic,"Habitació normal oest (106)", "",null,null );
-        crearObjecte(titanic,"Habitació normal nord (107)", "",null,null );
-        crearObjecte(titanic,"Habitació normal nord (108)", "",null,null );
-        crearObjecte(titanic,"Habitació Capità", "",null,null );
-        crearObjecte(titanic,"Neteja est", "pala",null,null );
-        crearObjecte(titanic,"Neteja oest", "",null,null );
-        crearObjecte(titanic,"Escala oest - planta 2", "",null,null );
-        crearObjecte(titanic,"Escala est - planta 2", "",null,null );
-        crearObjecte(titanic,"W.C.est", "",null,null );   
-        crearObjecte(titanic,"W.C.oest", "",null,null );
-        crearObjecte(titanic,"Habitació VIP est", "",null,null );
-        crearObjecte(titanic,"Habitació VIP oest", "",null,null );
-        crearObjecte(titanic,"W.C.VIP est", "",null,null );
-        crearObjecte(titanic,"W.C.VIP oest", "",null,null );
-        crearObjecte(titanic,"Sala planta 2", "",null,null );
-        crearObjecte(titanic,"Sala del capità", "",null,null );
-        crearObjecte(titanic,"Passadis planta 2", "",null,null );
-        crearObjecte(titanic,"Capella", "",null,null );
-        crearObjecte(titanic,"Biblioteca", "",null,null );
-        crearObjecte(titanic,"Teatre", "" ,null,null);
-        
+        crearObjecte(titanic,"Habitació normal est (101)", "motxilla", "armari","" ); //És una habitació fosca i tancada
+        //Habitació 102 fosca i tancada no hi ha res.
+        //Habitació 103 oberta no hi ha res.
+        crearObjecte(titanic,"Habitació normal oest (104)", "","","" );
+        crearObjecte(titanic,"Habitació normal oest (105)", "","","" );
+        crearObjecte(titanic,"Habitació normal oest (106)", "","","" );
+        crearObjecte(titanic,"Habitació normal nord (107)", "","","" );
+        crearObjecte(titanic,"Habitació normal nord (108)", "","","" );
+        crearObjecte(titanic,"Habitació Capità", "","","" );
+        crearObjecte(titanic,"Neteja est", "pala","","" );
+        crearObjecte(titanic,"Neteja oest", "","","" );
+        crearObjecte(titanic,"Escala oest - planta 2", "","","" );
+        crearObjecte(titanic,"Escala est - planta 2", "","","" );
+        crearObjecte(titanic,"W.C.est", "","","" );   
+        crearObjecte(titanic,"W.C.oest", "","","" );
+        crearObjecte(titanic,"Habitació VIP est", "","","" );
+        crearObjecte(titanic,"Habitació VIP oest", "","","" );
+        crearObjecte(titanic,"W.C.VIP est", "","","" );
+        crearObjecte(titanic,"W.C.VIP oest", "","","" );
+        crearObjecte(titanic,"Sala planta 2", "","","" );
+        crearObjecte(titanic,"Sala del capità", "","","" );
+        crearObjecte(titanic,"Passadis planta 2", "","","" );
+        crearObjecte(titanic,"Capella", "","","" );
+        crearObjecte(titanic,"Biblioteca", "","","" );
+        crearObjecte(titanic,"Teatre", "" ,"","");
     }
 
     public void crearObjecte(ArrayList<ubicacions>zones, String nomHabitacio, String nomObjecte, String nomMoble, String nomHabitacioClau){
@@ -678,9 +717,9 @@ public class App {
             if(nomHabitacio.equals(sala.getNomSala())){
                 switch (nomObjecte) {
                     case "clau":
-                         id= obtenirIdHabitacio(zones,nomHabitacio);
+                         id= obtenirIdHabitacio(zones,nomHabitacioClau);
                          if(id!=-1){
-                            objecte = new clau(id,nomHabitacio);
+                            objecte = new clau(id,nomHabitacioClau);
                          }else{
                             System.out.println("Al intentar crear la clau per "+nomHabitacio+" hi ha hagut un error");
                          }
@@ -688,10 +727,11 @@ public class App {
                     case "llanterna": objecte = new llanterna(); break;
                     case "menjarTauro": objecte = new menjarTauro(); break;
                     case "motxilla": objecte = new motxilla(); break;
-                    default:System.out.println("Hi hagut un error intern (Procediment crearObjecte)");break;
+                    case "ganivet": objecte = new ganivet(); break;
+                    default:System.out.println("Hi hagut un error intern (Procediment crearObjecte) "+ nomObjecte);break;
                 }
                 if(objecte!=null){
-                    if(nomMoble==null){
+                    if(nomMoble.equals("")){
                         sala.setObjecte(objecte);
                     }else{
                         try{

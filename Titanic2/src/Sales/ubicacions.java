@@ -32,23 +32,23 @@ public class ubicacions {
 
    //Funció per veure la descripció de l'habitació
    public String getDescripcio(){
-      descripco="";
+      String descripco2=descripco;
       if(objecteTerre == null){ //En cas de que no hi hagi cap objecte a terra es retornarà la descripció normal
          if(mobles!=null && mobles.length>=1){
-            descripco+="Mobles interectuables:";
+            descripco2+="Mobles interectuables:";
             for (int i = 0; i < mobles.length; i++) {
-               descripco+="\n "+(i+1)+": "+mobles[i].getNom();
+               descripco2+="\n "+(i+1)+": "+mobles[i].getNom();
             }
          }
-         return descripco;
+         return descripco2;
       }else{ //Si hi ha un objecte a terre es retorna la descripció i el nom del objecte del terre
          if(mobles!=null && mobles.length>=1){
             System.out.println("Mobles interectuables:");
             for (int i = 0; i < mobles.length; i++) {
-               descripco+="\n "+(i+1)+": "+mobles[i].getNom();
+               descripco2+="\n "+(i+1)+": "+mobles[i].getNom();
             }
          }
-         return descripco + "\nEs pot veure un objecte a terra: \n" + objecteTerre.getNom();
+         return descripco2 + "\nEs pot veure un objecte a terra: \n" + objecteTerre.getNom();
       }
    }
 
@@ -68,12 +68,18 @@ public class ubicacions {
       return this.objecteTerre;
    }
 
-   public void deixarObjecte(objectesMobils nouObjecte){
+   public void agafarObjecte(){
+      this.objecteTerre=null;
+   }
+
+   public boolean deixarObjecte(objectesMobils nouObjecte){
       if(objecteTerre==null){
          objecteTerre=nouObjecte;
+         return true;
       }else{
          System.out.println("No pots deixar un objecte en el terre de l'habitació!");
-      }
+         return false;
+      }  
    }
 
    public void afegirMoble(mobles moble, int posicio){
