@@ -128,15 +128,16 @@ public class jugador {
             }
         }
         if(inventari.length>0){
-            frase+="\nObjectes en el inventari:";
+            frase+="\nObjectes en el inventari: (Capacitat: " + inventari.length + ")";
         }    
         for (int i = 0; i < inventari.length; i++) {
             if(inventari[i]!=null){
                 frase+="\n "+inventari[i].getNom();
                 if(inventari[i].getNom()=="motxilla"){    
+                    System.out.println("Objectes dins de la motxilla (Capacitat: 3)");
                     for (int j = 0; j < inventari[i].getEspai().length; j++) {
                         if(inventari[i].getEspai()[j]!=null){
-                            frase+="\n  "+inventari[i].getEspai()[j].getNom();
+                            frase+="\n   "+inventari[i].getEspai()[j].getNom();
                         }
                     }
                 }
@@ -173,5 +174,26 @@ public class jugador {
 
     public objectesMobils agafarObjectePerID(int id){
         return inventari[id-1];
+    }
+
+    public boolean llenternaUtilitzable(){
+        boolean utilitzable=false;
+        for (int i = 0; i < inventari.length; i++) {
+            if(inventari[i]!=null){
+                if(inventari[i].getNom()=="motxilla"){    
+                    for (int j = 0; j < inventari[i].getEspai().length; j++) {
+                        if(inventari[i].getEspai()[j].getbateria()>0){
+                            utilitzable=true;
+                        }
+                    }
+                }else{
+                    if(inventari[i].getbateria()>0){
+                        utilitzable=true;
+                    }
+                }
+            }
+        }
+        
+        return utilitzable;
     }
 }

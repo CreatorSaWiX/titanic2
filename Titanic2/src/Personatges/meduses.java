@@ -6,6 +6,6 @@ public class meduses extends enemics{
     */
     @Override
     public void atacarJugador(){
-        System.out.println("AAAAAAAA, la medusa me ataca!!! AAAAAA");
+        
     }
 }

@@ -64,6 +64,7 @@ public class App {
         System.out.println("Mobles titanic creats");
 
         //Crear objectes en les habitacions
+        crearObjectesSubmari(submari);
         crearObjectesTitanic(titanic);
         System.out.println("Objectes creades amb èxit");
         System.out.println("tot creat correctement");
@@ -96,9 +97,10 @@ public class App {
         int resposta=0;
         boolean fi=false;        
         ubicacions[] habitacionsDisp=null;
-        String text, rString="";
-        int idSegonaSala;
-        int cont;
+        String text = "";
+        String rString;
+        int idSegonaSala = 0;
+        int cont = 0;
         int idHabAntiga=0;
         boolean coincideixClau=false;
         boolean espai=true;
@@ -108,154 +110,24 @@ public class App {
          * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
               
         while (!fi && jugador.getOxigen()>0) {
-            coincideixClau=false;
-            int idSalaActual=jugador.getSalaActual();
-
-            //En cas d'estar en el submari
-            if(idSalaActual==0){                
-                //Agafant el nom de l'habtiació a la que esta enllaçada
-                habitacionsDisp = new ubicacions[1];
-                habitacionsDisp[0]=titanic.get(0);
-
-            //EN cas de que no estigui en el submari    
-            }else{
-
-                idSalaActual--;//El id de la sala actual equival al seu id del array -1, per no haber de fer la resta tot el rato es resta aqui
-                if(idSalaActual==0){    //En cas d'estar a la primera sala
-                    habitacionsDisp= new ubicacions[titanic.get(idSalaActual).getNumPortes()+1];    //Se li sumarà 1 al array pq el submari tmb ha d'apareixer
-                    habitacionsDisp[habitacionsDisp.length-1]=submari; //Al final de tot se li sumarà el submari
-                }else{
-                    habitacionsDisp= new ubicacions[titanic.get(idSalaActual).getNumPortes()];      //Simplement es crearà l'array amb el numero de portes existents en aquella habitació
-                }
-
-                cont=0;//COntador per indicar la posició de la habitació en l'array
-                for (porta portaActual : titanic.get(idSalaActual).getPortes()) { //Obtenir les portes de l'habitació
-                    idSegonaSala=portaActual.checkIdHab(idSalaActual+1);    //Obtenir el id de l'altra habitació (se li suma 1 al id x tornar a tenir el id de l'habitació)
-                    habitacionsDisp[cont]=titanic.get(idSegonaSala-1);    //Obtenir la segona habitació (Se li resta 1 pq la posició de l'habitació en l'array equival al id -1)
-                    cont++;
-                }
-                
-            }
             try{
-                System.out.println("-----------------------------------------------------------");
-                
-                System.out.println("Aquestes son les opcions que tens: ");
-                for (int i = 0; i < habitacionsDisp.length; i++) {
-                    if(habitacionsDisp[i]!=null){
-                        System.out.println((i+1) +": Anar a "+habitacionsDisp[i].getNomSala());
-                    }
-                }
-                
-                //Opció per sortir del joc
-                if(jugador.getSalaActual()==0){
-                    System.out.println("2: Sortir del joc");
-                }
-                
-                //Capturar el que escriu el jugador
-                rString= e.next();
+                //Retornar les habitacions que pot anar
+                habitacionsDisp=crearArrayPossiblesMoviments(titanic,submari,jugador);
 
+                //Mostrar les opcions a jugador i retorna la seva resposta
+                rString = mostrarOpcions(habitacionsDisp, jugador);
+                
                 //Possibles respostes
                 if(rString.equalsIgnoreCase("d")){
-                    //Descripció de l'habitació en la que estàs
-                    text = "";
-                    if(jugador.getSalaActual()!=0){
-                        if(titanic.get(jugador.getSalaActual()-1).getObjecte()==null){
-                            String salaActual = titanic.get(jugador.getSalaActual()-1).getNomSala();
-                            if(salaActual.equalsIgnoreCase("Sala de motors") && !agafarTancaSM){
-                                agafarTancaSM = tancaOxigen(salaActual, jugador);
-                            } else if(salaActual.equalsIgnoreCase("Capella") && !agafarTancaC){
-                                agafarTancaC = tancaOxigen(salaActual, jugador);
-                            }else{
-                                System.out.println(titanic.get(jugador.getSalaActual()-1).getDescripcio());
-                            }
-                        }else{
-                            System.out.println(titanic.get(jugador.getSalaActual()-1).getDescripcio());
-                            rString=e.next();
-                            if(rString.equals("g")){
-                                if(titanic.get(jugador.getSalaActual()-1).getObjecte() instanceof clau == false){
-                                    espai=jugador.agafarObjecte(titanic.get(jugador.getSalaActual()-1).getObjecte());
-                                }else{
-                                    jugador.afegirClau(titanic.get(jugador.getSalaActual()-1).getObjecte());
-                                    espai=true;
-                                }
-                                if(espai){
-                                    titanic.get(jugador.getSalaActual()-1).agafarObjecte();
-                                }else{
-                                    System.out.println("No tens prou espai per guardar l'objecte");
-                                }
-                            }    
-                        }
-                    }else{
-                        System.out.println(submari.getDescripcio());
-                    }
-                    
-                    System.out.println("\n Escriu 'e' per sortir");
-                    
-                    while(!text.equalsIgnoreCase("e")){
-                        text = e.next();
-                        if(jugador.getSalaActual()==0){
-                            if(submari.getObjecte()==null){
-                                if(text.equalsIgnoreCase("g") && !agafarTancaT){
-                                    System.out.println("Has obtingut una tanca d'oxigen! (+50 Max oxigen)");
-                                    jugador.actualitzarMaxOxigen();
-                                    agafarTancaT = true;
-                                } else if(text.equalsIgnoreCase("g")){
-                                    System.out.println("Ja has agafat la tanca d'oxigen punyetero!");
-                                }
-                            }else{
-                                if(text.equalsIgnoreCase("g")){
-                                    if(submari.getObjecte()!=null){
-                                        if(submari.getObjecte() instanceof objectesMobils){
-                                            espai=jugador.agafarObjecte(submari.getObjecte());
-                                        }else{
-                                            jugador.afegirClau(submari.getObjecte());
-                                            espai=true;
-                                        }
-                                        if(espai){
-                                            submari.agafarObjecte();
-                                        }
-                                    }else{
-                                        System.out.println("No hi han objectes en el terre");
-                                    }
-                                }
-                            }
-                        }    
-                        try {
-                            if(jugador.getSalaActual()==0){
-                                if(submari.getMobles()!=null){
-                                    if(text.equals("1")){
-                                        //En cas de mostrar eñ mapa TODO
-                                    }
-                                    else if(Integer.parseInt(text)<=submari.getMobles().length){
-                                        jugador.agafarObjecte(submari.getMobles()[Integer.parseInt(text)-1].interactuarAmbMoble(jugador));
-                                        text="e";
-                                    }
-                                } 
-                            }else{
-                                if(titanic.get(jugador.getSalaActual()-1).getMobles()!=null){
-                                    if(Integer.parseInt(text)<=titanic.get(jugador.getSalaActual()-1).getMobles().length){
-                                        jugador.agafarObjecte(titanic.get(jugador.getSalaActual()-1).getMobles()[Integer.parseInt(text)-1].interactuarAmbMoble(jugador));
-                                        text="e";
-                                    }
-                                }    
-                            }
-                            
-                        } catch (Exception err) {
-                            
-                        }
-                    }
-                    
+                    //Mostrar descripció de la sala, objectes que hi ha i armaris. Si hi ha armaris, pot mirar els obj que hi ha endins
+                    mostrarDescripcio(submari, titanic, agafarTancaT, agafarTancaSM, agafarTancaC, jugador, resposta, fi, habitacionsDisp, text, rString, idSegonaSala, cont, idHabAntiga, coincideixClau, espai);
                     
                 } else if(rString.equalsIgnoreCase("i")){
-                    //Inventari
-                    text="";
-                    jugador.mostrarInventari();
-                    System.out.println("Escriu el nom del Objecte que vols deixar a terre o 'e' per sortir");
-                    while(!text.equalsIgnoreCase("e")){
-                        text = e.next();
-                        jugador.deixarObjecte(text,submari,titanic);
-                    }
+                    //Interactuar i mostrar el inventari
+                    interactuarAmbInventari(jugador,submari,titanic);
+                    
                 } else{
+                    
                     //Moure entre zones
                     resposta= Integer.parseInt(rString);
                     if(jugador.getSalaActual()==0 && resposta==2){ //En cas d'estar en el submari i finalitzar el joc
@@ -267,10 +139,6 @@ public class App {
                         jugador.moure(habitacionsDisp[resposta-1].getIdHab()); //Canviar d'habitació
                        
                         if(idHabAntiga!=0){ //En cas de no estar en el submari
-                            // int idHab = jugador.getSalaActual()-1;
-
-                            //titanic.get(idHabAntiga-1).getPortes(); //Codi per obtenir portes
-
 
                             //Per portes bloquejades
                             for (porta portaActual :  titanic.get(idHabAntiga-1).getPortes()) { //Anar passant porta per porta de l'habiatció antiga
@@ -315,6 +183,11 @@ public class App {
                             //En cas que la sala sigui fosca TODO
                             if(jugador.getSalaActual()!=0){
                                 if(titanic.get(jugador.getSalaActual()-1).getFosc()){
+                                    if(jugador.llenternaUtilitzable()){
+                                        
+                                    }else{
+                                        System.out.println("No pots entrar en una habitació fosca sense la llanterna amb bateria!");
+                                    }
                                     // if(jugador.){
 
                                     // }else{
@@ -322,20 +195,16 @@ public class App {
                                     // }
                                     //En cas de portar la llenterna amb bateria
                                     System.out.println("Vols encendre la llenterna?");
-
                                     System.out.println("No pots entrar en una sala fosca");
                                 }
                             }
-                            
                             jugador.restarOxigen();
                         }else{
                             System.out.println("Canvies la tanca d'oxigen gastada per una de nova.");
                             jugador.canviarOxigen();
                         }
-                        
                     } 
                 }   
-
             }catch(Exception err){
                 System.err.println(err);
                 System.out.println("Escriu una opció vàlida");
@@ -345,6 +214,162 @@ public class App {
 
         if(jugador.getOxigen()<=0){
             System.out.println("GAME OVER :( ");
+        }
+    }
+    
+    private ubicacions[] crearArrayPossiblesMoviments(ArrayList<ubicacions> titanic, ubicacions submari, jugador jugador){
+        boolean coincideixClau=false;
+        ubicacions habitacionsDisp[] = null;
+            int idSalaActual=jugador.getSalaActual();
+
+            //En cas d'estar en el submari
+            if(idSalaActual==0){                
+                //Agafant el nom de l'habtiació a la que esta enllaçada
+                habitacionsDisp = new ubicacions[1];
+                habitacionsDisp[0]=titanic.get(0);
+
+            //EN cas de que no estigui en el submari    
+            }else{
+
+                idSalaActual--;//El id de la sala actual equival al seu id del array -1, per no haber de fer la resta tot el rato es resta aqui
+                if(idSalaActual==0){    //En cas d'estar a la primera sala
+                    habitacionsDisp= new ubicacions[titanic.get(idSalaActual).getNumPortes()+1];    //Se li sumarà 1 al array pq el submari tmb ha d'apareixer
+                    habitacionsDisp[habitacionsDisp.length-1]=submari; //Al final de tot se li sumarà el submari
+                }else{
+                    habitacionsDisp= new ubicacions[titanic.get(idSalaActual).getNumPortes()];      //Simplement es crearà l'array amb el numero de portes existents en aquella habitació
+                }
+
+                int cont=0;//COntador per indicar la posició de la habitació en l'array
+                for (porta portaActual : titanic.get(idSalaActual).getPortes()) { //Obtenir les portes de l'habitació
+                    int idSegonaSala=portaActual.checkIdHab(idSalaActual+1);    //Obtenir el id de l'altra habitació (se li suma 1 al id x tornar a tenir el id de l'habitació)
+                    habitacionsDisp[cont]=titanic.get(idSegonaSala-1);    //Obtenir la segona habitació (Se li resta 1 pq la posició de l'habitació en l'array equival al id -1)
+                    cont++;
+                }
+            }
+            return habitacionsDisp;
+    }
+
+
+    private void mostrarDescripcio(ubicacions submari, ArrayList<ubicacions> titanic, boolean agafarTancaT, boolean agafarTancaSM, boolean agafarTancaC, jugador jugador, int resposta, boolean fi, ubicacions[] habitacionsDisp, String text, String rString, int idSegonaSala, int cont, int idHabAntiga, boolean coincideixClau, boolean espai) {
+        //Descripció de l'habitació en la que estàs
+        text = "";
+        if(jugador.getSalaActual()!=0){
+            if(titanic.get(jugador.getSalaActual()-1).getObjecte()==null){
+                String salaActual = titanic.get(jugador.getSalaActual()-1).getNomSala();
+                if(salaActual.equalsIgnoreCase("Sala de motors") && !agafarTancaSM){
+                    agafarTancaSM = tancaOxigen(salaActual, jugador);
+                } else if(salaActual.equalsIgnoreCase("Capella") && !agafarTancaC){
+                    agafarTancaC = tancaOxigen(salaActual, jugador);
+                }else{
+                    System.out.println(titanic.get(jugador.getSalaActual()-1).getDescripcio());
+                }
+            }else{
+                System.out.println(titanic.get(jugador.getSalaActual()-1).getDescripcio());
+                rString=e.next();
+                if(rString.equals("g")){
+                    if(titanic.get(jugador.getSalaActual()-1).getObjecte() instanceof clau == false){
+                        espai=jugador.agafarObjecte(titanic.get(jugador.getSalaActual()-1).getObjecte());
+                    }else{
+                        jugador.afegirClau(titanic.get(jugador.getSalaActual()-1).getObjecte());
+                        espai=true;
+                    }
+                    if(espai){
+                        titanic.get(jugador.getSalaActual()-1).agafarObjecte();
+                    }else{
+                        System.out.println("No tens prou espai per guardar l'objecte");
+                    }
+                }    
+            }
+        }else{
+            System.out.println(submari.getDescripcio());
+        }
+        
+        System.out.println("\n Escriu 'e' per sortir");
+        
+        while(!text.equalsIgnoreCase("e")){
+            text = e.next();
+            if(jugador.getSalaActual()==0){     //En cas que el jugador està en el submarí
+                if(submari.getObjecte()==null){
+                    if(text.equalsIgnoreCase("g") && !agafarTancaT){
+                        System.out.println("Has obtingut una tanca d'oxigen! (+50 Max oxigen)");
+                        jugador.actualitzarMaxOxigen();
+                        agafarTancaT = true;
+                    } else if(text.equalsIgnoreCase("g")){
+                        System.out.println("Ja has agafat la tanca d'oxigen punyetero!");
+                    }
+                }else{
+                    if(text.equalsIgnoreCase("g")){
+                        if(submari.getObjecte()!=null){
+                            if(submari.getObjecte() instanceof objectesMobils){
+                                espai=jugador.agafarObjecte(submari.getObjecte());
+                            }else{
+                                jugador.afegirClau(submari.getObjecte());
+                                espai=true;
+                            }
+                            if(espai){
+                                submari.agafarObjecte();
+                            }
+                        }else{
+                            System.out.println("No hi han objectes en el terre");
+                        }
+                    }
+                }
+            }    
+            try {
+                if(jugador.getSalaActual()==0){
+                    if(submari.getMobles()!=null){
+                        if(text.equals("1")){
+                            //En cas de mostrar eñ mapa TODO
+                        }
+                        else if(Integer.parseInt(text)<=submari.getMobles().length){
+                            jugador.agafarObjecte(submari.getMobles()[Integer.parseInt(text)-1].interactuarAmbMoble(jugador));
+                            text="e";
+                        }
+                    } 
+                }else{
+                    if(titanic.get(jugador.getSalaActual()-1).getMobles()!=null){
+                        if(Integer.parseInt(text)<=titanic.get(jugador.getSalaActual()-1).getMobles().length){
+                            jugador.agafarObjecte(titanic.get(jugador.getSalaActual()-1).getMobles()[Integer.parseInt(text)-1].interactuarAmbMoble(jugador));
+                            text="e";
+                        }
+                    }    
+                }
+                
+            } catch (Exception err) {
+                
+            }
+        }
+    }
+
+    private String mostrarOpcions(ubicacions[] habitacionsDisp, jugador jugador){
+        String rString;
+
+        System.out.println("-----------------------------------------------------------");
+        System.out.println("Aquestes son les opcions que tens: ");
+        for (int i = 0; i < habitacionsDisp.length; i++) {
+            if(habitacionsDisp[i]!=null){
+                System.out.println((i+1) +": Anar a "+habitacionsDisp[i].getNomSala());
+            }
+        }
+
+        //Opció per sortir del joc
+        if(jugador.getSalaActual()==0){
+            System.out.println("2: Sortir del joc");
+        }
+        
+        //Capturar el que escriu el jugador
+        rString= e.next();
+
+        return rString;
+    }
+
+    private void interactuarAmbInventari(jugador jugador, ubicacions submari, ArrayList<ubicacions> titanic){
+        String text="";
+        jugador.mostrarInventari();
+        System.out.println("Escriu el nom del Objecte que vols deixar a terre o 'e' per sortir");
+        while(!text.equalsIgnoreCase("e")){
+            text = e.next();
+            jugador.deixarObjecte(text,submari,titanic);
         }
     }
 
@@ -748,6 +773,11 @@ public class App {
                 break;
             }
         }
+    }
+
+    public void crearObjectesSubmari(ubicacions submari){
+        objectesMobils objecte = new llanterna();
+        submari.setObjecte(objecte);
     }
 
     private boolean tancaOxigen(String salaActual, jugador jugador){

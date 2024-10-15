@@ -19,4 +19,8 @@ public class objectesMobils {
     public int getIdClau(){
         return -1;
     }
+
+    public int getbateria(){
+        return -1;
+    }
 }
