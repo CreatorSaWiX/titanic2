@@ -168,6 +168,8 @@ public class jugador {
         }
         if(afegit==false){
             System.out.println("No tens espai en el inventari!");
+        }else{
+            System.out.println("Has agafat el objecte: "+objecte.getNom());
         }
         return afegit;
     }

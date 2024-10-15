@@ -99,10 +99,6 @@ public class App {
         ubicacions[] habitacionsDisp=null;
         String text = "";
         String rString;
-        int idSegonaSala = 0;
-        int cont = 0;
-        int idHabAntiga=0;
-        boolean coincideixClau=false;
         boolean espai=true;
         
         /* * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -120,90 +116,12 @@ public class App {
                 //Possibles respostes
                 if(rString.equalsIgnoreCase("d")){
                     //Mostrar descripció de la sala, objectes que hi ha i armaris. Si hi ha armaris, pot mirar els obj que hi ha endins
-                    mostrarDescripcio(submari, titanic, agafarTancaT, agafarTancaSM, agafarTancaC, jugador, resposta, fi, habitacionsDisp, text, rString, idSegonaSala, cont, idHabAntiga, coincideixClau, espai);
-                    
+                    mostrarDescripcio(submari, titanic, agafarTancaT, agafarTancaSM, agafarTancaC, jugador, resposta, fi, text, rString, espai);
                 } else if(rString.equalsIgnoreCase("i")){
                     //Interactuar i mostrar el inventari
                     interactuarAmbInventari(jugador,submari,titanic);
-                    
                 } else{
-                    
-                    //Moure entre zones
-                    resposta= Integer.parseInt(rString);
-                    if(jugador.getSalaActual()==0 && resposta==2){ //En cas d'estar en el submari i finalitzar el joc
-                        fi=true;
-
-                    }else{  //En cas de voler-te moure entre habitacions
-                        //Obtenir el id de la sala en la que estàs 
-                        idHabAntiga=jugador.getSalaActual();
-                        jugador.moure(habitacionsDisp[resposta-1].getIdHab()); //Canviar d'habitació
-                       
-                        if(idHabAntiga!=0){ //En cas de no estar en el submari
-
-                            //Per portes bloquejades
-                            for (porta portaActual :  titanic.get(idHabAntiga-1).getPortes()) { //Anar passant porta per porta de l'habiatció antiga
-                                if(portaActual.checkIdHab(idHabAntiga)==jugador.getSalaActual()){   //Obtenir la porta a la que acaba d'accedir
-                                    if(!portaActual.getObert()){ //En cas de que la porta no estigui oberta
-                                        System.out.println("Aquesta porta no està oberta");
-                                        System.out.println("Vols desbloquejar la porta? (s/n)");
-                                        rString=e.next().toLowerCase();
-                                        if(rString.charAt(0)=='s'){
-                                            //Aqui s'hauria de comprobar si el jugador té la clau de la prota
-                                            for (objectesMobils clauActual : jugador.getClauer()) {
-                                                if(clauActual.getIdClau()==jugador.getSalaActual()){
-                                                    jugador.utilitzarClau(null);
-                                                    coincideixClau=true;
-                                                }
-                                            }
-                                            if(coincideixClau){
-                                                //Aixó es fa en cas de tenir la clau
-                                                System.out.println("Desbloqueges la porta i segueixes endavant");
-                                                portaActual.setObert(true);
-                                                break;
-                                            }else{
-                                                jugador.moure(idHabAntiga);
-                                                System.out.println("No tenies aquesta clau, perds oxigen per intentar obrir-la");
-                                                break;
-                                            }
-                                            
-                                        }else{
-                                            System.out.println("Et quedes en la mateixa habitació");
-                                            jugador.moure(idHabAntiga);
-                                            break;
-                                        }
-                                    }else{
-                                        if(jugador.getSalaActual()==0){
-                                            jugador.canviarOxigen();
-                                        }
-                                        break;
-                                    }
-                                }
-                            }
-
-                            //En cas que la sala sigui fosca TODO
-                            if(jugador.getSalaActual()!=0){
-                                if(titanic.get(jugador.getSalaActual()-1).getFosc()){
-                                    if(jugador.llenternaUtilitzable()){
-                                        
-                                    }else{
-                                        System.out.println("No pots entrar en una habitació fosca sense la llanterna amb bateria!");
-                                    }
-                                    // if(jugador.){
-
-                                    // }else{
-
-                                    // }
-                                    //En cas de portar la llenterna amb bateria
-                                    System.out.println("Vols encendre la llenterna?");
-                                    System.out.println("No pots entrar en una sala fosca");
-                                }
-                            }
-                            jugador.restarOxigen();
-                        }else{
-                            System.out.println("Canvies la tanca d'oxigen gastada per una de nova.");
-                            jugador.canviarOxigen();
-                        }
-                    } 
+                    fi=moureEntreHabitacions(rString,jugador, submari, titanic,habitacionsDisp); 
                 }   
             }catch(Exception err){
                 System.err.println(err);
@@ -250,7 +168,7 @@ public class App {
     }
 
 
-    private void mostrarDescripcio(ubicacions submari, ArrayList<ubicacions> titanic, boolean agafarTancaT, boolean agafarTancaSM, boolean agafarTancaC, jugador jugador, int resposta, boolean fi, ubicacions[] habitacionsDisp, String text, String rString, int idSegonaSala, int cont, int idHabAntiga, boolean coincideixClau, boolean espai) {
+    private void mostrarDescripcio(ubicacions submari, ArrayList<ubicacions> titanic, boolean agafarTancaT, boolean agafarTancaSM, boolean agafarTancaC, jugador jugador, int resposta, boolean fi, String text, String rString, boolean espai) {
         //Descripció de l'habitació en la que estàs
         text = "";
         if(jugador.getSalaActual()!=0){
@@ -310,7 +228,7 @@ public class App {
                                 submari.agafarObjecte();
                             }
                         }else{
-                            System.out.println("No hi han objectes en el terre");
+                            System.out.println("No hi ha objectes en el terra");
                         }
                     }
                 }
@@ -371,6 +289,86 @@ public class App {
             text = e.next();
             jugador.deixarObjecte(text,submari,titanic);
         }
+    }
+
+    private boolean moureEntreHabitacions(String rString, jugador jugador, ubicacions submari, ArrayList<ubicacions> titanic, ubicacions[] habitacionsDisp){
+        //Moure entre zones
+        int idHabAntiga=0;
+        boolean fi=false;
+        int resposta= Integer.parseInt(rString);
+        boolean coincideixClau=false;
+        if(jugador.getSalaActual()==0 && resposta==2){ //En cas d'estar en el submari i finalitzar el joc
+            fi=true;
+        }else{ 
+            //En cas de voler-te moure entre habitacions 
+            idHabAntiga=jugador.getSalaActual();    //Obtenir el id de la sala en la que estàs 
+            jugador.moure(habitacionsDisp[resposta-1].getIdHab()); //Canviar d'habitació
+            if(idHabAntiga!=0){ //En cas de no estar en el submari
+                //Per portes bloquejades
+                for (porta portaActual :  titanic.get(idHabAntiga-1).getPortes()) { //Anar passant porta per porta de l'habiatció antiga
+                    if(portaActual.checkIdHab(idHabAntiga)==jugador.getSalaActual()){   //Obtenir la porta a la que acaba d'accedir
+                        if(!portaActual.getObert()){ //En cas de que la porta no estigui oberta
+                            System.out.println("Aquesta porta no està oberta");
+                            System.out.println("Vols desbloquejar la porta? (s/n)");
+                            rString=e.next().toLowerCase();
+                            if(rString.charAt(0)=='s'){
+                                //Aqui s'hauria de comprobar si el jugador té la clau de la prota
+                                for (objectesMobils clauActual : jugador.getClauer()) {
+                                    if(clauActual.getIdClau()==jugador.getSalaActual()){
+                                        jugador.utilitzarClau(null);
+                                        coincideixClau=true;
+                                    }
+                                }
+                                if(coincideixClau){
+                                    //Aixó es fa en cas de tenir la clau
+                                    System.out.println("Desbloqueges la porta i segueixes endavant");
+                                    portaActual.setObert(true);
+                                    break;
+                                }else{
+                                    jugador.moure(idHabAntiga);
+                                    System.out.println("No tenies aquesta clau, perds oxigen per intentar obrir-la");
+                                    break;
+                                }
+                                
+                            }else{
+                                System.out.println("Et quedes en la mateixa habitació");
+                                jugador.moure(idHabAntiga);
+                                break;
+                            }
+                        }else{
+                            if(jugador.getSalaActual()==0){
+                                jugador.canviarOxigen();
+                            }
+                            break;
+                        }
+                    }
+                }
+
+                //En cas que la sala sigui fosca TODO
+                if(jugador.getSalaActual()!=0){
+                    if(titanic.get(jugador.getSalaActual()-1).getFosc()){
+                        if(jugador.llenternaUtilitzable()){
+                            
+                        }else{
+                            System.out.println("No pots entrar en una habitació fosca sense la llanterna amb bateria!");
+                        }
+                        // if(jugador.){
+
+                        // }else{
+
+                        // }
+                        //En cas de portar la llenterna amb bateria
+                        System.out.println("Vols encendre la llenterna?");
+                        System.out.println("No pots entrar en una sala fosca");
+                    }
+                }
+                jugador.restarOxigen();
+            }else{
+                System.out.println("Canvies la tanca d'oxigen gastada per una de nova.");
+                jugador.canviarOxigen();
+            }
+        }
+        return fi;
     }
 
     public void crearTitanic(ArrayList<ubicacions> titanic){
