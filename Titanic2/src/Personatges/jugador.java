@@ -56,8 +56,13 @@ public class jugador {
         return clauer;
     }
 
-    public void utilitzarClau(clau clauUtilitzada){
-        clauer.remove(clauUtilitzada);
+    public void utilitzarClau(objectesMobils clauUtilitzada){
+        try{
+          clauer.remove(clauUtilitzada);  
+        }catch(Exception err){
+            System.out.println("No s'ha pogut eliminar la clau del clauer.");
+        }
+        
     }
 
     public void setGana(){

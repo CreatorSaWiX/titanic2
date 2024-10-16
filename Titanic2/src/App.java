@@ -121,7 +121,7 @@ public class App {
                     //Interactuar i mostrar el inventari
                     interactuarAmbInventari(jugador,submari,titanic);
                 } else{
-                    fi=moureEntreHabitacions(rString,jugador, submari, titanic,habitacionsDisp); 
+                    fi = moureEntreHabitacions(rString,jugador, submari, titanic,habitacionsDisp); 
                 }   
             }catch(Exception err){
                 System.err.println(err);
@@ -315,8 +315,8 @@ public class App {
                                 //Aqui s'hauria de comprobar si el jugador té la clau de la prota
                                 for (objectesMobils clauActual : jugador.getClauer()) {
                                     if(clauActual.getIdClau()==jugador.getSalaActual()){
-                                        jugador.utilitzarClau(null);
                                         coincideixClau=true;
+                                        jugador.utilitzarClau(clauActual);
                                     }
                                 }
                                 if(coincideixClau){
@@ -347,19 +347,12 @@ public class App {
                 //En cas que la sala sigui fosca TODO
                 if(jugador.getSalaActual()!=0){
                     if(titanic.get(jugador.getSalaActual()-1).getFosc()){
-                        if(jugador.llenternaUtilitzable()){
-                            
-                        }else{
+                        if(!jugador.llenternaUtilitzable()){
                             System.out.println("No pots entrar en una habitació fosca sense la llanterna amb bateria!");
+                        }else{
+                            //En cas de portar la llenterna amb bateria
+                            System.out.println("Vols encendre la llenterna?");
                         }
-                        // if(jugador.){
-
-                        // }else{
-
-                        // }
-                        //En cas de portar la llenterna amb bateria
-                        System.out.println("Vols encendre la llenterna?");
-                        System.out.println("No pots entrar en una sala fosca");
                     }
                 }
                 jugador.restarOxigen();
