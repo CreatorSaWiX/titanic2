@@ -322,14 +322,15 @@ public class App {
                         if(!portaActual.getObert()){ //En cas de que la porta no estigui oberta
                             System.out.println("Aquesta porta no està oberta");
                             System.out.println("Vols desbloquejar la porta? (s/n)");
-                            rString=e.next().toLowerCase();
-                            if(rString.charAt(0)=='s'){
+                            rString=e.next();
+                            if(rString.toLowerCase().charAt(0)=='s'){
                                 int i=0;
                                 //Aqui s'hauria de comprobar si el jugador té la clau de la prota
                                 for (objectesMobils clauActual : jugador.getClauer()) {
                                     if(clauActual.getIdClau()==jugador.getSalaActual()){
                                         coincideixClau=true;
-                                        jugador.utilitzarClau(i);   //TODO
+                                        jugador.utilitzarClau(i);
+                                        break;
                                     }else{
                                         i++;
                                     }
@@ -402,12 +403,13 @@ public class App {
             if(titanic.get(jugador.getSalaActual()-1).getFosc()){
                 if(!jugador.llenternaUtilitzable()){
                     System.out.println("No pots entrar en una habitació fosca sense la llanterna amb bateria!");
+                    jugador.moure(idHabAntiga);
                 }else{
                     //En cas de portar la llenterna amb bateria
                     System.out.println("Vols encendre la llenterna? (s/n)");
                     rString=e.next();
                     if(rString.toLowerCase().equals("s")){
-                        jugador.utilitzarLlenterna();   //TODO
+                        jugador.utilitzarLlenterna();
                     }else if(rString.toLowerCase().equals("n")){
                         jugador.moure(idHabAntiga);
                         System.out.println("Tornes a l'habitació a la que estaves amb menys oxigen");
