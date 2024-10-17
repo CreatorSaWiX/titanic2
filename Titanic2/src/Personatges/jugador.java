@@ -56,9 +56,9 @@ public class jugador {
         return clauer;
     }
 
-    public void utilitzarClau(objectesMobils clauUtilitzada){
+    public void utilitzarClau(int i){
         try{
-          clauer.remove(clauUtilitzada);  
+            clauer.remove(i);  
         }catch(Exception err){
             System.out.println("No s'ha pogut eliminar la clau del clauer.");
         }
@@ -202,5 +202,15 @@ public class jugador {
         }
         
         return utilitzable;
+    }
+
+    public void utilitzarLlenterna(){
+        for (objectesMobils objecte : inventari) {
+            if(objecte!= null){
+                if(objecte.getNom().equals("llanterna")){
+                    objecte.utilitzarLlanterna();
+                }
+            }    
+        }
     }
 }

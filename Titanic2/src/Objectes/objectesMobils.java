@@ -23,4 +23,7 @@ public class objectesMobils {
     public int getbateria(){
         return -1;
     }
+    public void utilitzarLlanterna(){
+        System.out.println("Aquest objecte no és una llanterna");
+    }
 }

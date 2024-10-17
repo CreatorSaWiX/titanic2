@@ -15,4 +15,9 @@ public class llanterna extends objectesMobils{
     public boolean ences(){
         return this.ences;
     }
+
+    public void utilitzarLlanterna(){
+        bateria--;
+        System.out.println("Et queda "+bateria+"% de bateria en la llanterna.");
+    }
 }
