@@ -3,7 +3,13 @@ import java.util.Scanner;
 import Objectes.*;
 
 import java.util.ArrayList;
+
+import Personatges.calamarsMitjans;
+import Personatges.enemics;
 import Personatges.jugador;
+import Personatges.meduses;
+import Personatges.peixosLlanterna;
+import Personatges.taurons;
 import Sales.*;
 import ObjectesInmobils.*;
 
@@ -241,7 +247,10 @@ public class App {
                             //En cas de mostrar eñ mapa TODO
                         }
                         else if(Integer.parseInt(text)<=submari.getMobles().length){
-                            jugador.agafarObjecte(submari.getMobles()[Integer.parseInt(text)-1].interactuarAmbMoble(jugador));
+                            objectesMobils objAgafat=submari.getMobles()[Integer.parseInt(text)-1].interactuarAmbMoble(jugador);
+                            if(objAgafat!=null){
+                                jugador.agafarObjecte(objAgafat);
+                            }
                             text="e";
                         }
                     } 
@@ -351,6 +360,8 @@ public class App {
                                 jugador.moure(idHabAntiga);
                                 break;
                             }
+                        }else if(!portaActual.getEnterrada()){
+                            portaEnterrada(portaActual,jugador,idHabAntiga);
                         }else{
                             if(jugador.getSalaActual()==0){
                                 jugador.canviarOxigen();
@@ -368,12 +379,36 @@ public class App {
         return fi;
     }
 
+    private void portaEnterrada(porta portaActual, jugador jugador, int idHabAntiga){
+        System.out.println("Una montanya de sorra et tapa el cami, amb una pala podries apartar la sorra.");
+        if(jugador.tePala()){
+            System.out.println("Vols utilitzar una pala? (s/n)");
+            String r=e.next().toLowerCase();
+            if(r.equals("s")){
+                jugador.utilitzarPala();
+                portaActual.desenterrar();
+            }else if(r.equals("n")){
+                System.out.println("Tornes enrere");
+                jugador.moure(idHabAntiga);
+            }else{
+                System.out.println("Tornes enrere");
+                jugador.moure(idHabAntiga);
+            }
+        }else{
+            System.out.println("No ten una pala amb la qual apartar la sorra.");
+            jugador.moure(idHabAntiga);
+
+        }
+    }
 
     private void salaEnemics(ArrayList<ubicacions> titanic, jugador jugador, int idHabAntiga){ //TODO 123
         String text;
         String habFutur = titanic.get(jugador.getSalaActual()-1).getNomSala();
-        
 
+        if(jugador.objecteEnInventari("menjarTauro")){
+
+        }
+        
         switch (habFutur) {
             case "Menjador": break;
 
@@ -385,17 +420,22 @@ public class App {
                     text = e.next();
                 }
                 if(text.equalsIgnoreCase("s")){
-                    ganivet ganivet = new ganivet();
-                    ganivet.utilitzar(jugador);
+                    if(jugador.objecteEnInventari("ganivet")){
+                        jugador.getObjecteInventari("ganivet").utilitzar(jugador);
+                        jugador.utilitzarObjecte("ganivet");
+                    } else {
+                        System.out.println("No tens gavinets en el teu inventari");
+                    }
                 } else {
                     jugador.moure(idHabAntiga);
                 }
                 break;
 
-            case "Passadis est": System.out.println("Hi ha una medusa. Vols esquipejar? (s/n)");break;
+            case "Passadis est": break;
             default: break;
         }
     }
+
     
     private void salaFosca(jugador jugador, ArrayList<ubicacions>titanic, int idHabAntiga){
         String rString="";
@@ -551,46 +591,46 @@ public class App {
 
     public void crearPortesTitanic(porta porta, ArrayList<ubicacions> zones){
 
-        //Les boleanes indican si la porta esta desbloqeuejada o no
-        crearPortaHabitacio("Sala planta 0", "Menjador", zones,true);
-        crearPortaHabitacio("Menjador", "Cuina", zones,false);
-        crearPortaHabitacio("Sala planta 0", "Sala de motors", zones,true);
-        crearPortaHabitacio("Sala planta 0", "Escala est - sala", zones,true);
-        crearPortaHabitacio("Sala planta 0", "Escala oest - sala", zones,true);
-        crearPortaHabitacio("Escala est - sala", "Escala oest - sala", zones,true);
-        crearPortaHabitacio("Passadis est", "Escala est - sala", zones,true);
-        crearPortaHabitacio("Escala oest - sala", "Passadis oest", zones,true);
-        crearPortaHabitacio("Passadis oest", "Passadis nord", zones,true);
-        crearPortaHabitacio("Passadis est", "Passadis nord", zones,true);
-        crearPortaHabitacio("Passadis est", "Habitació normal est (101)", zones,false);
-        crearPortaHabitacio("Passadis est", "Habitació normal est (102)", zones,false);
-        crearPortaHabitacio("Passadis est", "Habitació normal est (103)", zones,true);
-        crearPortaHabitacio("Passadis oest", "Habitació normal oest (104)", zones,true);
-        crearPortaHabitacio("Passadis oest", "Habitació normal oest (105)", zones,true);
-        crearPortaHabitacio("Passadis oest", "Habitació normal oest (106)", zones,true);
-        crearPortaHabitacio("Passadis nord", "Habitació normal nord (107)", zones,true);
-        crearPortaHabitacio("Passadis nord", "Habitació normal nord (108)", zones,true);
-        crearPortaHabitacio("Passadis nord", "Habitació Capità", zones,true);
-        crearPortaHabitacio("Passadis est", "Neteja est", zones,false);
-        crearPortaHabitacio("Passadis est", "W.C.est", zones,true);
-        crearPortaHabitacio("Passadis oest", "W.C.oest", zones,true);
-        crearPortaHabitacio("Passadis oest", "Neteja oest", zones,true); 
-        crearPortaHabitacio("Passadis est", "Habitació VIP est", zones,true);
-        crearPortaHabitacio("Passadis oest", "Habitació VIP oest", zones,true);
-        crearPortaHabitacio("Habitació VIP est", "W.C.VIP est", zones,true);
-        crearPortaHabitacio("Habitació VIP oest", "W.C.VIP oest", zones,true);
-        crearPortaHabitacio("Escala est - planta 2", "Sala planta 2", zones,true);
-        crearPortaHabitacio("Escala oest - planta 2", "Sala planta 2", zones,true);
-        crearPortaHabitacio("Passadis est", "Escala est - planta 2", zones,true);
-        crearPortaHabitacio("Passadis oest", "Escala oest - planta 2", zones,true);
-        crearPortaHabitacio("Sala planta 2", "Passadis planta 2", zones,true);
-        crearPortaHabitacio("Passadis planta 2", "Capella", zones,true);
-        crearPortaHabitacio("Passadis planta 2", "Biblioteca", zones,true);
-        crearPortaHabitacio("Passadis planta 2", "Teatre", zones,true);
-        crearPortaHabitacio("Passadis planta 2", "Sala del capità", zones,true);
+        //Les boleanes indican si la porta esta desbloqeuejada o no i la segona indica si esta enterrada o no
+        crearPortaHabitacio("Sala planta 0", "Menjador", zones,true,true);
+        crearPortaHabitacio("Menjador", "Cuina", zones,false,true);
+        crearPortaHabitacio("Sala planta 0", "Sala de motors", zones,true,true);
+        crearPortaHabitacio("Sala planta 0", "Escala est - sala", zones,true,true);
+        crearPortaHabitacio("Sala planta 0", "Escala oest - sala", zones,true,true);
+        crearPortaHabitacio("Escala est - sala", "Escala oest - sala", zones,true,true);
+        crearPortaHabitacio("Passadis est", "Escala est - sala", zones,true,true);
+        crearPortaHabitacio("Escala oest - sala", "Passadis oest", zones,true,false);
+        crearPortaHabitacio("Passadis oest", "Passadis nord", zones,true,true);
+        crearPortaHabitacio("Passadis est", "Passadis nord", zones,true,true);
+        crearPortaHabitacio("Passadis est", "Habitació normal est (101)", zones,false,true);
+        crearPortaHabitacio("Passadis est", "Habitació normal est (102)", zones,false,true);
+        crearPortaHabitacio("Passadis est", "Habitació normal est (103)", zones,true,true);
+        crearPortaHabitacio("Passadis oest", "Habitació normal oest (104)", zones,true,true);
+        crearPortaHabitacio("Passadis oest", "Habitació normal oest (105)", zones,true,true);
+        crearPortaHabitacio("Passadis oest", "Habitació normal oest (106)", zones,true,true);
+        crearPortaHabitacio("Passadis nord", "Habitació normal nord (107)", zones,true,true);
+        crearPortaHabitacio("Passadis nord", "Habitació normal nord (108)", zones,true,true);
+        crearPortaHabitacio("Passadis nord", "Habitació Capità", zones,true,true);
+        crearPortaHabitacio("Passadis est", "Neteja est", zones,false,true);
+        crearPortaHabitacio("Passadis est", "W.C.est", zones,true,true);
+        crearPortaHabitacio("Passadis oest", "W.C.oest", zones,true,true);
+        crearPortaHabitacio("Passadis oest", "Neteja oest", zones,true,true); 
+        crearPortaHabitacio("Passadis est", "Habitació VIP est", zones,true,true);
+        crearPortaHabitacio("Passadis oest", "Habitació VIP oest", zones,true,true);
+        crearPortaHabitacio("Habitació VIP est", "W.C.VIP est", zones,true,true);
+        crearPortaHabitacio("Habitació VIP oest", "W.C.VIP oest", zones,true,true);
+        crearPortaHabitacio("Escala est - planta 2", "Sala planta 2", zones,true,true);
+        crearPortaHabitacio("Escala oest - planta 2", "Sala planta 2", zones,true,true);
+        crearPortaHabitacio("Passadis est", "Escala est - planta 2", zones,true,true);
+        crearPortaHabitacio("Passadis oest", "Escala oest - planta 2", zones,true,true);
+        crearPortaHabitacio("Sala planta 2", "Passadis planta 2", zones,true,true);
+        crearPortaHabitacio("Passadis planta 2", "Capella", zones,true,false);
+        crearPortaHabitacio("Passadis planta 2", "Biblioteca", zones,true,true);
+        crearPortaHabitacio("Passadis planta 2", "Teatre", zones,true,true);
+        crearPortaHabitacio("Passadis planta 2", "Sala del capità", zones,true,true);
     }
 
-    public void crearPortaHabitacio(String n1, String n2, ArrayList<ubicacions>zones, Boolean obert) {
+    public void crearPortaHabitacio(String n1, String n2, ArrayList<ubicacions>zones, Boolean obert, Boolean enterrat) {
         int id1 = 0;
         int id2 = 0;
 
@@ -606,7 +646,7 @@ public class App {
         //Les habitacions tenen com a id la seva posició en el array, només cal obtenir els ids i crear la porta
         //Per crear una porta es nessesita el id de l'habitacío 
         
-        porta newDoor = new porta(id1, id2,obert);
+        porta newDoor = new porta(id1, id2,obert,enterrat);
         
         try {
             zones.get(id1-1).afegirPorta(newDoor);
@@ -776,7 +816,7 @@ public class App {
         crearObjecte(titanic,"Habitació VIP oest", "","","" );
         crearObjecte(titanic,"W.C.VIP est", "","","" );
         crearObjecte(titanic,"W.C.VIP oest", "","","" );
-        crearObjecte(titanic,"Sala planta 2", "","","" );
+        crearObjecte(titanic,"Sala planta 2", "pala","","" );
         crearObjecte(titanic,"Sala del capità", "","","" );
         crearObjecte(titanic,"Passadis planta 2", "","","" );
         crearObjecte(titanic,"Capella", "","","" );
@@ -802,6 +842,7 @@ public class App {
                     case "menjarTauro": objecte = new menjarTauro(); break;
                     case "motxilla": objecte = new motxilla(); break;
                     case "ganivet": objecte = new ganivet(); break;
+                    case "pala": objecte = new pala();break;
                     default: break;
                 }
                 if(objecte!=null){
@@ -827,6 +868,26 @@ public class App {
     public void crearObjectesSubmari(ubicacions submari){
         objectesMobils objecte = new llanterna();
         submari.setObjecte(objecte);
+    }
+
+    public void crearEnemicsTitanic(ArrayList<ubicacions> titanic){
+        ArrayList<enemics> enemics = new ArrayList<>();
+        crearEnemics(titanic, "Menjador", "tauro");
+    }
+
+    public void crearEnemics(ArrayList<ubicacions>zones, String nomHabitacio, String nomEnemic){
+        enemics enemic = null;
+        for (ubicacions sala : zones) {
+            if(nomHabitacio.equals(sala.getNomSala())){
+                switch (nomEnemic) {
+                    case "tauro": enemic = new taurons(nomHabitacio); break;
+                    case "calamarMitja": enemic = new calamarsMitjans(nomHabitacio); break;
+                    case "medusa": enemic = new meduses(nomHabitacio); break;
+                    case "peixLlanterna": enemic = new peixosLlanterna(nomHabitacio); break;
+                    default: /*salta*/ break;
+                }
+            }
+        }
     }
 
     private boolean tancaOxigen(String salaActual, jugador jugador){

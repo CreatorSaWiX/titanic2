@@ -26,4 +26,8 @@ public class objectesMobils {
     public void utilitzarLlanterna(){
         System.out.println("Aquest objecte no és una llanterna");
     }
+
+    public void utilitzarPala(){
+        System.out.println("No és una pala!");
+    }
 }

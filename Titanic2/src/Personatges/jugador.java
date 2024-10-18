@@ -207,10 +207,66 @@ public class jugador {
     public void utilitzarLlenterna(){
         for (objectesMobils objecte : inventari) {
             if(objecte!= null){
-                if(objecte.getNom().equals("llanterna")){
-                    objecte.utilitzarLlanterna();
+                if(objecte.getNom()=="motxilla"){    
+                    for (int j = 0; j < objecte.getEspai().length; j++) {
+                        if(objecte.getEspai()[j].getbateria()>0){
+                            objecte.utilitzarLlanterna();
+                        }
+                    }
+                }else{
+                    if(objecte.getbateria()>0){
+                            objecte.utilitzarLlanterna();
+                        
+                    }
                 }
             }    
+        }
+    }
+
+    public boolean tePala(){
+        boolean utilitzable=false;
+        for (int i =0; i<inventari.length;i++) {
+            if(inventari[i]!= null){
+                if(inventari[i].getNom()=="motxilla"){    
+                    for (int j = 0; j < inventari[i].getEspai().length; j++) {
+                        if(inventari[i].getEspai()[j].getNom().equals("pala")){
+                            utilitzable=true;
+                        }
+                    }
+                }else{
+                    if(inventari[i].getNom().equals("pala")){
+                        utilitzable=true;
+                    }
+                }
+            }    
+        }
+        return utilitzable;
+    }
+
+    public void utilitzarPala(){
+        boolean eliminat=false;
+        for (int i =0; i<inventari.length;i++) {
+            if(!eliminat){
+                if(inventari[i]!= null){
+                    if(inventari[i].getNom()=="motxilla"){    
+                        for (int j = 0; j < inventari[i].getEspai().length; j++) {
+                            if(inventari[i].getEspai()[j].getNom().equals("pala")){
+                                inventari[i].getEspai()[j]=null;
+                                eliminat=true;
+                                System.out.println("Utilitzes la pala i es trenca");
+                                break;
+                            }
+                        }
+                    }else{
+                        if(inventari[i].getNom().equals("pala")){
+                            eliminat=true;
+                            inventari[i]=null;
+                            System.out.println("Utilitzes la pala i es trenca");
+
+                        }
+                    }
+                }    
+            }
         }
     }
 }

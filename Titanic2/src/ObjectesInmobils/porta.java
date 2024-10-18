@@ -4,16 +4,18 @@ public class porta {
     private boolean obert=true;
     private int idHab1;     //ID de l'habitació 1
     private int idHab2;     //ID de l'habitació 2
+    private boolean enterrada=true;
 
     public porta( int idHab1, int idHab2){
         this.idHab1=idHab1;
         this.idHab2=idHab2;
     }
 
-    public porta( int idHab1, int idHab2, boolean obert){
+    public porta( int idHab1, int idHab2, boolean obert,boolean enterrada){
         this.idHab1=idHab1;
         this.idHab2=idHab2;
         this.obert=obert;
+        this.enterrada=enterrada;
     }
  
     public int checkIdHab(int id){
@@ -42,5 +44,13 @@ public class porta {
 
     public boolean getObert(){
         return this.obert;
-    }    
+    }  
+
+    public boolean getEnterrada(){
+        return this.enterrada;
+    }
+
+    public void desenterrar(){
+        enterrada=true;
+    }  
 }

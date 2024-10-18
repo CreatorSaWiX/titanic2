@@ -48,9 +48,7 @@ public class mobles {
   }
 
   if(trobat){
-   objectesMobils obj = objectes[cont];
-   objectes[cont]=null;
-   return obj;
+   return objectes[cont];
   }else{
    return null;
   }
@@ -90,14 +88,12 @@ public class mobles {
         try {
             r=e.next();
             if(r.equals("e")==false && Integer.parseInt(r)!=0){
-                for (objectesMobils objectesMobils : objectes) {
-                    if(objectesMobils!=null){
+                for (int i=0;i<objectes.length;i++) {
+                    if(objectes[i]!=null){
                         con2++;
                         if(con2==Integer.parseInt(r)){
-                            objecteAgafat=objectesMobils;
-                            System.out.println("Has agafat el objecte");
-                            objectesMobils=null;
-                            return objecteAgafat;  
+                            objecteAgafat=objectes[i];
+                            objectes[i]=null;
                         }
                     }
                 }
