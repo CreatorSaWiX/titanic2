@@ -24,7 +24,7 @@ public class App {
 
     public void start(){
 
-        int opcio=0;
+        String opcio="0";
         do{
             //Menú del joc
             System.out.println("\n");
@@ -33,16 +33,16 @@ public class App {
             System.out.println("*****************************");
             System.out.println("\nOpcions:");
             System.out.println("1) Jugar \n2) Informació \n3) Termes i condicions \n4) Sortir");
-            opcio = e.nextInt();
+            opcio = e.next();
 
             switch (opcio) {
-                case 1: jugar(); break;
-                case 2: tecles(); break;
-                case 3: termesCondicions(); break;
-                case 4: break;
+                case "1": jugar(); break;
+                case "2": tecles(); break;
+                case "3": termesCondicions(); break;
+                case "4": break;
                 default: break;
             }
-        } while(opcio != 4);
+        } while(!opcio.equals("4"));
         
         System.out.println("Gràcies per jugar el joc.");
     }
@@ -131,7 +131,6 @@ public class App {
                     jugador.restarOxigen();
                 }   
             }catch(Exception err){
-                System.err.println(err);
                 System.out.println("Escriu una opció vàlida");
                 resposta=0;
             }
@@ -371,7 +370,7 @@ public class App {
                     }
                 }
 
-                //En cas que la sala sigui fosca TODO
+                //En cas que la sala sigui fosca
                 salaFosca(jugador,titanic,idHabAntiga);
                 
             }
@@ -626,13 +625,13 @@ public class App {
         crearPortaHabitacio("Passadis oest", "Habitació normal oest (106)", zones,true,true);
         crearPortaHabitacio("Passadis nord", "Habitació normal nord (107)", zones,false,true);
         crearPortaHabitacio("Passadis nord", "Habitació normal nord (108)", zones,true,true);
-        crearPortaHabitacio("Passadis nord", "Habitació Capità", zones,true,true);
+        crearPortaHabitacio("Passadis nord", "Habitació Capità", zones,true,true); //Porta contrasenya
         crearPortaHabitacio("Passadis est", "Neteja est", zones,false,true);
         crearPortaHabitacio("Passadis est", "W.C.est", zones,true,true);
         crearPortaHabitacio("Passadis oest", "W.C.oest", zones,true,true);
-        crearPortaHabitacio("Passadis oest", "Neteja oest", zones,true,true); 
-        crearPortaHabitacio("Passadis est", "Habitació VIP est", zones,false,true);
-        crearPortaHabitacio("Passadis oest", "Habitació VIP oest", zones,false,true);
+        crearPortaHabitacio("Passadis oest", "Neteja oest", zones,false,true); 
+        crearPortaHabitacio("Passadis est", "Habitació VIP est", zones,false,true); //Porta minijoc
+        crearPortaHabitacio("Passadis oest", "Habitació VIP oest", zones,false,true);   //Porta minijoc
         crearPortaHabitacio("Habitació VIP est", "W.C.VIP est", zones,true,true);
         crearPortaHabitacio("Habitació VIP oest", "W.C.VIP oest", zones,true,true);
         crearPortaHabitacio("Escala est - planta 2", "Sala planta 2", zones,true,true);
@@ -643,7 +642,7 @@ public class App {
         crearPortaHabitacio("Passadis planta 2", "Capella", zones,true,false);
         crearPortaHabitacio("Passadis planta 2", "Biblioteca", zones,true,true);
         crearPortaHabitacio("Passadis planta 2", "Teatre", zones,true,true);
-        crearPortaHabitacio("Passadis planta 2", "Sala del capità", zones,true,true);
+        crearPortaHabitacio("Passadis planta 2", "Sala del capità", zones,true,true);   //Porta contrasenya
     }
 
     public void crearPortaHabitacio(String n1, String n2, ArrayList<ubicacions>zones, Boolean obert, Boolean enterrat) {
@@ -675,7 +674,7 @@ public class App {
     //Afegir mobles a habitacions
     public void crearMobles(ArrayList<ubicacions> zones,ubicacions submari){
         //Crear mobles submari
-        String[] SUB = {"mapa","armari"};    //TODO Submari
+        String[] SUB = {"mapa","armari"};    //Submari
         afegirMoblesSubmari(submari, SUB);
 
 
@@ -817,7 +816,7 @@ public class App {
         crearObjecte(titanic,"Habitació normal est (101)", "clau", "escriptori","Neteja est" ); 
         crearObjecte(titanic,"Habitació normal est (101)", "motxilla", "armari","" ); //És una habitació fosca i tancada
         //Habitació 102 fosca i tancada no hi ha res.
-        //Habitació 103 oberta no hi ha res.
+        crearObjecte(titanic,"Habitació normal est (103)", "clau", "armari","Neteja oest" ); 
         crearObjecte(titanic,"Habitació normal oest (104)", "motxilla","escriptori","" ); 
         crearObjecte(titanic,"Habitació normal oest (104)", "clau","","Habitació normal nord (107)" ); 
         //Habitació 105 oberta no hi ha res.
@@ -827,24 +826,26 @@ public class App {
         crearObjecte(titanic,"Habitació normal nord (107)", "ganivet","armari","" );
         crearObjecte(titanic,"Habitació normal nord (107)", "arpo","llit","" );
         //Habitació 108 oberta no hi ha res
-        crearObjecte(titanic,"Habitació Capità", "arpo","","" );    
+        crearObjecte(titanic,"Habitació Capità", "arpo","","" );
+        crearObjecte(titanic,"Habitació Capità", "llibreta","escriptori","" ); //TODO (3 fulls(1. El pare ha establert la contrasenya per les figures geomètriques, 2. Triangle 2, 3. cercle 3 ))
         crearObjecte(titanic,"Neteja est", "pala","","" );          
         crearObjecte(titanic,"Neteja oest", "clau","armari","Habitació VIP est" );
         crearObjecte(titanic,"Neteja oest", "clau","armari","Habitació VIP oest" );
         //Escala oest - planta 2 no hi ha res
-        crearObjecte(titanic,"Escala est - planta 2", "","","" );
-        crearObjecte(titanic,"W.C.est", "menjarTauro","","" ); 
-        crearObjecte(titanic,"W.C.oest", "ganivet","","" );
+        crearObjecte(titanic,"Escala est - planta 2", "","","" );       //TODO Paper de la llibreta (Dibuix hexàgon 4)
+        crearObjecte(titanic,"W.C.est", "menjarTauro","bater","" ); 
+        crearObjecte(titanic,"W.C.est", "","","" );     //TODO Paper de la llibreta (Contrasenya hab capità)
+        crearObjecte(titanic,"W.C.oest", "ganivet","banyera","" );
         //Habitació VIP est no hi ha res
         crearObjecte(titanic,"Habitació VIP oest", "ganivet","escriptori","" );
-        crearObjecte(titanic,"W.C.VIP est", "menjarTauro","","" );
+        crearObjecte(titanic,"W.C.VIP est", "menjarTauro","banyera","" );
         //W.C.VIP oest no hi ha res
         crearObjecte(titanic,"Sala planta 2", "pala","","" );
         crearObjecte(titanic,"Sala del capità", "arpo","","" );
-        crearObjecte(titanic,"Passadis planta 2", "","","" );     //TODO
-        crearObjecte(titanic,"Capella", "","","" );     //TODO
-        crearObjecte(titanic,"Biblioteca", "llibreta","","" );
-        crearObjecte(titanic,"Teatre", "" ,"","");     //TODO
+        //Passadis planta 2 no hi ha cap objecte     //TODO pista per un dels minijocs (desde descripció com alguna rascada en la paret o algo semblant)
+        //Capella hi ha la tanca d'oxigen
+        crearObjecte(titanic,"Biblioteca", "","","" );      //TODO Paper de la llibreta (Dibuix quadrat 1)
+        crearObjecte(titanic,"Teatre", "diamantHope" ,"","");     //Aquí s'acabar el joc i és menjat pel calamar Gegant.
     }
 
     public void crearObjecte(ArrayList<ubicacions>zones, String nomHabitacio, String nomObjecte, String nomMoble, String nomHabitacioClau){
@@ -896,7 +897,7 @@ public class App {
 
     public void crearEnemicsTitanic(ArrayList<ubicacions> titanic){
         ArrayList<enemics> enemics = new ArrayList<>();
-        crearEnemics(titanic, "Menjador", "tauro");
+        crearEnemics(titanic, "Menjador", "tauro");     //TODO crear els enemics
     }
 
     public void crearEnemics(ArrayList<ubicacions>zones, String nomHabitacio, String nomEnemic){
