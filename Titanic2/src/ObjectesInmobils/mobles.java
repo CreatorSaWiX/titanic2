@@ -48,7 +48,9 @@ public class mobles {
   }
 
   if(trobat){
-   return objectes[cont];
+   objectesMobils obj = objectes[count];
+   objectes[count]=null;
+   return objectesMobils;
   }else{
    return null;
   }
