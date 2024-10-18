@@ -1,5 +1,5 @@
 package Objectes;
-
+import Personatges.*;
 public class objectesMobils {
     String nom;
 
@@ -29,5 +29,9 @@ public class objectesMobils {
 
     public void utilitzarPala(){
         System.out.println("No és una pala!");
+    }
+
+    public void utilitzar(jugador jugador){
+        System.out.println("a");
     }
 }

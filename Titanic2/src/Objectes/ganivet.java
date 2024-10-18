@@ -8,7 +8,7 @@ public class ganivet extends objectesMobils{
         super("ganivet");
     }
 
-    public void utilitzar(jugador jugador){
+    public static void utilitzar(jugador jugador){
         Scanner sc = new Scanner(System.in);
         String text;
         System.out.println("Spam tecla 'a' per atacar " /* + variable nom enemic */ + (". Tens 4s!"));
