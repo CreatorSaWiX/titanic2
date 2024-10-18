@@ -244,7 +244,7 @@ public class App {
                 if(jugador.getSalaActual()==0){
                     if(submari.getMobles()!=null){
                         if(text.equals("1")){
-                            //En cas de mostrar eñ mapa TODO
+                            submari.getMobles()[0].llegirMapa();
                         }
                         else if(Integer.parseInt(text)<=submari.getMobles().length){
                             objectesMobils objAgafat=submari.getMobles()[Integer.parseInt(text)-1].interactuarAmbMoble(jugador);

@@ -163,5 +163,9 @@ public class mobles {
  public void veureMapa(){
     System.out.println(descripcio);
  }
+
+ public void llegirMapa(){
+    System.out.println("Mapa :)");
+ }
  
 }
