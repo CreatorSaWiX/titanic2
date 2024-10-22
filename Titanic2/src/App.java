@@ -75,6 +75,7 @@ public class App {
         System.out.println("Objectes creades amb èxit");
         System.out.println("tot creat correctement");
 
+
         iniciarJuagabilitat(submari,titanic);
     }
 
@@ -895,12 +896,12 @@ public class App {
         submari.setObjecte(objecte);
     }
 
-    public void crearEnemicsTitanic(ArrayList<ubicacions> titanic){
+    public void crearEnemicsTitanic (ArrayList<ubicacions> titanic){
         ArrayList<enemics> enemics = new ArrayList<>();
-        crearEnemics(titanic, "Menjador", "tauro");     //TODO crear els enemics
+        crearEnemics(titanic, "Menjador", "tauro", enemics);     //TODO crear els enemics
     }
 
-    public void crearEnemics(ArrayList<ubicacions>zones, String nomHabitacio, String nomEnemic){
+    public void crearEnemics(ArrayList<ubicacions>zones, String nomHabitacio, String nomEnemic, ArrayList<enemics> enemics){
         enemics enemic = null;
         for (ubicacions sala : zones) {
             if(nomHabitacio.equals(sala.getNomSala())){
@@ -911,6 +912,7 @@ public class App {
                     case "peixLlanterna": enemic = new peixosLlanterna(nomHabitacio); break;
                     default: /*salta*/ break;
                 }
+                enemics.add(enemic);
             }
         }
     }
