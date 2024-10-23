@@ -1,9 +1,9 @@
 import java.util.Scanner;
 
 import Objectes.*;
-
+import java.util.concurrent.*;
+import java.util.*;
 import java.util.ArrayList;
-
 import Personatges.calamarsMitjans;
 import Personatges.enemics;
 import Personatges.jugador;
@@ -12,10 +12,12 @@ import Personatges.peixosLlanterna;
 import Personatges.taurons;
 import Sales.*;
 import ObjectesInmobils.*;
+import temps.*;
 
 
 public class App {
     Scanner e = new Scanner(System.in);
+    ArrayList<enemics> enemics;
 
     public static void main(String[] args) throws Exception {
         App start = new App();
@@ -72,9 +74,9 @@ public class App {
         //Crear objectes en les habitacions
         crearObjectesSubmari(submari);
         crearObjectesTitanic(titanic);
+        crearEnemicsTitanic(titanic);
         System.out.println("Objectes creades amb èxit");
         System.out.println("tot creat correctement");
-
 
         iniciarJuagabilitat(submari,titanic);
     }
@@ -318,7 +320,7 @@ public class App {
 
             
             if(jugador.getSalaActual()!=0){
-                //salaEnemics(titanic, jugador, idHabAntiga); TODO TREURE COMENTARI AL ACABAR DE FER ARRAY ENEMICS
+                salaEnemics(titanic, jugador, idHabAntiga, enemics); 
             }else{
                 System.out.println("Canvies la tanca d'oxigen gastada per una de nova.");
                 jugador.canviarOxigen();
@@ -401,10 +403,23 @@ public class App {
         }
     }
 
-    private void salaEnemics(ArrayList<ubicacions> titanic, jugador jugador, int idHabAntiga){ //TODO 123
-        String text;
+    private void salaEnemics(ArrayList<ubicacions> titanic, jugador jugador, int idHabAntiga, ArrayList<enemics> enemics){
         String habFutur = titanic.get(jugador.getSalaActual()-1).getNomSala();
-       
+        for (enemics enemic : enemics) {
+            if(enemic.getSalaEnemic().equals(habFutur)){
+                switch (enemic.getNomEnemic()) {
+                    case "medusa": casMedusa(jugador, idHabAntiga); break;
+                    case "tauro": casTauro(jugador, idHabAntiga); break;
+                    case "peixLlanterna": casPeixLLanterna(jugador, idHabAntiga); break;
+                    case "calamar": casCalamar(jugador, idHabAntiga); break;
+                    default: break;
+                }
+            }
+        }            
+    }
+
+    private void casTauro(jugador jugador, int idHabAntiga){
+        String text;
         System.out.print("Hi ha un tauró.");
         //En cas de tenir mennjar de taurons
         if(jugador.objecteEnInventari("menjarTauro")){
@@ -424,7 +439,75 @@ public class App {
         }else{
             //Si no es té menjar taurons 
             atacar(jugador,idHabAntiga);
-        }                
+        }    
+    }
+
+    private void casMedusa(jugador jugador, int idHabAntiga){
+        String text;
+        System.out.print("Hi ha una medusa. Vols equivar-los? (s/n)");
+        text = e.next();
+        while (text.equalsIgnoreCase("s") && text.equalsIgnoreCase("n")) {
+            System.out.println("Sí (s) o No (n)????");
+            text = e.next();
+        }
+        if(text.equals("s")){
+            meduses.esquivar(e, jugador);
+        } else {
+            jugador.moure(idHabAntiga);
+        }
+    }
+
+    private void casPeixLLanterna(jugador jugador, int idHabAntiga){
+        String text;
+        System.out.print("Hi ha un peix llanterna.");
+        if(jugador.objecteEnInventari("menjarTauro")){
+            System.out.println(" Vols utilitzar el menjar de taurons que tens? (s/n)");
+            text = e.next();
+            while (text.equalsIgnoreCase("s") && text.equalsIgnoreCase("n")) {
+                System.out.println("Sí (s) o No (n)????");
+                text = e.next();
+            }
+            if(text.equals("s")){
+                System.out.println("Utilitzes el menjar del tauró per distreure'l.");
+                jugador.utilitzarObjecte("menjarTauro");
+            }
+        }
+    }
+
+    private void casCalamar(jugador jugador, int idHabAntiga){
+        String text;
+        ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(20); 
+        
+
+        InteraccioUsuari interaccioUsuari = new InteraccioUsuari(jugador);        
+        ComptadorCalamars comptador = new ComptadorCalamars(false,jugador,interaccioUsuari);
+
+        System.out.println("Hi ha un calamar. Cada 2s perdràs oxigen, espameja tecla 'a' per alliberar-te");        
+        scheduler.schedule(interaccioUsuari,0,TimeUnit.SECONDS);
+        int cont=2;
+        while (!interaccioUsuari.finalitzat() && jugador.getOxigen()>0) {
+            try {
+                Thread.sleep(2000); 
+                scheduler.schedule(comptador,cont,TimeUnit.SECONDS);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        scheduler.shutdown();
+
+        if(jugador.objecteEnInventari("ganivet") || jugador.objecteEnInventari("arpo")){
+            System.out.println("T'alliberes. Vols matar el calamar? (s/n)");
+            text = e.next();
+            while (text.equalsIgnoreCase("s") && text.equalsIgnoreCase("n")) {
+                System.out.println("Sí (s) o No (n)????");
+                text = e.next();
+            }
+            if(text.equalsIgnoreCase("s")){
+                atacarAmbArma(jugador, text, idHabAntiga);
+            } else {
+                jugador.moure(idHabAntiga);
+            }
+        }
     }
 
     private void atacar(jugador jugador, int idHabAntiga){
@@ -436,19 +519,41 @@ public class App {
             text = e.next();
         }
         if(text.equalsIgnoreCase("s")){
-            if(jugador.objecteEnInventari("ganivet")){
-                jugador.getObjecteInventari("ganivet").utilitzar(jugador);
-                jugador.utilitzarObjecte("ganivet");
-            } else {
-                System.out.println("No tens gavinets en el teu inventari, tornes enrere");
-                jugador.moure(idHabAntiga);
-            }
+            atacarAmbArma(jugador, text, idHabAntiga);
         } else {
             jugador.moure(idHabAntiga);
         }
     }
 
-    
+    private void atacarAmbArma(jugador jugador, String text, int idHabAntiga){
+        if(jugador.objecteEnInventari("ganivet") && jugador.objecteEnInventari("arpo")){
+            System.out.println("Quina arma vols utilitzar? Ganivet(g) o Arpo(a)");
+            text = e.next();
+            while(!text.equalsIgnoreCase("g") && !text.equalsIgnoreCase("a")){
+                System.out.println("Escriu 'g' per utilitzar ganivet o escriu 'a' per utilitzar arpó");
+                text = e.next();
+            }
+
+            if(text.equalsIgnoreCase("g")){
+                jugador.getObjecteInventari("ganivet").utilitzar(jugador);
+                jugador.utilitzarObjecte("ganivet");
+            } else {
+                jugador.getObjecteInventari("arpo").utilitzar(jugador);
+                jugador.utilitzarObjecte("arpo");
+            }
+
+        } else if(jugador.objecteEnInventari("ganivet")){
+            jugador.getObjecteInventari("ganivet").utilitzar(jugador);
+            jugador.utilitzarObjecte("ganivet");
+        } else  if(jugador.objecteEnInventari("arpo")){
+            jugador.getObjecteInventari("arpo").utilitzar(jugador);
+            jugador.utilitzarObjecte("arpo");
+        } else {
+            System.out.println("No tens cap arma");
+            jugador.moure(idHabAntiga);
+        }
+    }
+
     private void salaFosca(jugador jugador, ArrayList<ubicacions>titanic, int idHabAntiga){
         String rString="";
         if(jugador.getSalaActual()!=0){
@@ -805,6 +910,7 @@ public class App {
 
         //Ganivet, menjarTauro, llanterna.
         crearObjecte(titanic,"Sala planta 0", "clau", "", "Cuina" );
+        crearObjecte(titanic,"Sala planta 0", "ganivet", "taula", "" );
         crearObjecte(titanic,"Menjador", "menjarTauro","taula","" );
         crearObjecte(titanic,"Menjador", "menjarTauro","","" );
         crearObjecte(titanic,"Menjador", "menjarTauro","taula","" );
@@ -897,8 +1003,18 @@ public class App {
     }
 
     public void crearEnemicsTitanic (ArrayList<ubicacions> titanic){
-        ArrayList<enemics> enemics = new ArrayList<>();
-        crearEnemics(titanic, "Menjador", "tauro", enemics);     //TODO crear els enemics
+        enemics = new ArrayList<>();
+        crearEnemics(titanic, "Menjador", "calamarMitja", enemics);  
+        crearEnemics(titanic, "W.C.VIP est", "calamarMitja", enemics);  
+        crearEnemics(titanic, "Passadis nord", "tauro", enemics);  
+        crearEnemics(titanic, "Habitació normal est (101)", "peixLlanterna", enemics);  
+        crearEnemics(titanic, "Habitació normal est (102)", "peixLlanterna", enemics);  
+        crearEnemics(titanic, "Habitació normal oest (106)", "tauro", enemics);  
+        crearEnemics(titanic, "W.C.oest", "medusa", enemics);  
+        crearEnemics(titanic, "Neteja oest", "tauro", enemics);  
+        crearEnemics(titanic, "Escala oest - planta 2", "medusa", enemics);  
+        crearEnemics(titanic, "Biblioteca", "medusa", enemics);  
+        crearEnemics(titanic, "Passadis planta 2", "tauro", enemics);  
     }
 
     public void crearEnemics(ArrayList<ubicacions>zones, String nomHabitacio, String nomEnemic, ArrayList<enemics> enemics){

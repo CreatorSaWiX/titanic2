@@ -6,11 +6,7 @@ public class calamarsMitjans extends enemics{
     */
 
     public calamarsMitjans(String nomSala){
-        super(nomSala);
+        super(nomSala, "calamar");
     }
 
-    @Override
-    public void atacarJugador(){
-        System.out.println("AAAAAAAA, el calamar m'ataca!!! AAAAAA");
-    }
 }

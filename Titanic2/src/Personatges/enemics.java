@@ -2,16 +2,18 @@ package Personatges;
 
 public class enemics{
     private String nomSala;
+    private String nomEnemic;
 
-    protected enemics(String nomSala){
+    public enemics(String nomSala, String nomEnemic){
         this.nomSala = nomSala;
-    }
-
-    protected void atacarJugador(){
-        //Sobreescriu els fills
+        this.nomEnemic = nomEnemic;
     }
 
     public String getSalaEnemic(){
         return this.nomSala;
+    }
+
+    public String getNomEnemic(){
+        return nomEnemic;
     }
 }

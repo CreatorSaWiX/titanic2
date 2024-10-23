@@ -8,6 +8,6 @@ public class diamantHope extends objectesMobils{
     }
 
     public void utilitzar(ArrayList<ubicacions> zones){
-        
+        //Surt el calamar gegant, es mata espamejant 1000 vegades a la 'a'.
     }
 }

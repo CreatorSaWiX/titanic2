@@ -1,4 +1,5 @@
 package Personatges;
+import java.util.Scanner;
 
 public class meduses extends enemics{
     /*
@@ -6,11 +7,20 @@ public class meduses extends enemics{
     */
 
     public meduses(String nomSala){
-        super(nomSala);
+        super(nomSala, "medusa");
     }
 
-    @Override
-    public void atacarJugador(){
-        
+    public static void esquivar(Scanner e, jugador jugador){
+        String text;
+        System.out.println("Introdueix 'a' 3 vegades per esquivar-los!");
+        for(int i = 0; i < 3; i++){
+            System.out.println("Progrés " + 1);
+            text = e.next();
+            if(!text.equalsIgnoreCase("a")){
+                System.out.println("T'ha picat, -10 oxigen");
+                jugador.restarOxigen();
+                i--;
+            }
+        }
     }
 }

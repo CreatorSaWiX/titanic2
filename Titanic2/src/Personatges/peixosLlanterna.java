@@ -6,11 +6,6 @@ public class peixosLlanterna extends enemics{
     */
 
     public peixosLlanterna(String nomSala){
-        super(nomSala);
-    }
-
-    @Override
-    public void atacarJugador(){
-        System.out.println("AAAAAAAA, el peixLlanterna m'ataca!!! AAAAAA");
+        super(nomSala, "peixLlanterna");
     }
 }

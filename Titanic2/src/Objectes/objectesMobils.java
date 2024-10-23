@@ -32,6 +32,6 @@ public class objectesMobils {
     }
 
     public void utilitzar(jugador jugador){
-        System.out.println("a");
+        System.out.println("a");    //TODO xDDDDDDDD
     }
 }
