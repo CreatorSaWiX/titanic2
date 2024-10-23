@@ -493,21 +493,25 @@ public class App {
                 e.printStackTrace();
             }
         }
-        scheduler.shutdown();
 
-        if(jugador.objecteEnInventari("ganivet") || jugador.objecteEnInventari("arpo")){
-            System.out.println("T'alliberes. Vols matar el calamar? (s/n)");
-            text = e.next();
-            while (text.equalsIgnoreCase("s") && text.equalsIgnoreCase("n")) {
-                System.out.println("Sí (s) o No (n)????");
+        scheduler.shutdown();
+        if(jugador.getOxigen()>0){
+            if(jugador.objecteEnInventari("ganivet") || jugador.objecteEnInventari("arpo")){
+                System.out.println("T'alliberes. Vols matar el calamar? (s/n)");
                 text = e.next();
-            }
-            if(text.equalsIgnoreCase("s")){
-                atacarAmbArma(jugador, text, idHabAntiga);
-            } else {
-                jugador.moure(idHabAntiga);
+                while (text.equalsIgnoreCase("s") && text.equalsIgnoreCase("n")) {
+                    System.out.println("Sí (s) o No (n)????");
+                    text = e.next();
+                }
+                if(text.equalsIgnoreCase("s")){
+                    atacarAmbArma(jugador, text, idHabAntiga);
+                } else {
+                    jugador.moure(idHabAntiga);
+                }
             }
         }
+
+        //TODO matar calamar 
     }
 
     private void atacar(jugador jugador, int idHabAntiga){
@@ -1004,7 +1008,7 @@ public class App {
 
     public void crearEnemicsTitanic (ArrayList<ubicacions> titanic){
         enemics = new ArrayList<>();
-        crearEnemics(titanic, "Menjador", "calamarMitja", enemics);  
+        crearEnemics(titanic, "Menjador", "tauro", enemics);  
         crearEnemics(titanic, "W.C.VIP est", "calamarMitja", enemics);  
         crearEnemics(titanic, "Passadis nord", "tauro", enemics);  
         crearEnemics(titanic, "Habitació normal est (101)", "peixLlanterna", enemics);  
