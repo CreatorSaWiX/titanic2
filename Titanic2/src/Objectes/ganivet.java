@@ -1,8 +1,10 @@
 package Objectes;
-import java.util.Scanner;
 import java.util.concurrent.*;
 import java.util.*;
+
+import Personatges.enemics;
 import Personatges.jugador;
+import Sales.ubicacions;
 import temps.*;
 
 public class ganivet extends objectesMobils{
@@ -10,7 +12,7 @@ public class ganivet extends objectesMobils{
         super("ganivet");
     }
 
-    public void utilitzar(jugador jugador){
+    public void utilitzar(jugador jugador, ArrayList<enemics>enemics,ArrayList<ubicacions> titanic){
         ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(20); 
         Comptador comptador= new Comptador(false);
         Scanner sc = new Scanner(System.in);
@@ -25,10 +27,19 @@ public class ganivet extends objectesMobils{
                 i = 6;
             }
         }
-        comptador.setFinalitzat();
+        
         if(!comptador.getFinalitzat()){
-                System.out.println("Has aconseguit matar a");
+            int id;
+            for (int index = 0; index < enemics.size(); index++) {
+                id=obtenirIdHabitacio(titanic,enemics.get(index).getSalaEnemic());
+                if(id==jugador.getSalaActual()){
+                    System.out.println("Has aconseguit matar a "+enemics.get(index).getNomEnemic());
+                    enemics.remove(index);
+                    break;
+                }
+            }
         }
+        comptador.setFinalitzat();
         scheduler.shutdown();
     }
 }

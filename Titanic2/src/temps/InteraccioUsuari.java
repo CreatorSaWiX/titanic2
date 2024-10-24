@@ -19,6 +19,7 @@ public class InteraccioUsuari implements Runnable{
             if(!text.equalsIgnoreCase("a")){
                 System.out.println("Lletra incorrecte. -10 oxigents.");
                 j.restarOxigen();
+                i--;
             }
         }    
         System.out.println("T'has alliberat");
