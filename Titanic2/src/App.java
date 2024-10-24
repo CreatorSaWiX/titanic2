@@ -512,8 +512,6 @@ public class App {
                 }
             }
         }
-
-        //TODO matar calamar 
     }
 
     private void atacar(jugador jugador, int idHabAntiga,ArrayList<ubicacions> titanic){
@@ -557,11 +555,7 @@ public class App {
         } else {
             System.out.println("No tens cap arma");
             jugador.moure(idHabAntiga);
-        }
-
-        //TODO Eliminar enemic depent de la seva ubicació
-
-
+        }        
     }
 
     private void salaFosca(jugador jugador, ArrayList<ubicacions>titanic, int idHabAntiga){
