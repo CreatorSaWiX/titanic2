@@ -3,7 +3,7 @@ package miniJocs;
 import java.util.Scanner;
 import java.util.Random;
 public class minijoc1{
-    public static void main(String[] args){
+    public void iniciarMiniJoc1(){
         //Inicialització de la mapa
         Scanner sc = new Scanner(System.in);
         Random rd = new Random(); 
