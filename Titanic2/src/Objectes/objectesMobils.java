@@ -6,7 +6,7 @@ import Sales.ubicacions;
 
 public class objectesMobils {
     String nom;
-
+    
     public objectesMobils(String nom){
         this.nom = nom;
     }
@@ -16,7 +16,7 @@ public class objectesMobils {
     }
 
     public objectesMobils[] getEspai(){
-        System.out.println("No pots guardar objectes en "+nom);
+        System.out.println("No pots guardar objectes en " + nom);
         return null;
     }
 
@@ -27,17 +27,34 @@ public class objectesMobils {
     public int getbateria(){
         return -1;
     }
+    
     public void utilitzarLlanterna(){
         System.out.println("Aquest objecte no és una llanterna");
     }
 
     public void utilitzarPala(){
-        System.out.println("No és una pala!");
+        //Instanciara del metode fill 
+        System.out.print("");
     }
 
     public void utilitzar(jugador jugador, ArrayList<enemics>enemics,ArrayList<ubicacions> titanic){
-        System.out.println("AAAA");
-        
+        //Instanciara del metode fill 
+        System.out.print("");
+    }
+
+    public void llegir(){
+        //Instanciara del metode fill
+        System.out.println("");
+    }
+
+    public void llegirPagines(){
+        //Instanciara del metode fill
+        System.out.println("");
+    }
+
+    public void afegirPaper(objectesMobils paper){
+        //Instanciara del metode fill
+        System.out.println("");
     }
 
     public int obtenirIdHabitacio(ArrayList<ubicacions>zones,String nom){

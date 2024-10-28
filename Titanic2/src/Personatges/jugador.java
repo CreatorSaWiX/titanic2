@@ -139,7 +139,7 @@ public class jugador {
             if(inventari[i]!=null){
                 frase+="\n "+inventari[i].getNom();
                 if(inventari[i].getNom()=="motxilla"){    
-                    System.out.println("Objectes dins de la motxilla (Capacitat: 3)");
+                    frase+="\nObjectes dins de la motxilla (Capacitat: 3)";
                     for (int j = 0; j < inventari[i].getEspai().length; j++) {
                         if(inventari[i].getEspai()[j]!=null){
                             frase+="\n   "+inventari[i].getEspai()[j].getNom();
@@ -148,24 +148,38 @@ public class jugador {
                 }
             }
         }
+        if(objecteEnInventari("llibreta")){
+            frase+="\nEscriu 'o' per obrir la llibreta";
+        }else if(objecteEnInventari("paper")){
+            if(getObjecteInventari("paper", 2)!=null){
+                frase+="\nEscriu 'l_num', substitueix num per el paper que vols llegir\nExemple : 'l_2'";
+            }else{
+                frase+="\nEscriu 'l' per llegir el paper";
+            }
+        }
         System.out.println(frase);
     }
 
     public boolean agafarObjecte(objectesMobils objecte){
         boolean afegit=false;
-        for (int i = 0; i < inventari.length; i++) {
-            if(inventari[i]==null){
-                inventari[i]=objecte;
-                i=inventari.length;
-                afegit=true;
-            }else{
-                if(inventari[i].getNom()=="motxilla"){    
-                    for (int j = 0; j < inventari[i].getEspai().length; j++) {
-                        if(inventari[i].getEspai()[j]==null){
-                            inventari[i].getEspai()[j]=objecte;
-                            j=inventari[i].getEspai().length;
-                            i=inventari.length;
-                            afegit=true;
+        if(objecte.getNom().equals("paper") && objecteEnInventari("llibreta")){
+            getObjecteInventari("llibreta").afegirPaper(objecte);
+            afegit=true;
+        }else{
+            for (int i = 0; i < inventari.length; i++) {
+                if(inventari[i]==null){
+                    inventari[i]=objecte;
+                    i=inventari.length;
+                    afegit=true;
+                }else{
+                    if(inventari[i].getNom()=="motxilla"){    
+                        for (int j = 0; j < inventari[i].getEspai().length; j++) {
+                            if(inventari[i].getEspai()[j]==null){
+                                inventari[i].getEspai()[j]=objecte;
+                                j=inventari[i].getEspai().length;
+                                i=inventari.length;
+                                afegit=true;
+                            }
                         }
                     }
                 }
@@ -294,6 +308,39 @@ public class jugador {
                 }else{
                     if(inventari[i].getNom().equals(nom)){               
                         obj=inventari[i];
+                    }
+                }
+            }    
+        }
+        return obj;
+    }
+
+    public objectesMobils getObjecteInventari(String nom, int N){
+        objectesMobils obj = null;
+        int cont=1;
+        for (int i =0; i<inventari.length;i++) {
+            if(inventari[i]!= null){
+                //En cas de ser una motxilla es mirarà els objectes del seu interior
+                if(inventari[i].getNom()=="motxilla"){    
+                    for (int j = 0; j < inventari[i].getEspai().length; j++) {
+                        if(inventari[i].getEspai()[j].getNom().equals(nom)){
+                            if(cont==N){
+                                obj=inventari[i].getEspai()[j];
+                                cont++;
+                                break;
+                            }else{
+                                cont++;
+                            }
+                        }
+                    }
+                }else{
+                    if(inventari[i].getNom().equals(nom)){
+                        if(cont==N){               
+                            obj=inventari[i];
+                            cont++;
+                        }else{
+                            cont++;
+                        }
 
                     }
                 }
@@ -301,4 +348,5 @@ public class jugador {
         }
         return obj;
     }
+
 }

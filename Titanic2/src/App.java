@@ -13,7 +13,7 @@ import Personatges.taurons;
 import Sales.*;
 import ObjectesInmobils.*;
 import temps.*;
-
+import miniJocs.*;
 
 public class App {
     Scanner e = new Scanner(System.in);
@@ -294,11 +294,41 @@ public class App {
 
     private void interactuarAmbInventari(jugador jugador, ubicacions submari, ArrayList<ubicacions> titanic){
         String text="";
+        int num;
         jugador.mostrarInventari();
+        objectesMobils paper=null;
+        Boolean fet=false;
         System.out.println("Escriu el nom del Objecte que vols deixar a terre o 'e' per sortir");
         while(!text.equalsIgnoreCase("e")){
             text = e.next();
-            jugador.deixarObjecte(text,submari,titanic);
+            if(jugador.objecteEnInventari("llibreta")){
+                if(text.equalsIgnoreCase("o")){
+                    jugador.getObjecteInventari("llibreta").llegirPagines();
+                    fet=true;
+                }
+            }
+
+            if(jugador.objecteEnInventari("paper")){
+                if(text.charAt(0)=='l'){
+                    if(text.length()==3 && text.charAt(1)=='_'){
+                        try {
+                            paper=jugador.getObjecteInventari("paper", Integer.parseInt(String.valueOf(text.charAt(2))));
+                            if(paper!=null){
+                                paper.llegir();
+                            }
+                            fet=true;
+                        } catch (Exception err) {
+                            System.out.println(err);
+                        }
+                    }else if(text.length()==1){
+                        jugador.getObjecteInventari("paper").llegir();   
+                        fet=true;
+                    }
+                }
+            }
+            if(!fet){
+                jugador.deixarObjecte(text,submari,titanic);
+            }
         }
     }
 
@@ -915,6 +945,10 @@ public class App {
         //Ganivet, menjarTauro, llanterna.
         crearObjecte(titanic,"Sala planta 0", "clau", "", "Cuina" );
         crearObjecte(titanic,"Sala planta 0", "ganivet", "taula", "" );
+        //TODO crear papers amb la informació que els hi toca (la info va en el últim camp) ex:
+        crearObjecte(titanic,"Sala planta 0", "paper", "taula", "tessssst" );
+        
+
         crearObjecte(titanic,"Menjador", "menjarTauro","taula","" );
         crearObjecte(titanic,"Menjador", "menjarTauro","","" );
         crearObjecte(titanic,"Menjador", "menjarTauro","taula","" );
@@ -979,6 +1013,9 @@ public class App {
                     case "ganivet": objecte = new ganivet(); break;
                     case "pala": objecte = new pala();break;
                     case "arpo": objecte = new arpo();break;
+                    case "llibreta": objecte = new llibreta();break;
+                    case "paper": objecte = new papers(nomHabitacioClau);break;
+
                     default: break;
                 }
                 if(objecte!=null){
