@@ -5,6 +5,14 @@ public class llibreta extends objectesMobils {
     ArrayList<objectesMobils> llibreta = new ArrayList<>();
     public llibreta(){
         super("llibreta");
+        papers full1 = new papers("El pare ha establert la contrasenya per les figures geomètriques");
+        papers full2 = new papers("△ 2");
+        papers full3 = new papers("◯ 3");
+
+        afegirPaper(full1);
+        afegirPaper(full2);
+        afegirPaper(full3);
+
     }
 
     public void afegirPaper(objectesMobils paper){

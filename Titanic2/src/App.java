@@ -667,6 +667,7 @@ public class App {
                 System.out.println("No pots obrir la porta i tornes enrere");
                 jugador.moure(idHabAntiga);
             }
+
         }else if(porta.checkIdHab(id4)==id3){
             minijoc1 mj = new minijoc1();
             if(mj.getCompletat()){
@@ -676,8 +677,9 @@ public class App {
                 System.out.println("No pots obrir la porta i tornes enrere");
                 jugador.moure(idHabAntiga);
             }
+
         }else if(porta.checkIdHab(id6)==id5){
-            String pswd = "";
+            String pswd = "1912";
             System.out.println("Escriu la contrasenya per desbloquejar la porta");
             String r = e.next();
             if(r.equals(pswd)){
@@ -687,8 +689,9 @@ public class App {
                 System.out.println("Contrasenya incorrecte, tornes enrere");
                 jugador.moure(idHabAntiga);
             }
+
         }else if(porta.checkIdHab(id7)==id8){
-            String pswd = "";
+            String pswd = "4316";
             System.out.println("Escriu la contrasenya per desbloquejar la porta");
             String r = e.next();
             if(r.equals(pswd)){
@@ -1035,8 +1038,6 @@ public class App {
         //Ganivet, menjarTauro, llanterna.
         crearObjecte(titanic,"Sala planta 0", "clau", "", "Cuina" );
         crearObjecte(titanic,"Sala planta 0", "ganivet", "taula", "" );
-        //TODO crear papers amb la informació que els hi toca (la info va en el últim camp) ex:
-        crearObjecte(titanic,"Sala planta 0", "paper", "taula", "tessssst" );
         
 
         crearObjecte(titanic,"Menjador", "menjarTauro","taula","" );
@@ -1062,14 +1063,14 @@ public class App {
         crearObjecte(titanic,"Habitació normal nord (107)", "arpo","llit","" );
         //Habitació 108 oberta no hi ha res
         crearObjecte(titanic,"Habitació Capità", "arpo","","" );
-        crearObjecte(titanic,"Habitació Capità", "llibreta","escriptori","" ); //TODO (3 fulls(1. El pare ha establert la contrasenya per les figures geomètriques, 2. Triangle 2, 3. cercle 3 ))
+        crearObjecte(titanic,"Habitació Capità", "llibreta","escriptori","" ); 
         crearObjecte(titanic,"Neteja est", "pala","","" );          
         crearObjecte(titanic,"Neteja oest", "clau","armari","Habitació VIP est" );
         crearObjecte(titanic,"Neteja oest", "clau","armari","Habitació VIP oest" );
         //Escala oest - planta 2 no hi ha res
-        crearObjecte(titanic,"Escala est - planta 2", "","","" );       //TODO Paper de la llibreta (Dibuix hexàgon 4)
+        crearObjecte(titanic,"Escala est - planta 2", "paper","","⬡ 4" );       
         crearObjecte(titanic,"W.C.est", "menjarTauro","bater","" ); 
-        crearObjecte(titanic,"W.C.est", "","","" );     //TODO Paper de la llibreta (Contrasenya hab capità)
+        crearObjecte(titanic,"W.C.est", "paper","","Contrasenya hab capità:\nEn quin any es va enfonsar el Titanic?" );     //TODO Paper de la llibreta (Contrasenya hab capità) Modificar si cal
         crearObjecte(titanic,"W.C.oest", "ganivet","banyera","" );
         //Habitació VIP est no hi ha res
         crearObjecte(titanic,"Habitació VIP oest", "ganivet","escriptori","" );
@@ -1077,9 +1078,9 @@ public class App {
         //W.C.VIP oest no hi ha res
         crearObjecte(titanic,"Sala planta 2", "pala","","" );
         crearObjecte(titanic,"Sala del capità", "arpo","","" );
-        //Passadis planta 2 no hi ha cap objecte     //TODO pista per un dels minijocs (desde descripció com alguna rascada en la paret o algo semblant)
+        //Passadis planta 2 no hi ha cap objecte
         //Capella hi ha la tanca d'oxigen
-        crearObjecte(titanic,"Biblioteca", "","","" );      //TODO Paper de la llibreta (Dibuix quadrat 1)
+        crearObjecte(titanic,"Biblioteca", "paper","","◻ 1" );      
         crearObjecte(titanic,"Teatre", "diamantHope" ,"","");     //Aquí s'acabar el joc i és menjat pel calamar Gegant.
     }
 
