@@ -628,7 +628,14 @@ public class App {
         int id3=obtenirIdHabitacio(titanic, "Habitació VIP oest");
         int id4=obtenirIdHabitacio(titanic, "Passadis oest");
 
-        
+        //Contrasenya 1
+        int id5=obtenirIdHabitacio(titanic, "Passadis nord");
+        int id6=obtenirIdHabitacio(titanic, "Habitació Capità");
+
+        //Contrasenya 2
+        int id7=obtenirIdHabitacio(titanic, "Passadis planta 2");
+        int id8=obtenirIdHabitacio(titanic, "Sala del capità");
+    
         if(porta.checkIdHab(id1)==id2){
            return true;
         }else if(porta.checkIdHab(id4)==id3){
@@ -645,6 +652,11 @@ public class App {
         int id3=obtenirIdHabitacio(titanic, "Habitació VIP oest");
         int id4=obtenirIdHabitacio(titanic, "Passadis oest");
 
+        int id5=obtenirIdHabitacio(titanic, "Passadis nord");
+        int id6=obtenirIdHabitacio(titanic, "Habitació Capità");
+
+        int id7=obtenirIdHabitacio(titanic, "Passadis planta 2");
+        int id8=obtenirIdHabitacio(titanic, "Sala del capità");
         
         if(porta.checkIdHab(id1)==id2){
             TetrisClass t = new TetrisClass();
@@ -662,6 +674,28 @@ public class App {
                 porta.setObert(true);
             }else{
                 System.out.println("No pots obrir la porta i tornes enrere");
+                jugador.moure(idHabAntiga);
+            }
+        }else if(porta.checkIdHab(id6)==id5){
+            String pswd = "";
+            System.out.println("Escriu la contrasenya per desbloquejar la porta");
+            String r = e.next();
+            if(r.equals(pswd)){
+                System.out.println("Obres la porta i entres");
+                porta.setObert(true);
+            }else{
+                System.out.println("Contrasenya incorrecte, tornes enrere");
+                jugador.moure(idHabAntiga);
+            }
+        }else if(porta.checkIdHab(id7)==id8){
+            String pswd = "";
+            System.out.println("Escriu la contrasenya per desbloquejar la porta");
+            String r = e.next();
+            if(r.equals(pswd)){
+                System.out.println("Obres la porta i entres");
+                porta.setObert(true);
+            }else{
+                System.out.println("Contrasenya incorrecte, tornes enrere");
                 jugador.moure(idHabAntiga);
             }
         }
@@ -899,11 +933,11 @@ public class App {
         String[] WCVO = {"bater","banyera"};   //WC Habitacio Vip Oest
         String[] WCVE = {"bater","banyera"};   //WC Habitacio Vip Est
         String[] SP2 = {"taula","taula","taula","cafeteria"};    //Sala P2 
-        String[] SDC = {"taula","sofa"};    //Sala del Capita   TODO
+        String[] SDC = {"taula","sofa"};    //Sala del Capita   
         // String[] PP2 = {"taula","sofa"};    //Passadis P2
-        String[] CAP = {"taula","sofa"};    //Capella           TODO
+        String[] CAP = {"taula","sofa"};    //Capella           
         String[] BIB = {"escriptori","escriptori","sofa"};    //Biblioteca
-        String[] TEA = {"taula","sofa"};    //Teatre            TODO
+        String[] TEA = {"taula","sofa"};    //Teatre            
 
         afegirMobles(zones,"Sala planta 0", SP0 );
         afegirMobles(zones,"Menjador", MJD );
