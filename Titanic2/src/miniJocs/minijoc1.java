@@ -3,6 +3,15 @@ package miniJocs;
 import java.util.Scanner;
 import java.util.Random;
 public class minijoc1{
+    Boolean completat=false;
+    public minijoc1(){
+        iniciarMiniJoc1();
+    }
+
+    public Boolean getCompletat(){
+        return completat;
+    }
+
     public void iniciarMiniJoc1(){
         //Inicialització de la mapa
         Scanner sc = new Scanner(System.in);
@@ -161,6 +170,7 @@ public class minijoc1{
 
         if (fin == 1){
             System.out.println("Felicitats! Has arribat a la sortida del laberint.");
+            completat=true;
         }
 
         if (mor == 1){

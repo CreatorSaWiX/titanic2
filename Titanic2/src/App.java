@@ -15,6 +15,8 @@ import ObjectesInmobils.*;
 import temps.*;
 import miniJocs.*;
 
+
+
 public class App {
     Scanner e = new Scanner(System.in);
     ArrayList<enemics> enemics;
@@ -367,24 +369,28 @@ public class App {
                             if(rString.toLowerCase().charAt(0)=='s'){
                                 int i=0;
                                 //Aqui s'hauria de comprobar si el jugador té la clau de la prota
-                                for (objectesMobils clauActual : jugador.getClauer()) {
-                                    if(clauActual.getIdClau()==jugador.getSalaActual()){
-                                        coincideixClau=true;
-                                        jugador.utilitzarClau(i);
+                                if(!checkPortaMinijoc(portaActual,titanic, idHabAntiga)){
+                                    for (objectesMobils clauActual : jugador.getClauer()) {
+                                        if(clauActual.getIdClau()==jugador.getSalaActual()){
+                                            coincideixClau=true;
+                                            jugador.utilitzarClau(i);
+                                            break;
+                                        }else{
+                                            i++;
+                                        }
+                                    }
+                                    if(coincideixClau){
+                                        //Aixó es fa en cas de tenir la clau
+                                        System.out.println("Desbloqueges la porta i segueixes endavant");
+                                        portaActual.setObert(true);
                                         break;
                                     }else{
-                                        i++;
+                                        jugador.moure(idHabAntiga);
+                                        System.out.println("No tenies aquesta clau, perds oxigen per intentar obrir-la");
+                                        break;
                                     }
-                                }
-                                if(coincideixClau){
-                                    //Aixó es fa en cas de tenir la clau
-                                    System.out.println("Desbloqueges la porta i segueixes endavant");
-                                    portaActual.setObert(true);
-                                    break;
                                 }else{
-                                    jugador.moure(idHabAntiga);
-                                    System.out.println("No tenies aquesta clau, perds oxigen per intentar obrir-la");
-                                    break;
+                                    portaMinijoc(portaActual,titanic, idHabAntiga,jugador);
                                 }
                                 
                             }else{
@@ -611,6 +617,56 @@ public class App {
                 }
             }
         }
+    }
+
+    private Boolean checkPortaMinijoc(porta porta, ArrayList<ubicacions> titanic, int idHabAntiga){
+        //Minijoc tetris
+        int id1=obtenirIdHabitacio(titanic, "Habitació VIP est");
+        int id2=obtenirIdHabitacio(titanic, "Passadis est");
+
+        //Minijoc laberint
+        int id3=obtenirIdHabitacio(titanic, "Habitació VIP oest");
+        int id4=obtenirIdHabitacio(titanic, "Passadis oest");
+
+        
+        if(porta.checkIdHab(id1)==id2){
+           return true;
+        }else if(porta.checkIdHab(id4)==id3){
+            return true;
+        }
+
+        return false;
+    }
+
+    private Boolean portaMinijoc(porta porta, ArrayList<ubicacions> titanic, int idHabAntiga, jugador jugador){
+        int id1=obtenirIdHabitacio(titanic, "Habitació VIP est");
+        int id2=obtenirIdHabitacio(titanic, "Passadis est");
+
+        int id3=obtenirIdHabitacio(titanic, "Habitació VIP oest");
+        int id4=obtenirIdHabitacio(titanic, "Passadis oest");
+
+        
+        if(porta.checkIdHab(id1)==id2){
+            TetrisClass t = new TetrisClass();
+            if(t.getCompletat()){
+                System.out.println("Obres la porta i entres");
+                porta.setObert(true);
+            }else{
+                System.out.println("No pots obrir la porta i tornes enrere");
+                jugador.moure(idHabAntiga);
+            }
+        }else if(porta.checkIdHab(id4)==id3){
+            minijoc1 mj = new minijoc1();
+            if(mj.getCompletat()){
+                System.out.println("Obres la porta i entres");
+                porta.setObert(true);
+            }else{
+                System.out.println("No pots obrir la porta i tornes enrere");
+                jugador.moure(idHabAntiga);
+            }
+        }
+
+        return false;
     }
 
     public void crearTitanic(ArrayList<ubicacions> titanic){

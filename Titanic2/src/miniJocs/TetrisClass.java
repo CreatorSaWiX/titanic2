@@ -5,7 +5,20 @@ import peces.*;
 import java.util.Scanner;
 import java.util.Random;
 
-class TetrisClass { 
+public class TetrisClass { 
+    Boolean completat=false;
+    public TetrisClass(){
+        menuJoc();
+    }
+
+    public void setCompletat(mapa mapa){
+        this.completat=!mapa.getPerdut();
+    }
+
+    public Boolean getCompletat(){
+        return completat;
+    }
+
     public void menuJoc(){
         Scanner e = new Scanner(System.in);
         String resposta = "";
@@ -59,8 +72,7 @@ class TetrisClass {
 
         }
         scheduler.shutdown();
-        System.out.println(mapa.getPerdut());
-        System.out.println(mapa.getPuntuacio());
+        setCompletat(mapa);
     }
 
 
